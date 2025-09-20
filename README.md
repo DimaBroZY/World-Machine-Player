@@ -22,7 +22,7 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 
 ### 🎶 **Music Playback**
 - **Multi-format Support**: Plays both `.ogg` and `.mp3` audio files
-- **Track Navigation**: Next/Previous track controls with seamless transitions
+- **Track Navigation**: Next/Previous track controls
 - **Playback Controls**: Play, Pause, Stop, and Restart functionality
 
 ### 🎚️ **Audio Controls**
