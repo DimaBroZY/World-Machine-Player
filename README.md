@@ -10,7 +10,6 @@
 [![License](https://img.shields.io/badge/License-Fan%20Project-orange.svg)](#license)
 [![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)](#)
 
-[Features](#features) • [Installation](#installation) • [Screenshots](#screenshots)
 
 </div>
 
