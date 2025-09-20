@@ -60,7 +60,8 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 
 ## 🎨 Screenshots
 
-*Screenshots would go here showcasing the main interface, Niko animations, and settings window*
+<img width="1000" height="800" alt="image" src="https://github.com/user-attachments/assets/bd8b50b2-148f-4388-a026-1309494b1e74" />
+
 
 
 ## 📜 License
