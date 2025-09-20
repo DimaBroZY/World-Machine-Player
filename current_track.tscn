@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl8dsiwvls7qv"]
+
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_6lysa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0d6xb"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yoe8j"]
+font = ExtResource("1_6lysa")
+font_size = 30
+font_color = Color(0.588235, 0.396078, 1, 1)
+
+[node name="CurrentTrack" type="Node2D"]
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+clip_contents = true
+offset_right = 865.0
+offset_bottom = 57.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_0d6xb")
+
+[node name="CurrentTrackLabel" type="Label" parent="PanelContainer"]
+layout_direction = 1
+layout_mode = 2
+size_flags_vertical = 8
+text = "Current Track Playing...
+
+"
+label_settings = SubResource("LabelSettings_yoe8j")
+horizontal_alignment = 1
+paragraph_separator = "/n"
+text_overrun_behavior = 1
+max_lines_visible = 1

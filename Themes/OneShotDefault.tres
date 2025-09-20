@@ -1,0 +1,48 @@
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://coyfkert1wq05"]
+
+[ext_resource type="Texture2D" uid="uid://t6piefk2l1r" path="res://Assets/Theme/Slider_Grabber.png" id="1_5j3x3"]
+[ext_resource type="Texture2D" uid="uid://bf7wlnmlydwic" path="res://Assets/Theme/Grabber_Tick.png" id="2_5rteq"]
+[ext_resource type="Texture2D" uid="uid://dtyeqrs665mm4" path="res://Assets/Theme/Slider_Grabber_Hover.png" id="2_v3jyk"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_ipw7k"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="4_v3jyk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xpr28"]
+bg_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3y5ev"]
+bg_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1c80"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.588235, 0.396078, 1, 1)
+expand_margin_top = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_alvq2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ot014"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nqj2l"]
+
+[resource]
+HSlider/icons/grabber = ExtResource("1_5j3x3")
+HSlider/icons/grabber_disabled = ExtResource("1_5j3x3")
+HSlider/icons/grabber_highlight = ExtResource("1_5j3x3")
+HSlider/icons/grabber_hover = ExtResource("2_v3jyk")
+HSlider/icons/tick = ExtResource("2_5rteq")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_xpr28")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_3y5ev")
+HSlider/styles/slider = SubResource("StyleBoxFlat_q1c80")
+LineEdit/colors/caret_color = Color(0.5882353, 0.39607844, 1, 1)
+LineEdit/colors/font_color = Color(0.5882353, 0.39607844, 1, 1)
+LineEdit/colors/selection_color = Color(0.5882353, 0.39607844, 1, 0.59607846)
+LineEdit/constants/caret_width = -3
+LineEdit/constants/minimum_character_width = 1
+LineEdit/font_sizes/font_size = 30
+LineEdit/fonts/font = ExtResource("3_ipw7k")
+LineEdit/icons/clear = ExtResource("4_v3jyk")
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_alvq2")
+LineEdit/styles/normal = SubResource("StyleBoxEmpty_ot014")
+LineEdit/styles/read_only = SubResource("StyleBoxEmpty_nqj2l")

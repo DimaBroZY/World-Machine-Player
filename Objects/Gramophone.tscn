@@ -1,0 +1,110 @@
+[gd_scene load_steps=11 format=3 uid="uid://c2nk7evw8monk"]
+
+[ext_resource type="Texture2D" uid="uid://c0pvehmqo87ki" path="res://Assets/Nintendo Switch - OneShot_ World Machine Edition - Desktop - Jukebox App.png" id="2_hl5ji"]
+
+[sub_resource type="GDScript" id="GDScript_bpa3y"]
+script/source = "extends Control
+
+@onready var anim = $AnimatedSprite2D
+@onready var animPlayer = $AnimationPlayer
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpa3y"]
+atlas = ExtResource("2_hl5ji")
+region = Rect2(0, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uow3"]
+atlas = ExtResource("2_hl5ji")
+region = Rect2(50, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hl5ji"]
+atlas = ExtResource("2_hl5ji")
+region = Rect2(200, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qni84"]
+atlas = ExtResource("2_hl5ji")
+region = Rect2(150, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p32i4"]
+atlas = ExtResource("2_hl5ji")
+region = Rect2(100, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l8i8w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpa3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uow3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hl5ji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uow3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpa3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qni84")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p32i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qni84")
+}],
+"loop": true,
+"name": &"Playing",
+"speed": 7.0
+}]
+
+[sub_resource type="Animation" id="Animation_2uow3"]
+length = 1.1428572
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.14285715, 0.2857143, 0.42857143, 0.5714286, 0.71428573, 0.85714287, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Playing"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hl5ji"]
+_data = {
+&"Playing": SubResource("Animation_2uow3")
+}
+
+[node name="Gramophone" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = SubResource("GDScript_bpa3y")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_l8i8w")
+animation = &"Playing"
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hl5ji")
+}

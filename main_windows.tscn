@@ -1,0 +1,205 @@
+[gd_scene load_steps=15 format=3 uid="uid://dnkli7cvqq5qe"]
+
+[ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="1_5yrt8"]
+[ext_resource type="Script" uid="uid://wux2pmkpxx47" path="res://main_windows.gd" id="1_e4k5n"]
+[ext_resource type="Script" uid="uid://dkkydk8vrjxms" path="res://handles.gd" id="1_q8n62"]
+[ext_resource type="Script" uid="uid://b8x883mm43um6" path="res://top_bar.gd" id="1_ss1ka"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_t4ovt"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="2_hel25"]
+[ext_resource type="Texture2D" uid="uid://b14ax6lfe347f" path="res://Assets/Icons/Sun.png" id="3_j46xl"]
+[ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="5_ss1ka"]
+[ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="6_j46xl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8n62"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yrt8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 5
+border_width_bottom = 8
+border_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iuydb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j46xl"]
+line_spacing = 1.0
+font = ExtResource("1_t4ovt")
+font_size = 20
+font_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4ovt"]
+
+[node name="MainWindow" type="Control"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 0.00048828125
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_e4k5n")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q8n62")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="Layout"]
+custom_minimum_size = Vector2(20, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5yrt8")
+script = ExtResource("1_ss1ka")
+
+[node name="TopBarHBox" type="HBoxContainer" parent="Layout/TopBar"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="Spacer2" type="VSeparator" parent="Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
+
+[node name="OneShotSettingsButton" type="TextureButton" parent="Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("3_j46xl")
+stretch_mode = 0
+
+[node name="Spacer3" type="VSeparator" parent="Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
+
+[node name="Title" type="Label" parent="Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(0, -100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.588235, 0.396078, 1, 1)
+theme_override_fonts/font = ExtResource("1_t4ovt")
+theme_override_font_sizes/font_size = 21
+text = "World Machine Player"
+label_settings = SubResource("LabelSettings_j46xl")
+
+[node name="HBox" type="HBoxContainer" parent="Layout/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Content" type="Control" parent="Layout/TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="MinimizeButton" type="TextureButton" parent="Layout/TopBar/HBox"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.0
+texture_normal = ExtResource("1_5yrt8")
+texture_hover = ExtResource("6_j46xl")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CloseButton" type="TextureButton" parent="Layout/TopBar/HBox"]
+clip_contents = true
+custom_minimum_size = Vector2(35, 35)
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture_normal = ExtResource("2_hel25")
+texture_hover = ExtResource("5_ss1ka")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Spacer" type="VSeparator" parent="Layout/TopBar/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_t4ovt")
+
+[node name="Handles" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_q8n62")
+
+[node name="Right" type="Control" parent="Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.953109, 1.00146)
+
+[node name="Bottom" type="Control" parent="Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.01367, 0.952266)
+
+[node name="Corner" type="Control" parent="Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[connection signal="gui_input" from="Layout/TopBar" to="Layout/TopBar" method="_on_gui_input"]
+[connection signal="pressed" from="Layout/TopBar/TopBarHBox/OneShotSettingsButton" to="Layout/TopBar" method="_on_one_shot_settings_button_pressed"]
+[connection signal="pressed" from="Layout/TopBar/HBox/MinimizeButton" to="Layout/TopBar" method="_on_minimize_button_pressed"]
+[connection signal="pressed" from="Layout/TopBar/HBox/CloseButton" to="Layout/TopBar" method="_on_close_button_pressed"]
+[connection signal="gui_input" from="Handles/Right" to="Handles" method="_on_right_gui_input"]
+[connection signal="gui_input" from="Handles/Bottom" to="Handles" method="_on_bottom_gui_input"]
+[connection signal="gui_input" from="Handles/Corner" to="Handles" method="_on_corner_gui_input"]

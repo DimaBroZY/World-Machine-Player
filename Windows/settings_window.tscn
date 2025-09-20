@@ -1,0 +1,296 @@
+[gd_scene load_steps=23 format=3 uid="uid://dhq45ydho21wt"]
+
+[ext_resource type="Script" uid="uid://dmx7d5dbrnmqu" path="res://Windows/settings_window.gd" id="1_6k48w"]
+[ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="2_w5pex"]
+[ext_resource type="Texture2D" uid="uid://cseb2kw154ng7" path="res://Assets/Icons/Settings.png" id="3_qm3jx"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="4_qm3jx"]
+[ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="5_dfjad"]
+[ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="6_0m26i"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="7_8x2rp"]
+[ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="8_qsxsv"]
+[ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="8_w5pex"]
+[ext_resource type="Script" uid="uid://gac3or0cc0wb" path="res://Windows/Scripts/handles_settings.gd" id="9_w5pex"]
+[ext_resource type="Texture2D" uid="uid://c00dabmmyfrty" path="res://Assets/Icons/Folder.png" id="10_p4q5k"]
+[ext_resource type="Texture2D" uid="uid://b2qva188m2f01" path="res://Assets/Icons/Folder_Hover.png" id="12_qm3jx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8n62"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yrt8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 5
+border_width_bottom = 8
+border_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iuydb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j46xl"]
+line_spacing = 1.0
+font = ExtResource("4_qm3jx")
+font_size = 20
+font_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4ovt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sd6ct"]
+bg_color = Color(0.5882353, 0.39607844, 1, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.5882353, 0.39607844, 1, 1)
+corner_detail = 20
+expand_margin_top = 9.0
+expand_margin_bottom = 18.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_w5pex"]
+font = ExtResource("4_qm3jx")
+font_size = 40
+font_color = Color(0.5882353, 0.39607844, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sd6ct"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w5pex"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6k48w"]
+
+[node name="Window" type="Window"]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(900, 500)
+borderless = true
+always_on_top = true
+
+[node name="SettingsWindow" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+script = ExtResource("1_6k48w")
+
+[node name="Panel" type="Panel" parent="SettingsWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q8n62")
+
+[node name="Layout" type="VBoxContainer" parent="SettingsWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="SettingsWindow/Layout"]
+custom_minimum_size = Vector2(20, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5yrt8")
+script = ExtResource("2_w5pex")
+
+[node name="TopBarHBox" type="HBoxContainer" parent="SettingsWindow/Layout/TopBar"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="Spacer2" type="VSeparator" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
+
+[node name="SettingsIcon" type="TextureButton" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("3_qm3jx")
+stretch_mode = 0
+
+[node name="Spacer3" type="VSeparator" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
+
+[node name="Title" type="Label" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(0, -100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.588235, 0.396078, 1, 1)
+theme_override_fonts/font = ExtResource("4_qm3jx")
+theme_override_font_sizes/font_size = 21
+text = "Options"
+label_settings = SubResource("LabelSettings_j46xl")
+
+[node name="HBox" type="HBoxContainer" parent="SettingsWindow/Layout/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Content" type="Control" parent="SettingsWindow/Layout/TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="MinimizeButton" type="TextureButton" parent="SettingsWindow/Layout/TopBar/HBox"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.0
+disabled = true
+texture_normal = ExtResource("5_dfjad")
+texture_pressed = ExtResource("6_0m26i")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CloseButton" type="TextureButton" parent="SettingsWindow/Layout/TopBar/HBox"]
+clip_contents = true
+custom_minimum_size = Vector2(35, 35)
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture_normal = ExtResource("7_8x2rp")
+texture_hover = ExtResource("8_qsxsv")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Spacer" type="VSeparator" parent="SettingsWindow/Layout/TopBar/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_t4ovt")
+
+[node name="Handles" type="Control" parent="SettingsWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("9_w5pex")
+
+[node name="Right" type="Control" parent="SettingsWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.953109, 1.00146)
+
+[node name="Bottom" type="Control" parent="SettingsWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.01367, 0.952266)
+
+[node name="Corner" type="Control" parent="SettingsWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Content" type="VBoxContainer" parent="SettingsWindow"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 0
+offset_left = 15.0
+offset_top = 145.0
+offset_right = 882.0
+offset_bottom = 245.0
+
+[node name="Panel" type="Panel" parent="SettingsWindow/Content"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sd6ct")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/Panel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 12.0
+offset_top = -76.0
+offset_right = 337.0
+offset_bottom = -6.0
+text = "Music Folder"
+label_settings = SubResource("LabelSettings_w5pex")
+vertical_alignment = 2
+
+[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/Panel"]
+clip_contents = true
+layout_direction = 1
+layout_mode = 0
+offset_left = 10.0
+offset_top = -4.0
+offset_right = 779.0
+offset_bottom = 72.0
+theme = ExtResource("8_w5pex")
+theme_override_colors/font_color = Color(0.5882353, 0.39607844, 1, 1)
+theme_override_colors/font_placeholder_color = Color(0.5882353, 0.39607844, 1, 0.5176471)
+theme_override_fonts/font = ExtResource("4_qm3jx")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sd6ct")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_w5pex")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6k48w")
+placeholder_text = "Enter Path To Your  Folder"
+context_menu_enabled = false
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+flat = true
+
+[node name="FolderButton" type="TextureButton" parent="SettingsWindow/Content/Panel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 790.0
+offset_top = -3.0
+offset_right = 855.0
+offset_bottom = 57.0
+texture_normal = ExtResource("10_p4q5k")
+texture_hover = ExtResource("12_qm3jx")
+stretch_mode = 0
+
+[connection signal="gui_input" from="SettingsWindow/Layout/TopBar" to="SettingsWindow/Layout/TopBar" method="_on_gui_input"]
+[connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/MinimizeButton" to="SettingsWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/CloseButton" to="SettingsWindow/Layout/TopBar" method="_on_close_button_pressed"]
+[connection signal="gui_input" from="SettingsWindow/Handles/Right" to="SettingsWindow/Handles" method="_on_right_gui_input"]
+[connection signal="gui_input" from="SettingsWindow/Handles/Bottom" to="SettingsWindow/Handles" method="_on_bottom_gui_input"]
+[connection signal="gui_input" from="SettingsWindow/Handles/Corner" to="SettingsWindow/Handles" method="_on_corner_gui_input"]
+[connection signal="pressed" from="SettingsWindow/Content/Panel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
