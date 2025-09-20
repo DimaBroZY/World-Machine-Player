@@ -171,6 +171,7 @@ func _on_stop_button_pressed() -> void:
 		$MainWindow/Buttons/PlayPauseButton.texture_normal = preload("res://Assets/Buttons/PlayButton.png")
 		$MainWindow/Buttons/PlayPauseButton.texture_hover = preload("res://Assets/Buttons/PlayButton_Hover.png")
 	niko.animPlayer.play("Sleeping")
+	gramophone.animPlayer.pause()
 
 func _on_speed_control_slide_value_changed(value: float) -> void:
 	$MainWindow/PlaybackSpeedControlNode/SpeedValue.text = "Playback Speed: " + str(int($MainWindow/PlaybackSpeedControlNode/SpeedControlSlide.value)) + "%"
