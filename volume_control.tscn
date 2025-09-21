@@ -1,13 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://3y1aikb7e21v"]
+[gd_scene load_steps=3 format=3 uid="uid://3y1aikb7e21v"]
 
 [ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="1_ekq8c"]
 
-[node name="VolumeControl" type="Node2D"]
+[sub_resource type="GDScript" id="GDScript_ekq8c"]
+script/source = "extends Control
+
+@onready var volumeControlSlide = $VolumeControlSlide
+"
+
+[node name="VolumeControl" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = SubResource("GDScript_ekq8c")
 
 [node name="VolumeControlSlide" type="HSlider" parent="."]
-offset_right = 126.0
-offset_bottom = 16.0
+layout_mode = 0
+offset_left = 19.0
+offset_top = 18.0
+offset_right = 145.0
+offset_bottom = 34.0
 theme = ExtResource("1_ekq8c")
 min_value = -100.0
 max_value = 0.0
-value = -12.0

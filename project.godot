@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="World Machine Player"
-config/version="1.0.0"
+config/version="1.0.2"
 run/main_scene="uid://br0vuvri2rao8"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="WorldMachinePlayer"
@@ -30,8 +30,8 @@ Settings="*res://Settings.gd"
 
 [display]
 
-window/size/viewport_width=1000
-window/size/viewport_height=800
+window/size/viewport_width=650
+window/size/viewport_height=500
 window/size/resizable=false
 window/size/borderless=true
 window/subwindows/embed_subwindows=false

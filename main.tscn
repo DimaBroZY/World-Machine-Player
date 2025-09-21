@@ -51,13 +51,13 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 0.0007324219
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1bvp3")
 
 [node name="MainWindow" parent="." instance=ExtResource("2_1bvp3")]
 layout_mode = 1
+offset_bottom = 0.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow"]
 stream = SubResource("AudioStream_efxa6")
@@ -65,25 +65,26 @@ stream = SubResource("AudioStream_efxa6")
 [node name="Objects" type="Control" parent="MainWindow"]
 texture_filter = 1
 anchors_preset = 0
-offset_left = 9.0
-offset_top = -6.0
-offset_right = 49.0
-offset_bottom = 34.0
+offset_left = 150.0
+offset_top = 71.0
+offset_right = 800.0
+offset_bottom = 379.3333
+scale = Vector2(0.6, 0.6)
 
 [node name="Gramophone" parent="MainWindow/Objects" instance=ExtResource("3_ycdy4")]
 layout_mode = 1
-offset_left = 476.0
-offset_top = 217.0
-offset_right = 476.0
-offset_bottom = 217.0
+offset_left = 269.99997
+offset_top = 130.0
+offset_right = 269.99997
+offset_bottom = 130.0
 scale = Vector2(6.9, 6.9)
 
 [node name="Niko" parent="MainWindow/Objects" instance=ExtResource("1_ig7tw")]
 layout_mode = 1
-offset_left = 748.00006
-offset_top = 291.00003
-offset_right = 748.00006
-offset_bottom = 291.00003
+offset_left = 542.0
+offset_top = 204.00002
+offset_right = 542.0
+offset_bottom = 204.00002
 scale = Vector2(1.4900024, 1.4900024)
 mouse_filter = 2
 
@@ -92,22 +93,28 @@ layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 211.0
-offset_top = 281.0
-offset_right = 211.0
-offset_bottom = 281.0
+offset_left = 4.999977
+offset_top = 194.0
+offset_right = 4.999977
+offset_bottom = 194.0
 grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(6, 6)
 
 [node name="Buttons" type="Control" parent="MainWindow"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 164.0
+offset_right = 155.0
+offset_bottom = 244.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.0016644, 1)
+scale = Vector2(0.8, 0.8)
 mouse_filter = 2
 
 [node name="PlayPauseButton" type="TextureButton" parent="MainWindow/Buttons"]
@@ -118,10 +125,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -60.0
-offset_top = -142.0
-offset_right = 60.0
-offset_bottom = -22.0
+offset_left = -39.5
+offset_top = -80.0
+offset_right = 40.50006
 grow_horizontal = 2
 grow_vertical = 0
 texture_normal = SubResource("AtlasTexture_pgsak")
@@ -129,55 +135,55 @@ stretch_mode = 0
 
 [node name="StopButton" type="TextureButton" parent="MainWindow/Buttons"]
 layout_mode = 0
-offset_left = 289.0
-offset_top = 658.0
-offset_right = 409.0
-offset_bottom = 778.0
+offset_right = 80.0
+offset_bottom = 80.0
 texture_normal = ExtResource("5_lquwl")
 texture_hover = ExtResource("8_yaehf")
 stretch_mode = 0
 
 [node name="ReverseButton" type="TextureButton" parent="MainWindow/Buttons"]
 layout_mode = 0
-offset_left = 593.0
-offset_top = 658.0
-offset_right = 713.0
-offset_bottom = 778.0
+offset_left = 175.0
+offset_right = 255.00006
+offset_bottom = 80.0
 texture_normal = ExtResource("6_efxa6")
 texture_hover = ExtResource("10_074og")
 stretch_mode = 0
 
 [node name="PlaybackSpeedControlNode" parent="MainWindow" instance=ExtResource("6_7mycd")]
-position = Vector2(66, 577)
-scale = Vector2(2.8, 2.8)
-
-[node name="SpeedControlSlide" parent="MainWindow/PlaybackSpeedControlNode" index="0"]
-min_value = 50.0
-max_value = 150.0
-step = 5.0
+layout_mode = 0
+offset_left = 18.0
+offset_top = 337.0
+offset_right = 186.0
+offset_bottom = 373.0
+scale = Vector2(1.82, 1.84)
 
 [node name="SpeedMinus" type="TextureButton" parent="MainWindow/PlaybackSpeedControlNode"]
-offset_left = -14.0
-offset_right = 6.0
-offset_bottom = 20.0
+layout_mode = 0
+offset_top = 16.0
+offset_right = 20.0
+offset_bottom = 36.0
 texture_normal = ExtResource("7_5vw27")
 texture_hover = ExtResource("14_vivmo")
 stretch_mode = 0
 
 [node name="SpeedPlus" type="TextureButton" parent="MainWindow/PlaybackSpeedControlNode"]
-offset_left = 130.0
-offset_right = 150.0
-offset_bottom = 20.0
+layout_mode = 0
+offset_left = 148.0
+offset_top = 16.0
+offset_right = 168.0
+offset_bottom = 36.0
 texture_normal = ExtResource("8_kek77")
 texture_hover = ExtResource("15_2cqfq")
 stretch_mode = 0
 
 [node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode"]
 texture_filter = 1
-offset_left = 7.1428585
-offset_top = -12.857134
-offset_right = 537.1429
-offset_bottom = 57.142868
+layout_mode = 0
+offset_left = 24.0
+offset_top = 2.717
+offset_right = 554.0
+offset_bottom = 72.717
 scale = Vector2(0.23, 0.23)
 text = "Playback Speed: 100%"
 label_settings = SubResource("LabelSettings_kek77")
@@ -185,37 +191,44 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VolumeControl" parent="MainWindow" instance=ExtResource("10_4c57u")]
-position = Vector2(565, 580)
-scale = Vector2(2.8, 2.8)
-
-[node name="VolumeControlSlide" parent="MainWindow/VolumeControl" index="0"]
-value = 0.0
-scrollable = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03333332
+anchor_top = 0.6679999
+anchor_right = 0.033333335
+anchor_bottom = 0.6679999
+offset_left = 309.33337
+offset_top = 3.0000305
+offset_right = 473.33337
+offset_bottom = 39.00003
+scale = Vector2(1.82, 1.84)
 
 [node name="VolumeMinus" type="TextureButton" parent="MainWindow/VolumeControl"]
-offset_left = -20.0
-offset_top = -1.0
-offset_bottom = 19.0
+layout_mode = 0
+offset_top = 15.55555
+offset_right = 20.0
+offset_bottom = 35.55555
 texture_normal = ExtResource("7_5vw27")
 texture_hover = ExtResource("14_vivmo")
 stretch_mode = 0
-metadata/_edit_use_anchors_ = true
 
 [node name="VolumePlus" type="TextureButton" parent="MainWindow/VolumeControl"]
-offset_left = 125.0
-offset_top = -1.0
-offset_right = 145.0
-offset_bottom = 19.0
+layout_mode = 0
+offset_left = 144.44444
+offset_top = 15.55555
+offset_right = 164.44444
+offset_bottom = 35.55555
 texture_normal = ExtResource("8_kek77")
 texture_hover = ExtResource("15_2cqfq")
 stretch_mode = 0
 
 [node name="VolumeValue" type="Label" parent="MainWindow/VolumeControl"]
 texture_filter = 1
-offset_left = 2.5
-offset_top = -15.0
-offset_right = 532.5
-offset_bottom = 55.0
+layout_mode = 0
+offset_left = 19.780218
+offset_top = 2.7173915
+offset_right = 549.7802
+offset_bottom = 72.71739
 scale = Vector2(0.23, 0.23)
 text = "Volume: 100%"
 label_settings = SubResource("LabelSettings_kek77")
@@ -224,24 +237,27 @@ vertical_alignment = 1
 
 [node name="CurrentTrack" type="Control" parent="MainWindow"]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 18.000002
+offset_top = 268.0
+offset_right = 960.0
+offset_bottom = 368.0
+scale = Vector2(0.65, 0.65)
 
 [node name="CurrentTrackLabel" type="Label" parent="MainWindow/CurrentTrack"]
 layout_mode = 0
-offset_left = 390.0
-offset_top = 420.0
-offset_right = 594.0
-offset_bottom = 461.0
+offset_left = 361.99997
+offset_top = 4.4444275
+offset_right = 566.0
+offset_bottom = 45.444427
 text = "Current Track"
 label_settings = SubResource("LabelSettings_ycdy4")
 
 [node name="PanelContainer" type="PanelContainer" parent="MainWindow/CurrentTrack"]
 layout_mode = 0
-offset_left = 83.0
-offset_top = 461.0
-offset_right = 916.0
-offset_bottom = 518.0
+offset_left = 54.99998
+offset_top = 45.44443
+offset_right = 888.0
+offset_bottom = 102.44443
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_0d6xb")
 
@@ -259,20 +275,20 @@ max_lines_visible = 1
 
 [node name="PreviousTrack" type="TextureButton" parent="MainWindow/CurrentTrack"]
 layout_mode = 0
-offset_left = 28.0
-offset_top = 461.0
-offset_right = 85.0
-offset_bottom = 518.0
+offset_left = -2.0345055e-05
+offset_top = 45.44443
+offset_right = 56.99998
+offset_bottom = 102.44443
 texture_normal = ExtResource("7_5vw27")
 texture_hover = ExtResource("14_vivmo")
 stretch_mode = 0
 
 [node name="NextTrack" type="TextureButton" parent="MainWindow/CurrentTrack"]
 layout_mode = 0
-offset_left = 914.0
-offset_top = 461.0
-offset_right = 971.0
-offset_bottom = 518.0
+offset_left = 885.99994
+offset_top = 45.44443
+offset_right = 942.99994
+offset_bottom = 102.44443
 texture_normal = ExtResource("8_kek77")
 texture_hover = ExtResource("15_2cqfq")
 stretch_mode = 0
@@ -281,9 +297,6 @@ stretch_mode = 0
 [connection signal="pressed" from="MainWindow/Buttons/PlayPauseButton" to="." method="_on_play_pause_button_pressed"]
 [connection signal="pressed" from="MainWindow/Buttons/StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="MainWindow/Buttons/ReverseButton" to="." method="_on_reverse_button_pressed"]
-[connection signal="focus_exited" from="MainWindow/PlaybackSpeedControlNode/SpeedControlSlide" to="MainWindow/PlaybackSpeedControlNode" method="_on_speed_control_slide_focus_exited"]
-[connection signal="mouse_entered" from="MainWindow/PlaybackSpeedControlNode/SpeedControlSlide" to="MainWindow/PlaybackSpeedControlNode" method="_on_speed_control_slide_mouse_entered"]
-[connection signal="mouse_exited" from="MainWindow/PlaybackSpeedControlNode/SpeedControlSlide" to="MainWindow/PlaybackSpeedControlNode" method="_on_speed_control_slide_mouse_exited"]
 [connection signal="value_changed" from="MainWindow/PlaybackSpeedControlNode/SpeedControlSlide" to="." method="_on_speed_control_slide_value_changed"]
 [connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedMinus" to="." method="_on_speed_minus_pressed"]
 [connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedPlus" to="." method="_on_speed_plus_pressed"]

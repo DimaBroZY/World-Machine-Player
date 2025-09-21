@@ -1,15 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://c71spviopjjg8"]
+[gd_scene load_steps=3 format=3 uid="uid://c71spviopjjg8"]
 
 [ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="1_wiel3"]
 
-[node name="PlaybackSpeedControlNode" type="Node2D"]
+[sub_resource type="GDScript" id="GDScript_wiel3"]
+script/source = "extends Control
+
+@onready var speedControlSlide = $SpeedControlSlide
+"
+
+[node name="PlaybackSpeedControlNode" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = SubResource("GDScript_wiel3")
 
 [node name="SpeedControlSlide" type="HSlider" parent="."]
-offset_left = 2.0
-offset_top = 1.0
-offset_right = 131.0
-offset_bottom = 17.0
+layout_mode = 0
+offset_left = 19.0
+offset_top = 18.0
+offset_right = 148.0
+offset_bottom = 34.0
 theme = ExtResource("1_wiel3")
-max_value = 200.0
+min_value = 50.0
+max_value = 150.0
+step = 5.0
 value = 100.0
 scrollable = false

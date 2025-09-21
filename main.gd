@@ -5,6 +5,8 @@ extends Control
 @onready var curTrack = $MainWindow/CurrentTrack/PanelContainer/CurrentTrackName
 @onready var niko = $MainWindow/Objects/Niko
 @onready var gramophone = $MainWindow/Objects/Gramophone
+@onready var volumeControl = $MainWindow/VolumeControl
+@onready var speedControl = $MainWindow/PlaybackSpeedControlNode
 
 # куча переменных
 var MUSIC_FILE = preload("res://music/Prelude.mp3")
@@ -174,15 +176,15 @@ func _on_stop_button_pressed() -> void:
 	gramophone.animPlayer.pause()
 
 func _on_speed_control_slide_value_changed(value: float) -> void:
-	$MainWindow/PlaybackSpeedControlNode/SpeedValue.text = "Playback Speed: " + str(int($MainWindow/PlaybackSpeedControlNode/SpeedControlSlide.value)) + "%"
-	music.pitch_scale = $MainWindow/PlaybackSpeedControlNode/SpeedControlSlide.value / 100
-	niko.animPlayer.speed_scale = $MainWindow/PlaybackSpeedControlNode/SpeedControlSlide.value / 100
-	gramophone.animPlayer.speed_scale = $MainWindow/PlaybackSpeedControlNode/SpeedControlSlide.value / 100
+	$MainWindow/PlaybackSpeedControlNode/SpeedValue.text = "Playback Speed: " + str(int(speedControl.speedControlSlide.value)) + "%"
+	music.pitch_scale = speedControl.speedControlSlide.value / 100
+	niko.animPlayer.speed_scale = speedControl.speedControlSlide.value / 100
+	gramophone.animPlayer.speed_scale = speedControl.speedControlSlide.value / 100
 	
 func _on_volume_control_slide_value_changed(value: float) -> void:
-	music.volume_db = $MainWindow/VolumeControl/VolumeControlSlide.value
+	music.volume_db = volumeControl.volumeControlSlide.value
 	$MainWindow/VolumeControl/VolumeValue.text = "Volume: "+ str(int(music.volume_db + 100))  + "%"
-	if $MainWindow/VolumeControl/VolumeControlSlide.value == -100:
+	if volumeControl.volumeControlSlide.value == -100:
 			music.volume_db = -99999
 
 func _on_reverse_button_pressed() -> void:
@@ -193,22 +195,22 @@ func _on_reverse_button_pressed() -> void:
 
 func _on_speed_minus_pressed() -> void:
 	music.pitch_scale -= 0.05
-	$MainWindow/PlaybackSpeedControlNode/SpeedControlSlide.value = music.pitch_scale * 100
+	speedControl.speedControlSlide.value = music.pitch_scale * 100
 
 func _on_speed_plus_pressed() -> void:
 	music.pitch_scale += 0.05
-	$MainWindow/PlaybackSpeedControlNode/SpeedControlSlide.value = music.pitch_scale * 100
+	speedControl.speedControlSlide.value = music.pitch_scale * 100
 
 func _on_volume_minus_pressed() -> void:
 	if music.volume_db >= -100:
 		music.volume_db -= 1
-		$MainWindow/VolumeControl/VolumeControlSlide.value = music.volume_db
+		volumeControl.volumeControlSlide.value = music.volume_db
 		$MainWindow/VolumeControl/VolumeValue.text = "Volume: "+ str(int(music.volume_db + 100))  + "%"
-		if $MainWindow/VolumeControl/VolumeControlSlide.value == -100:
+		if volumeControl.volumeControlSlide.value == -100:
 				music.volume_db = -99999
 
 func _on_volume_plus_pressed() -> void:
 	if music.volume_db != 1:
 		music.volume_db += 1
-		$MainWindow/VolumeControl/VolumeControlSlide.value = music.volume_db
+		volumeControl.volumeControlSlide.value = music.volume_db
 		$MainWindow/VolumeControl/VolumeValue.text = "Volume: "+ str(int(music.volume_db + 99)) + "%"
