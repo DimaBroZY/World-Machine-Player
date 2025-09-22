@@ -8,7 +8,7 @@
 
 [![Godot](https://img.shields.io/badge/Godot-4.5-blue.svg)](https://godotengine.org/)
 [![License](https://img.shields.io/badge/License-Fan%20Project-orange.svg)](#license)
-[![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.0.2-green.svg)](#)
 
 
 </div>
