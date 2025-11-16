@@ -64,7 +64,6 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 
 <img width="1000" height="800" alt="image" src="https://github.com/user-attachments/assets/bd8b50b2-148f-4388-a026-1309494b1e74" />
 
-<img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/dc0a9171-f593-4560-8d05-36134bba008e" />
 
 
 ## 📜 License
