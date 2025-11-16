@@ -1,3 +1,4 @@
+**English** | [Русский](README_ru.md)
 
 # 🎵 World Machine Player
 
