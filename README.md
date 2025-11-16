@@ -10,7 +10,7 @@
 
 [![Godot](https://img.shields.io/badge/Godot-4.5-blue.svg)](https://godotengine.org/)
 [![License](https://img.shields.io/badge/License-Fan%20Project-orange.svg)](https://github.com/DimaBroZY/World-Machine-Player/edit/main/LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0.3-green.svg)](https://github.com/DimaBroZY/World-Machine-Player/releases/tag/1.1.0)
+[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/DimaBroZY/World-Machine-Player/releases/tag/1.1.0)
 
 
 </div>
