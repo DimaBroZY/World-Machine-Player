@@ -66,7 +66,7 @@ func load_tracks_from_folder() -> void:
 		while file_name != "":
 			print("Найден файл: ", file_name)
 			# Поддерживаем как OGG, так и MP3
-			if file_name.ends_with(".ogg") or file_name.ends_with(".mp3") or file_name.ends_with(".flac"):
+			if file_name.ends_with(".ogg") or file_name.ends_with(".mp3") or file_name.ends_with(".flac")  or file_name.ends_with(".opus"):
 				var full_path = FOLDER_PATH + "/" + file_name
 				var user_path = "user://" + file_name.replace(" ", "_").replace("[", "_").replace("]", "_")
 				var resource_path = user_path.replace(".ogg", ".tres").replace(".mp3", ".tres").replace(".flac", ".tres").replace(".opus", ".tres")
