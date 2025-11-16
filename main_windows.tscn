@@ -1,11 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://dnkli7cvqq5qe"]
+[gd_scene load_steps=28 format=3 uid="uid://dnkli7cvqq5qe"]
 
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="1_5yrt8"]
-[ext_resource type="Script" uid="uid://wux2pmkpxx47" path="res://main_windows.gd" id="1_e4k5n"]
+[ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_8wc6h"]
 [ext_resource type="Script" uid="uid://dkkydk8vrjxms" path="res://handles.gd" id="1_q8n62"]
 [ext_resource type="Script" uid="uid://b8x883mm43um6" path="res://top_bar.gd" id="1_ss1ka"]
 [ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_t4ovt"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="2_hel25"]
+[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_ws54r"]
+[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_2cuvu"]
 [ext_resource type="Texture2D" uid="uid://b14ax6lfe347f" path="res://Assets/Icons/Sun.png" id="3_j46xl"]
 [ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="5_ss1ka"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="6_j46xl"]
@@ -15,22 +17,52 @@ bg_color = Color(0, 0, 0, 1)
 border_width_left = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.588235, 0.396078, 1, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yrt8"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 draw_center = false
 border_width_top = 5
 border_width_bottom = 8
-border_color = Color(0.588235, 0.396078, 1, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iuydb"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_j46xl"]
-line_spacing = 1.0
-font = ExtResource("1_t4ovt")
-font_size = 20
-font_color = Color(0.588235, 0.396078, 1, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fcdbk"]
+texture = ExtResource("3_j46xl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_veqeo"]
+texture = ExtResource("3_j46xl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_korhc"]
+texture = ExtResource("3_j46xl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2f17"]
+texture = ExtResource("3_j46xl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e4k5n"]
+texture = ExtResource("1_5yrt8")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j46xl"]
+texture = ExtResource("6_j46xl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iuydb"]
+texture = ExtResource("6_j46xl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8wc6h"]
+texture = ExtResource("6_j46xl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ws54r"]
+texture = ExtResource("2_hel25")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2cuvu"]
+texture = ExtResource("5_ss1ka")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dustl"]
+texture = ExtResource("5_ss1ka")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xmfl1"]
+texture = ExtResource("5_ss1ka")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4ovt"]
 
@@ -45,9 +77,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1_e4k5n")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="ClickSoundHandler" type="Node2D" parent="."]
+script = ExtResource("1_8wc6h")
+click_sound_press = ExtResource("2_ws54r")
+click_sound_release = ExtResource("3_2cuvu")
+
+[node name="Panel" type="Panel" parent="." groups=["tintable"]]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -67,7 +103,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopBar" type="PanelContainer" parent="Layout"]
+[node name="TopBar" type="PanelContainer" parent="Layout" groups=["tintable"]]
 custom_minimum_size = Vector2(20, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5yrt8")
@@ -86,11 +122,14 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
 
-[node name="OneShotSettingsButton" type="TextureButton" parent="Layout/TopBar/TopBarHBox"]
+[node name="OneShotMenuButton" type="Button" parent="Layout/TopBar/TopBarHBox"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-texture_normal = ExtResource("3_j46xl")
-stretch_mode = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_fcdbk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_veqeo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_korhc")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_p2f17")
 
 [node name="Spacer3" type="VSeparator" parent="Layout/TopBar/TopBarHBox"]
 clip_contents = true
@@ -105,11 +144,9 @@ custom_minimum_size = Vector2(0, -100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-theme_override_colors/font_color = Color(0.588235, 0.396078, 1, 1)
 theme_override_fonts/font = ExtResource("1_t4ovt")
-theme_override_font_sizes/font_size = 21
+theme_override_font_sizes/font_size = 20
 text = "World Machine Player"
-label_settings = SubResource("LabelSettings_j46xl")
 
 [node name="HBox" type="HBoxContainer" parent="Layout/TopBar"]
 layout_mode = 2
@@ -121,29 +158,28 @@ layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 
-[node name="MinimizeButton" type="TextureButton" parent="Layout/TopBar/HBox"]
+[node name="MinimizeButton" type="Button" parent="Layout/TopBar/HBox"]
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-size_flags_stretch_ratio = 3.0
-texture_normal = ExtResource("1_5yrt8")
-texture_hover = ExtResource("6_j46xl")
-ignore_texture_size = true
-stretch_mode = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_e4k5n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_j46xl")
+theme_override_styles/hover = SubResource("StyleBoxTexture_iuydb")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_8wc6h")
 
-[node name="CloseButton" type="TextureButton" parent="Layout/TopBar/HBox"]
-clip_contents = true
+[node name="CloseButton" type="Button" parent="Layout/TopBar/HBox"]
 custom_minimum_size = Vector2(35, 35)
-layout_direction = 4
+layout_direction = 1
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-size_flags_stretch_ratio = 0.0
-texture_normal = ExtResource("2_hel25")
-texture_hover = ExtResource("5_ss1ka")
-ignore_texture_size = true
-stretch_mode = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ws54r")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2cuvu")
+theme_override_styles/hover = SubResource("StyleBoxTexture_dustl")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_xmfl1")
 
 [node name="Spacer" type="VSeparator" parent="Layout/TopBar/HBox"]
 layout_mode = 2
@@ -197,7 +233,7 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [connection signal="gui_input" from="Layout/TopBar" to="Layout/TopBar" method="_on_gui_input"]
-[connection signal="pressed" from="Layout/TopBar/TopBarHBox/OneShotSettingsButton" to="Layout/TopBar" method="_on_one_shot_settings_button_pressed"]
+[connection signal="pressed" from="Layout/TopBar/TopBarHBox/OneShotMenuButton" to="Layout/TopBar" method="_on_one_shot_menu_button_pressed"]
 [connection signal="pressed" from="Layout/TopBar/HBox/MinimizeButton" to="Layout/TopBar" method="_on_minimize_button_pressed"]
 [connection signal="pressed" from="Layout/TopBar/HBox/CloseButton" to="Layout/TopBar" method="_on_close_button_pressed"]
 [connection signal="gui_input" from="Handles/Right" to="Handles" method="_on_right_gui_input"]

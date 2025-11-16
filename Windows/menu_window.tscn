@@ -1,0 +1,394 @@
+[gd_scene load_steps=25 format=3 uid="uid://b2f8ak82pggrl"]
+
+[ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_hc7j7"]
+[ext_resource type="Texture2D" uid="uid://dkbfxho4ys7g4" path="res://Assets/Icons/theme.png" id="2_8o03y"]
+[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_n2ajn"]
+[ext_resource type="Texture2D" uid="uid://b14ax6lfe347f" path="res://Assets/Icons/Sun.png" id="2_rqold"]
+[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_7j3af"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_in5gq"]
+[ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="4_ive5f"]
+[ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="5_kdstt"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="6_j8y1r"]
+[ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="7_hc7j7"]
+[ext_resource type="Texture2D" uid="uid://cseb2kw154ng7" path="res://Assets/Icons/Settings.png" id="8_8o03y"]
+[ext_resource type="Script" uid="uid://gac3or0cc0wb" path="res://Windows/Scripts/handles_settings.gd" id="8_n2ajn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8n62"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yrt8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 5
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_8o03y"]
+script/source = "extends PanelContainer
+
+
+var moving := false 
+var mouse_start: Vector2i
+var settings_window = null
+var theme_window = null
+
+
+func _on_close_button_pressed() -> void:
+	get_window().queue_free()
+
+
+func _on_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == 1:
+		if !moving:
+			mouse_start = get_viewport().get_mouse_position()
+		moving = event.is_pressed()
+
+func _process(_delta: float) -> void:
+	if moving:
+		var mouse_now := Vector2i(get_viewport().get_mouse_position())
+		get_window().position += mouse_now - mouse_start
+
+
+func _on_settings_button_pressed() -> void:
+		if settings_window != null and is_instance_valid(settings_window):
+			settings_window.show()
+			return
+	
+		# Загружаем сцену с Window как корневой нодой
+		settings_window = preload(\"res://Windows/settings_window.tscn\").instantiate()
+	
+		# Добавляем Window в дерево сцен
+		get_tree().root.add_child(settings_window)
+	
+		settings_window.close_requested.connect(func(): 
+			settings_window.queue_free()
+			settings_window = null
+		)
+		settings_window.show()
+		TintManager.apply_tint_to_scene()
+
+func _on_theme_button_pressed() -> void:
+	if theme_window != null and is_instance_valid(theme_window):
+		theme_window.show()	
+		return
+	
+	# Загружаем сцену с Window как корневой нодой
+	theme_window = preload(\"res://Windows/theme_window.tscn\").instantiate()
+	
+	# Добавляем Window в дерево сцен
+	get_tree().root.add_child(theme_window)
+	
+	theme_window.close_requested.connect(func(): 
+		theme_window.queue_free()
+		theme_window = null
+	)
+	theme_window.show()
+	TintManager.apply_tint_to_scene()
+
+
+func _on_minimize_button_pressed() -> void:
+	pass # Replace with function body.
+"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iuydb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_j46xl"]
+line_spacing = 1.0
+font = ExtResource("3_in5gq")
+font_size = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4ovt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ive5f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8o03y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j8y1r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j8y1r"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hc7j7"]
+bg_color = Color(1, 1, 1, 0.22352941)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2ajn"]
+bg_color = Color(1, 1, 1, 0.17254902)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.4862745)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+
+[node name="Window" type="Window"]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(600, 450)
+borderless = true
+
+[node name="ClickSoundHandler" type="Node2D" parent="."]
+script = ExtResource("1_hc7j7")
+click_sound_press = ExtResource("2_n2ajn")
+click_sound_release = ExtResource("3_7j3af")
+
+[node name="MenuWindow" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="MenuWindow" groups=["tintable"]]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q8n62")
+
+[node name="Layout" type="VBoxContainer" parent="MenuWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="MenuWindow/Layout" groups=["tintable"]]
+custom_minimum_size = Vector2(20, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5yrt8")
+script = SubResource("GDScript_8o03y")
+
+[node name="TopBarHBox" type="HBoxContainer" parent="MenuWindow/Layout/TopBar"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="Spacer2" type="VSeparator" parent="MenuWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
+
+[node name="ThemeIcon" type="TextureButton" parent="MenuWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("2_rqold")
+stretch_mode = 0
+
+[node name="Spacer3" type="VSeparator" parent="MenuWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
+
+[node name="Title" type="Label" parent="MenuWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(0, -100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("3_in5gq")
+theme_override_font_sizes/font_size = 21
+text = "Menu"
+label_settings = SubResource("LabelSettings_j46xl")
+
+[node name="HBox" type="HBoxContainer" parent="MenuWindow/Layout/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Content" type="Control" parent="MenuWindow/Layout/TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="MinimizeButton" type="TextureButton" parent="MenuWindow/Layout/TopBar/HBox"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.0
+disabled = true
+texture_normal = ExtResource("4_ive5f")
+texture_pressed = ExtResource("5_kdstt")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CloseButton" type="TextureButton" parent="MenuWindow/Layout/TopBar/HBox"]
+clip_contents = true
+custom_minimum_size = Vector2(35, 35)
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture_normal = ExtResource("6_j8y1r")
+texture_hover = ExtResource("7_hc7j7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Spacer" type="VSeparator" parent="MenuWindow/Layout/TopBar/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_t4ovt")
+
+[node name="Separator" type="HSeparator" parent="MenuWindow/Layout"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ive5f")
+
+[node name="Main" type="PanelContainer" parent="MenuWindow/Layout" groups=["tintable"]]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8o03y")
+
+[node name="Grid" type="GridContainer" parent="MenuWindow/Layout/Main"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/h_separation = 30
+columns = 4
+
+[node name="SettingsContainer" type="PanelContainer" parent="MenuWindow/Layout/Main/Grid"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_j8y1r")
+
+[node name="SettingsButton" type="Button" parent="MenuWindow/Layout/Main/Grid/SettingsContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_8o03y")
+theme_override_styles/normal = SubResource("StyleBoxFlat_j8y1r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hc7j7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n2ajn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_hc7j7")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SettingsLabel" type="Label" parent="MenuWindow/Layout/Main/Grid/SettingsContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("3_in5gq")
+text = "Settings"
+horizontal_alignment = 2
+
+[node name="ThemeContainer" type="PanelContainer" parent="MenuWindow/Layout/Main/Grid"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_j8y1r")
+
+[node name="ThemeButton" type="Button" parent="MenuWindow/Layout/Main/Grid/ThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("2_8o03y")
+theme_override_styles/normal = SubResource("StyleBoxFlat_j8y1r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hc7j7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n2ajn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_hc7j7")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="SettingsLabel" type="Label" parent="MenuWindow/Layout/Main/Grid/ThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("3_in5gq")
+text = "Themes"
+
+[node name="Handles" type="Control" parent="MenuWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_n2ajn")
+
+[node name="Right" type="Control" parent="MenuWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.953109, 1.00146)
+
+[node name="Bottom" type="Control" parent="MenuWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.01367, 0.952266)
+
+[node name="Corner" type="Control" parent="MenuWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[connection signal="gui_input" from="MenuWindow/Layout/TopBar" to="MenuWindow/Layout/TopBar" method="_on_gui_input"]
+[connection signal="pressed" from="MenuWindow/Layout/TopBar/HBox/MinimizeButton" to="MenuWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
+[connection signal="pressed" from="MenuWindow/Layout/TopBar/HBox/CloseButton" to="MenuWindow/Layout/TopBar" method="_on_close_button_pressed"]
+[connection signal="pressed" from="MenuWindow/Layout/Main/Grid/SettingsContainer/SettingsButton" to="MenuWindow/Layout/TopBar" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MenuWindow/Layout/Main/Grid/ThemeContainer/ThemeButton" to="MenuWindow/Layout/TopBar" method="_on_theme_button_pressed"]
+[connection signal="gui_input" from="MenuWindow/Handles/Right" to="MenuWindow/Handles" method="_on_right_gui_input"]
+[connection signal="gui_input" from="MenuWindow/Handles/Bottom" to="MenuWindow/Handles" method="_on_bottom_gui_input"]
+[connection signal="gui_input" from="MenuWindow/Handles/Corner" to="MenuWindow/Handles" method="_on_corner_gui_input"]

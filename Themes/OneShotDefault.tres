@@ -7,16 +7,16 @@
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="4_v3jyk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xpr28"]
-bg_color = Color(0.588235, 0.396078, 1, 1)
+bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3y5ev"]
-bg_color = Color(0.588235, 0.396078, 1, 1)
+bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1c80"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_top = 1
 border_width_bottom = 1
-border_color = Color(0.588235, 0.396078, 1, 1)
+border_color = Color(1, 1, 1, 1)
 expand_margin_top = 1.0
 expand_margin_bottom = 1.0
 

@@ -2,6 +2,7 @@ extends Control
 
 @onready var line_edit = $Content/Panel/FolderPath
 
+
 func _ready():
 	var music_dir = "user://music"
 	

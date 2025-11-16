@@ -2,9 +2,9 @@ extends PanelContainer
 
 var moving := false 
 var mouse_start: Vector2i
-
-#func _on_minimize_button_pressed() -> void:
-	#get_window().mode = Window.MODE_MINIMIZED
+var settings_window = null
+func _on_minimize_button_pressed() -> void:
+	get_window().mode = Window.MODE_MINIMIZED
 
 
 func _on_close_button_pressed() -> void:

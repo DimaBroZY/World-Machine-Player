@@ -1,0 +1,308 @@
+[gd_scene load_steps=23 format=3 uid="uid://br0vuvri2rao8"]
+
+[ext_resource type="Script" uid="uid://bsrew7n8ldv1t" path="res://main.gd" id="1_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://c13dup7wgdm63" path="res://Objects/Niko.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://dnkli7cvqq5qe" path="res://main_windows.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://c2nk7evw8monk" path="res://Objects/Gramophone.tscn" id="3_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://bmirln57b5vca" path="res://Assets/Buttons/PlayButton.png" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://cs3idp5d1m3h3" path="res://Assets/Buttons/Stop_Button.png" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dn24kgmibsw8h" path="res://Objects/Sun.tscn" id="5_w48qg"]
+[ext_resource type="PackedScene" uid="uid://c71spviopjjg8" path="res://playback_speed_control.tscn" id="6_7mycd"]
+[ext_resource type="Texture2D" uid="uid://dkosrl6p1xnei" path="res://Assets/Buttons/ReverseButton.png" id="6_efxa6"]
+[ext_resource type="Texture2D" uid="uid://be5p6kftkj5dk" path="res://Assets/Icons/Slider_Start.png" id="7_5vw27"]
+[ext_resource type="Texture2D" uid="uid://dnfma8apjp42n" path="res://Assets/Icons/Slider_End.png" id="8_kek77"]
+[ext_resource type="Texture2D" uid="uid://cip88ds7isegc" path="res://Assets/Buttons/Stop_Button_Hover.png" id="8_yaehf"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="9_kek77"]
+[ext_resource type="PackedScene" uid="uid://3y1aikb7e21v" path="res://volume_control.tscn" id="10_4c57u"]
+[ext_resource type="Texture2D" uid="uid://c1yqamoe4bv6s" path="res://Assets/Buttons/ReverseButton_Hover.png" id="10_074og"]
+[ext_resource type="Texture2D" uid="uid://b6nupqg3h4fc2" path="res://Assets/Icons/Slider_Start_Hover.png" id="14_vivmo"]
+[ext_resource type="Texture2D" uid="uid://c5hgb0m3w030c" path="res://Assets/Icons/Slider_End_Hover.png" id="15_2cqfq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgsak"]
+atlas = ExtResource("4_lquwl")
+
+[sub_resource type="LabelSettings" id="LabelSettings_kek77"]
+font = ExtResource("9_kek77")
+font_size = 40
+font_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ycdy4"]
+font = ExtResource("9_kek77")
+font_size = 23
+font_color = Color(0.5882353, 0.39607844, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0d6xb"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yoe8j"]
+font = ExtResource("9_kek77")
+font_size = 26
+font_color = Color(0.588235, 0.396078, 1, 1)
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1bvp3")
+
+[node name="MainWindow" parent="." instance=ExtResource("2_1bvp3")]
+layout_mode = 1
+offset_bottom = 0.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow"]
+
+[node name="Objects" type="Control" parent="MainWindow"]
+texture_filter = 1
+anchors_preset = 0
+offset_left = 150.0
+offset_top = 71.0
+offset_right = 800.0
+offset_bottom = 379.3333
+scale = Vector2(0.6, 0.6)
+
+[node name="Gramophone" parent="MainWindow/Objects" instance=ExtResource("3_ycdy4")]
+layout_mode = 1
+offset_left = 269.99997
+offset_top = 130.0
+offset_right = 269.99997
+offset_bottom = 130.0
+scale = Vector2(6.9, 6.9)
+
+[node name="Niko" parent="MainWindow/Objects" instance=ExtResource("1_ig7tw")]
+layout_mode = 1
+offset_left = 542.0
+offset_top = 204.00002
+offset_right = 542.0
+offset_bottom = 204.00002
+scale = Vector2(1.4900024, 1.4900024)
+mouse_filter = 2
+
+[node name="Sun" parent="MainWindow/Objects" instance=ExtResource("5_w48qg")]
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 4.999977
+offset_top = 194.0
+offset_right = 4.999977
+offset_bottom = 194.0
+grow_horizontal = 1
+grow_vertical = 1
+scale = Vector2(6, 6)
+
+[node name="Buttons" type="Control" parent="MainWindow"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 164.0
+offset_right = 155.0
+offset_bottom = 244.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+
+[node name="PlayPauseButton" type="TextureButton" parent="MainWindow/Buttons"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -39.5
+offset_top = -80.0
+offset_right = 40.50006
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = SubResource("AtlasTexture_pgsak")
+stretch_mode = 0
+
+[node name="StopButton" type="TextureButton" parent="MainWindow/Buttons"]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 80.0
+texture_normal = ExtResource("5_lquwl")
+texture_hover = ExtResource("8_yaehf")
+stretch_mode = 0
+
+[node name="ReverseButton" type="TextureButton" parent="MainWindow/Buttons"]
+layout_mode = 0
+offset_left = 175.0
+offset_right = 255.00006
+offset_bottom = 80.0
+texture_normal = ExtResource("6_efxa6")
+texture_hover = ExtResource("10_074og")
+stretch_mode = 0
+
+[node name="PlaybackSpeedControlNode" parent="MainWindow" instance=ExtResource("6_7mycd")]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 337.0
+offset_right = 186.0
+offset_bottom = 373.0
+scale = Vector2(1.82, 1.84)
+
+[node name="SpeedMinus" type="TextureButton" parent="MainWindow/PlaybackSpeedControlNode"]
+layout_mode = 0
+offset_top = 16.0
+offset_right = 20.0
+offset_bottom = 36.0
+texture_normal = ExtResource("7_5vw27")
+texture_hover = ExtResource("14_vivmo")
+stretch_mode = 0
+
+[node name="SpeedPlus" type="TextureButton" parent="MainWindow/PlaybackSpeedControlNode"]
+layout_mode = 0
+offset_left = 148.0
+offset_top = 16.0
+offset_right = 168.0
+offset_bottom = 36.0
+texture_normal = ExtResource("8_kek77")
+texture_hover = ExtResource("15_2cqfq")
+stretch_mode = 0
+
+[node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 24.0
+offset_top = 2.717
+offset_right = 554.0
+offset_bottom = 72.717
+scale = Vector2(0.23, 0.23)
+text = "Playback Speed: 100%"
+label_settings = SubResource("LabelSettings_kek77")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeControl" parent="MainWindow" instance=ExtResource("10_4c57u")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.03333332
+anchor_top = 0.6679999
+anchor_right = 0.033333335
+anchor_bottom = 0.6679999
+offset_left = 309.33337
+offset_top = 3.0000305
+offset_right = 473.33337
+offset_bottom = 39.00003
+scale = Vector2(1.82, 1.84)
+
+[node name="VolumeMinus" type="TextureButton" parent="MainWindow/VolumeControl"]
+layout_mode = 0
+offset_top = 15.55555
+offset_right = 20.0
+offset_bottom = 35.55555
+texture_normal = ExtResource("7_5vw27")
+texture_hover = ExtResource("14_vivmo")
+stretch_mode = 0
+
+[node name="VolumePlus" type="TextureButton" parent="MainWindow/VolumeControl"]
+layout_mode = 0
+offset_left = 144.44444
+offset_top = 15.55555
+offset_right = 164.44444
+offset_bottom = 35.55555
+texture_normal = ExtResource("8_kek77")
+texture_hover = ExtResource("15_2cqfq")
+stretch_mode = 0
+
+[node name="VolumeValue" type="Label" parent="MainWindow/VolumeControl"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 19.780218
+offset_top = 2.7173915
+offset_right = 549.7802
+offset_bottom = 72.71739
+scale = Vector2(0.23, 0.23)
+text = "Volume: 100%"
+label_settings = SubResource("LabelSettings_kek77")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentTrack" type="Control" parent="MainWindow"]
+anchors_preset = 0
+offset_left = 18.000002
+offset_top = 268.0
+offset_right = 960.0
+offset_bottom = 368.0
+scale = Vector2(0.65, 0.65)
+
+[node name="CurrentTrackLabel" type="Label" parent="MainWindow/CurrentTrack"]
+layout_mode = 0
+offset_left = 361.99997
+offset_top = 4.4444275
+offset_right = 566.0
+offset_bottom = 45.444427
+text = "Current Track"
+label_settings = SubResource("LabelSettings_ycdy4")
+
+[node name="PanelContainer" type="PanelContainer" parent="MainWindow/CurrentTrack"]
+layout_mode = 0
+offset_left = 54.99998
+offset_top = 45.44443
+offset_right = 888.0
+offset_bottom = 102.44443
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0d6xb")
+
+[node name="CurrentTrackName" type="Label" parent="MainWindow/CurrentTrack/PanelContainer"]
+custom_minimum_size = Vector2(0, -100)
+layout_mode = 2
+size_flags_vertical = 8
+text = "Current Track..."
+label_settings = SubResource("LabelSettings_yoe8j")
+horizontal_alignment = 1
+justification_flags = 35
+paragraph_separator = "/n"
+clip_text = true
+text_overrun_behavior = 3
+max_lines_visible = 1
+
+[node name="PreviousTrack" type="TextureButton" parent="MainWindow/CurrentTrack"]
+layout_mode = 0
+offset_left = -2.0345055e-05
+offset_top = 45.44443
+offset_right = 56.99998
+offset_bottom = 102.44443
+texture_normal = ExtResource("7_5vw27")
+texture_hover = ExtResource("14_vivmo")
+stretch_mode = 0
+
+[node name="NextTrack" type="TextureButton" parent="MainWindow/CurrentTrack"]
+layout_mode = 0
+offset_left = 885.99994
+offset_top = 45.44443
+offset_right = 942.99994
+offset_bottom = 102.44443
+texture_normal = ExtResource("8_kek77")
+texture_hover = ExtResource("15_2cqfq")
+stretch_mode = 0
+
+[connection signal="finished" from="MainWindow/AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="pressed" from="MainWindow/Buttons/PlayPauseButton" to="." method="_on_play_pause_button_pressed"]
+[connection signal="pressed" from="MainWindow/Buttons/StopButton" to="." method="_on_stop_button_pressed"]
+[connection signal="pressed" from="MainWindow/Buttons/ReverseButton" to="." method="_on_reverse_button_pressed"]
+[connection signal="value_changed" from="MainWindow/PlaybackSpeedControlNode/SpeedControlSlide" to="." method="_on_speed_control_slide_value_changed"]
+[connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedMinus" to="." method="_on_speed_minus_pressed"]
+[connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedPlus" to="." method="_on_speed_plus_pressed"]
+[connection signal="value_changed" from="MainWindow/VolumeControl/VolumeControlSlide" to="." method="_on_volume_control_slide_value_changed"]
+[connection signal="pressed" from="MainWindow/VolumeControl/VolumeMinus" to="." method="_on_volume_minus_pressed"]
+[connection signal="pressed" from="MainWindow/VolumeControl/VolumePlus" to="." method="_on_volume_plus_pressed"]
+[connection signal="pressed" from="MainWindow/CurrentTrack/PreviousTrack" to="." method="_on_previous_track_pressed"]
+[connection signal="pressed" from="MainWindow/CurrentTrack/NextTrack" to="." method="_on_next_track_pressed"]
+
+[editable path="MainWindow/PlaybackSpeedControlNode"]
+[editable path="MainWindow/VolumeControl"]

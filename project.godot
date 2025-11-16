@@ -22,19 +22,29 @@ boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="uid://r5nkbncqxppl"
 config/macos_native_icon="uid://r5nkbncqxppl"
-config/windows_native_icon="uid://r5nkbncqxppl"
+config/windows_native_icon="res://Assets/dotIco/Color_Sun.ico"
+
+[audio]
+
+buses/default_bus_layout=""
 
 [autoload]
 
 Settings="*res://Settings.gd"
+TintManager="*res://Windows/Scripts/TintManager.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [display]
 
 window/size/viewport_width=650
 window/size/viewport_height=500
-window/size/resizable=false
 window/size/borderless=true
 window/subwindows/embed_subwindows=false
+window/frame_pacing/android/enable_frame_pacing=false
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
@@ -53,6 +63,10 @@ left_click={
 ]
 }
 
+[physics]
+
+common/physics_ticks_per_second=30
+
 [plugins]
 
 ai_assistant_hub/llm_api="gemini_api"
@@ -63,5 +77,5 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="mobile"
+textures/default_filters/anisotropic_filtering_level=0
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

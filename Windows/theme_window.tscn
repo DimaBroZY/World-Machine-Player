@@ -1,0 +1,702 @@
+[gd_scene load_steps=27 format=3 uid="uid://ci5bmeqnu6u8v"]
+
+[ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="1_2yewj"]
+[ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_edy1e"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="2_mwwci"]
+[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_xrgv3"]
+[ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="3_edy1e"]
+[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_xmig2"]
+[ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="4_xrgv3"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="5_xmig2"]
+[ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="6_10kri"]
+[ext_resource type="Texture2D" uid="uid://dkbfxho4ys7g4" path="res://Assets/Icons/theme.png" id="8_q77qd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_edy1e"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xrgv3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 5
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xmig2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_10kri"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qiii5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q77qd"]
+
+[sub_resource type="GDScript" id="GDScript_obkdo"]
+script/source = "extends PanelContainer
+
+var info := true
+var info_window = null
+var player: AudioStreamPlayer
+
+
+
+func _ready() -> void:
+		var saved_info = Settings.get_setting(\"is_info_message_appear\", true)
+		info = saved_info
+		
+		var saved = Settings.get_setting(\"is_info_message_appear\", null)
+		if saved == null:
+			info = true
+		else:
+			info = saved
+			
+		
+
+		player = AudioStreamPlayer.new()
+		add_child(player)
+		player.volume_db = -10
+
+func _on_purple_theme_button_pressed() -> void: # фиолетовый
+	TintManager.set_tint(Color.from_rgba8(148, 101, 255, 255))  
+
+
+func _on_white_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(255, 255, 255, 255)) 
+
+
+func _on_blue_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(116, 107, 230, 255)) 
+
+
+func _on_cyan_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(52, 205, 210, 255))
+
+
+func _on_yellow_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(255, 210, 106, 255))
+	
+	
+func _on_green_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(63, 213, 100, 255))
+
+
+func _on_red_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(213, 33, 106, 255))
+
+
+func _on_pink_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(254, 85, 191, 255))
+
+
+func _on_orange_theme_button_pressed() -> void:
+	TintManager.set_tint(Color.from_rgba8(253, 143, 77, 255))
+
+
+func _on_rainbow_theme_button_pressed() -> void:
+	if info == true:
+		if info_window != null and is_instance_valid(info_window):
+			info_window.show()
+			return
+		# Загружаем сцену с Window как корневой нодой
+		info_window = preload(\"res://Windows/info_window.tscn\").instantiate()
+
+		# Добавляем Window в дерево сцен
+		get_tree().root.add_child(info_window)
+	
+		info_window.close_requested.connect(func(): 
+			info_window.queue_free()
+			info_window = null
+		)
+		info_window.show()
+		player.stream = preload(\"res://sfx/twm_notif4.wav\")
+		player.play()
+		TintManager.apply_tint_to_scene()
+
+	else:
+		TintManager.enable_rainbow(true)
+"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ycjig"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_10kri"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gq6eb"]
+bg_color = Color(1, 1, 1, 0.22352941)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xmig2"]
+bg_color = Color(1, 1, 1, 0.17254902)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.4862745)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7bt48"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4ykvv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rhu1k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_86ura"]
+
+[sub_resource type="GDScript" id="GDScript_edy1e"]
+script/source = "extends PanelContainer
+
+var hue := 0.0
+var speed := 0.1
+var update_timer := 0.0
+var update_interval := 0.1  # обновлять максимум 10 раз в секунду
+
+func _process(delta):
+	if TintManager.rainbow_enabled:
+		var global_color = TintManager.current_tint
+		if modulate != global_color:
+			modulate = global_color
+	else:
+		update_timer += delta
+		if update_timer >= update_interval:
+			update_timer = 0.0
+			hue = fmod(hue + update_interval * speed, 1.0)
+			var local_color = Color.from_hsv(hue, 1.0, 1.0)
+			if modulate != local_color:
+				modulate = local_color
+"
+
+[node name="Window" type="Window"]
+canvas_item_default_texture_filter = 0
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(650, 460)
+borderless = true
+
+[node name="ClickSoundHandler" type="Node2D" parent="."]
+script = ExtResource("1_edy1e")
+click_sound_press = ExtResource("2_xrgv3")
+click_sound_release = ExtResource("3_xmig2")
+
+[node name="ThemeWindow" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="ThemeWindow" groups=["tintable"]]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_edy1e")
+
+[node name="Layout" type="VBoxContainer" parent="ThemeWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="TopBar" type="PanelContainer" parent="ThemeWindow/Layout" groups=["tintable"]]
+custom_minimum_size = Vector2(20, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xrgv3")
+script = ExtResource("1_2yewj")
+
+[node name="TopBarHBox" type="HBoxContainer" parent="ThemeWindow/Layout/TopBar"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="Spacer2" type="VSeparator" parent="ThemeWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
+
+[node name="ThemeIcon" type="TextureButton" parent="ThemeWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("8_q77qd")
+stretch_mode = 0
+
+[node name="Spacer3" type="VSeparator" parent="ThemeWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
+
+[node name="Title" type="Label" parent="ThemeWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(0, -100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+theme_override_font_sizes/font_size = 20
+text = "Themes"
+
+[node name="HBox" type="HBoxContainer" parent="ThemeWindow/Layout/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Content" type="Control" parent="ThemeWindow/Layout/TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="MinimizeButton" type="TextureButton" parent="ThemeWindow/Layout/TopBar/HBox"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.0
+disabled = true
+texture_normal = ExtResource("3_edy1e")
+texture_pressed = ExtResource("4_xrgv3")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CloseButton" type="TextureButton" parent="ThemeWindow/Layout/TopBar/HBox"]
+clip_contents = true
+custom_minimum_size = Vector2(35, 35)
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture_normal = ExtResource("5_xmig2")
+texture_hover = ExtResource("6_10kri")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Spacer" type="VSeparator" parent="ThemeWindow/Layout/TopBar/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_10kri")
+
+[node name="HSeparator" type="HSeparator" parent="ThemeWindow/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 15
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qiii5")
+
+[node name="Main" type="PanelContainer" parent="ThemeWindow/Layout"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q77qd")
+script = SubResource("GDScript_obkdo")
+
+[node name="ThemeChanger" type="GridContainer" parent="ThemeWindow/Layout/Main"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 15
+columns = 4
+
+[node name="PurpleThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.5803922, 0.39607844, 1, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ycjig")
+
+[node name="PurpleThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/PurpleThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNamePurple" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/PurpleThemeContainer"]
+texture_filter = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Purple"
+
+[node name="BlueThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.45490196, 0.41960785, 0.9019608, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7bt48")
+
+[node name="BlueThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/BlueThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameBlue" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/BlueThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Blue"
+
+[node name="CyanThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.20784314, 0.8039216, 0.8235294, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_4ykvv")
+
+[node name="CyanThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/CyanThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameCyan" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/CyanThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Cyan"
+
+[node name="YellowThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(1, 0.8235294, 0.41568628, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_rhu1k")
+
+[node name="YellowThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/YellowThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameYellow" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/YellowThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Yellow"
+
+[node name="GreenThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.24705882, 0.8352941, 0.39215687, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_86ura")
+
+[node name="GreenThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/GreenThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameGreen" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/GreenThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Green"
+
+[node name="RedThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.8352941, 0.12941177, 0.41568628, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_86ura")
+
+[node name="RedThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/RedThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameRed" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/RedThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Red"
+
+[node name="PinkThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.99607843, 0.33333334, 0.7490196, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_86ura")
+
+[node name="PinkThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/PinkThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNamePink" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/PinkThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Pink"
+
+[node name="OrangeThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.99215686, 0.56078434, 0.3019608, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_86ura")
+
+[node name="OrangeThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/OrangeThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameOrange" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/OrangeThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Orange"
+
+[node name="WhiteThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_86ura")
+
+[node name="WhiteThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/WhiteThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameWhite" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/WhiteThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "White"
+
+[node name="RainbowThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger"]
+modulate = Color(0.6446101, 0.75817823, 3.85046e-07, 1)
+custom_minimum_size = Vector2(80, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_86ura")
+script = SubResource("GDScript_edy1e")
+
+[node name="RainbowThemeButton" type="Button" parent="ThemeWindow/Layout/Main/ThemeChanger/RainbowThemeContainer"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+focus_mode = 0
+theme_override_constants/icon_max_width = 75
+theme_override_icons/icon = ExtResource("8_q77qd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_10kri")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gq6eb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xmig2")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_gq6eb")
+keep_pressed_outside = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="ThemeNameRainbow" type="Label" parent="ThemeWindow/Layout/Main/ThemeChanger/RainbowThemeContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("2_mwwci")
+text = "Rainbow"
+
+[node name="Handles" type="Control" parent="ThemeWindow"]
+anchors_preset = 0
+offset_top = 396.5
+offset_right = 600.0
+offset_bottom = 396.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Right" type="Control" parent="ThemeWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.953109, 1.00146)
+
+[node name="Bottom" type="Control" parent="ThemeWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.01367, 0.952266)
+
+[node name="Corner" type="Control" parent="ThemeWindow/Handles"]
+custom_minimum_size = Vector2(5, 5)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[connection signal="gui_input" from="ThemeWindow/Layout/TopBar" to="ThemeWindow/Layout/TopBar" method="_on_gui_input"]
+[connection signal="pressed" from="ThemeWindow/Layout/TopBar/HBox/MinimizeButton" to="ThemeWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/TopBar/HBox/CloseButton" to="ThemeWindow/Layout/TopBar" method="_on_close_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/PurpleThemeContainer/PurpleThemeButton" to="ThemeWindow/Layout/Main" method="_on_purple_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/BlueThemeContainer/BlueThemeButton" to="ThemeWindow/Layout/Main" method="_on_blue_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/CyanThemeContainer/CyanThemeButton" to="ThemeWindow/Layout/Main" method="_on_cyan_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/YellowThemeContainer/YellowThemeButton" to="ThemeWindow/Layout/Main" method="_on_yellow_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/GreenThemeContainer/GreenThemeButton" to="ThemeWindow/Layout/Main" method="_on_green_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/RedThemeContainer/RedThemeButton" to="ThemeWindow/Layout/Main" method="_on_red_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/PinkThemeContainer/PinkThemeButton" to="ThemeWindow/Layout/Main" method="_on_pink_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/OrangeThemeContainer/OrangeThemeButton" to="ThemeWindow/Layout/Main" method="_on_orange_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/WhiteThemeContainer/WhiteThemeButton" to="ThemeWindow/Layout/Main" method="_on_white_theme_button_pressed"]
+[connection signal="pressed" from="ThemeWindow/Layout/Main/ThemeChanger/RainbowThemeContainer/RainbowThemeButton" to="ThemeWindow/Layout/Main" method="_on_rainbow_theme_button_pressed"]
+[connection signal="gui_input" from="ThemeWindow/Handles/Right" to="ThemeWindow/Handles" method="_on_right_gui_input"]
+[connection signal="gui_input" from="ThemeWindow/Handles/Bottom" to="ThemeWindow/Handles" method="_on_bottom_gui_input"]
+[connection signal="gui_input" from="ThemeWindow/Handles/Corner" to="ThemeWindow/Handles" method="_on_corner_gui_input"]

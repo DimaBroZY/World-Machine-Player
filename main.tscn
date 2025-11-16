@@ -1,8 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://br0vuvri2rao8"]
+[gd_scene load_steps=79 format=3 uid="uid://br0vuvri2rao8"]
 
 [ext_resource type="Script" uid="uid://bsrew7n8ldv1t" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c13dup7wgdm63" path="res://Objects/Niko.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dnkli7cvqq5qe" path="res://main_windows.tscn" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="2_lswn8"]
+[ext_resource type="AudioStream" uid="uid://c0cv5dcxhn2x2" path="res://sfx/text.wav" id="3_0odxb"]
 [ext_resource type="PackedScene" uid="uid://c2nk7evw8monk" path="res://Objects/Gramophone.tscn" id="3_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://bmirln57b5vca" path="res://Assets/Buttons/PlayButton.png" id="4_lquwl"]
 [ext_resource type="Texture2D" uid="uid://cs3idp5d1m3h3" path="res://Assets/Buttons/Stop_Button.png" id="5_lquwl"]
@@ -10,28 +12,168 @@
 [ext_resource type="PackedScene" uid="uid://c71spviopjjg8" path="res://playback_speed_control.tscn" id="6_7mycd"]
 [ext_resource type="Texture2D" uid="uid://dkosrl6p1xnei" path="res://Assets/Buttons/ReverseButton.png" id="6_efxa6"]
 [ext_resource type="Texture2D" uid="uid://be5p6kftkj5dk" path="res://Assets/Icons/Slider_Start.png" id="7_5vw27"]
+[ext_resource type="Texture2D" uid="uid://t6piefk2l1r" path="res://Assets/Theme/Slider_Grabber.png" id="8_1u8w0"]
 [ext_resource type="Texture2D" uid="uid://dnfma8apjp42n" path="res://Assets/Icons/Slider_End.png" id="8_kek77"]
 [ext_resource type="Texture2D" uid="uid://cip88ds7isegc" path="res://Assets/Buttons/Stop_Button_Hover.png" id="8_yaehf"]
+[ext_resource type="Texture2D" uid="uid://dtyeqrs665mm4" path="res://Assets/Theme/Slider_Grabber_Hover.png" id="9_0odxb"]
 [ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="9_kek77"]
 [ext_resource type="PackedScene" uid="uid://3y1aikb7e21v" path="res://volume_control.tscn" id="10_4c57u"]
 [ext_resource type="Texture2D" uid="uid://c1yqamoe4bv6s" path="res://Assets/Buttons/ReverseButton_Hover.png" id="10_074og"]
+[ext_resource type="Texture2D" uid="uid://bf7wlnmlydwic" path="res://Assets/Theme/Grabber_Tick.png" id="10_lswn8"]
+[ext_resource type="Texture2D" uid="uid://brybqgtdxp7ew" path="res://Assets/Buttons/PlayButton_Hover.png" id="11_82xsv"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="12_a6jrf"]
+[ext_resource type="Texture2D" uid="uid://q0xce6467oi3" path="res://Assets/Buttons/PauseButton.png" id="12_getpj"]
+[ext_resource type="Texture2D" uid="uid://vrqg2nr3ktej" path="res://Assets/Buttons/PauseButton_Hover.png" id="13_ryguw"]
 [ext_resource type="Texture2D" uid="uid://b6nupqg3h4fc2" path="res://Assets/Icons/Slider_Start_Hover.png" id="14_vivmo"]
 [ext_resource type="Texture2D" uid="uid://c5hgb0m3w030c" path="res://Assets/Icons/Slider_End_Hover.png" id="15_2cqfq"]
+[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="19_qsp4k"]
+[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="20_kq58d"]
 
-[sub_resource type="AudioStream" id="AudioStream_efxa6"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yaehf"]
+texture = ExtResource("5_lquwl")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pgsak"]
-atlas = ExtResource("4_lquwl")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cegan"]
+texture = ExtResource("8_yaehf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_074og"]
+texture = ExtResource("8_yaehf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_82xsv"]
+texture = ExtResource("8_yaehf")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xpr28"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3y5ev"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1c80"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+expand_margin_top = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_alvq2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ot014"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nqj2l"]
+
+[sub_resource type="Theme" id="Theme_xuqvo"]
+HSlider/icons/grabber = ExtResource("8_1u8w0")
+HSlider/icons/grabber_disabled = ExtResource("8_1u8w0")
+HSlider/icons/grabber_highlight = ExtResource("8_1u8w0")
+HSlider/icons/grabber_hover = ExtResource("9_0odxb")
+HSlider/icons/tick = ExtResource("10_lswn8")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_xpr28")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_3y5ev")
+HSlider/styles/slider = SubResource("StyleBoxFlat_q1c80")
+LineEdit/colors/caret_color = Color(0.5882353, 0.39607844, 1, 1)
+LineEdit/colors/font_color = Color(0.5882353, 0.39607844, 1, 1)
+LineEdit/colors/selection_color = Color(0.5882353, 0.39607844, 1, 0.59607846)
+LineEdit/constants/caret_width = -3
+LineEdit/constants/minimum_character_width = 1
+LineEdit/font_sizes/font_size = 30
+LineEdit/fonts/font = ExtResource("9_kek77")
+LineEdit/icons/clear = ExtResource("12_a6jrf")
+LineEdit/styles/focus = SubResource("StyleBoxEmpty_alvq2")
+LineEdit/styles/normal = SubResource("StyleBoxEmpty_ot014")
+LineEdit/styles/read_only = SubResource("StyleBoxEmpty_nqj2l")
+PanelContainer/styles/panel = null
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_getpj"]
+texture = ExtResource("6_efxa6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ryguw"]
+texture = ExtResource("10_074og")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d13ii"]
+texture = ExtResource("10_074og")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1u8w0"]
+texture = ExtResource("10_074og")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_abqjc"]
+texture = ExtResource("12_getpj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6iyjs"]
+texture = ExtResource("13_ryguw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4w656"]
+texture = ExtResource("13_ryguw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e71vb"]
+texture = ExtResource("13_ryguw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0cbny"]
+texture = ExtResource("4_lquwl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hrvbo"]
+texture = ExtResource("11_82xsv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uypp3"]
+texture = ExtResource("11_82xsv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_blkrb"]
+texture = ExtResource("11_82xsv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0odxb"]
+texture = ExtResource("7_5vw27")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lswn8"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a6jrf"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xuqvo"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qsp4k"]
+texture = ExtResource("8_kek77")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kq58d"]
+texture = ExtResource("15_2cqfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_seu75"]
+texture = ExtResource("15_2cqfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_htxhm"]
+texture = ExtResource("15_2cqfq")
 
 [sub_resource type="LabelSettings" id="LabelSettings_kek77"]
 font = ExtResource("9_kek77")
 font_size = 40
-font_color = Color(0.588235, 0.396078, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jq2sk"]
+texture = ExtResource("7_5vw27")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4k2k6"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0rl1p"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ok6jj"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_facbu"]
+texture = ExtResource("8_kek77")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b1qrp"]
+texture = ExtResource("15_2cqfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_come4"]
+texture = ExtResource("15_2cqfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h8e4i"]
+texture = ExtResource("15_2cqfq")
 
 [sub_resource type="LabelSettings" id="LabelSettings_ycdy4"]
 font = ExtResource("9_kek77")
 font_size = 23
-font_color = Color(0.5882353, 0.39607844, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0d6xb"]
 draw_center = false
@@ -39,12 +181,31 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.588235, 0.396078, 1, 1)
+border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_yoe8j"]
-font = ExtResource("9_kek77")
-font_size = 26
-font_color = Color(0.588235, 0.396078, 1, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4lmeg"]
+texture = ExtResource("7_5vw27")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0cp0l"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d2t1y"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gngh3"]
+texture = ExtResource("14_vivmo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0n3wm"]
+texture = ExtResource("8_kek77")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qnost"]
+texture = ExtResource("15_2cqfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wnkbs"]
+texture = ExtResource("15_2cqfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f6a44"]
+texture = ExtResource("15_2cqfq")
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -60,9 +221,9 @@ layout_mode = 1
 offset_bottom = 0.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow"]
-stream = SubResource("AudioStream_efxa6")
+stream = ExtResource("3_0odxb")
 
-[node name="Objects" type="Control" parent="MainWindow"]
+[node name="Objects" type="Control" parent="MainWindow" groups=["no_tint"]]
 texture_filter = 1
 anchors_preset = 0
 offset_left = 150.0
@@ -71,7 +232,7 @@ offset_right = 800.0
 offset_bottom = 379.3333
 scale = Vector2(0.6, 0.6)
 
-[node name="Gramophone" parent="MainWindow/Objects" instance=ExtResource("3_ycdy4")]
+[node name="Gramophone" parent="MainWindow/Objects" groups=["no_tint"] instance=ExtResource("3_ycdy4")]
 layout_mode = 1
 offset_left = 269.99997
 offset_top = 130.0
@@ -79,7 +240,7 @@ offset_right = 269.99997
 offset_bottom = 130.0
 scale = Vector2(6.9, 6.9)
 
-[node name="Niko" parent="MainWindow/Objects" instance=ExtResource("1_ig7tw")]
+[node name="Niko" parent="MainWindow/Objects" groups=["no_tint"] instance=ExtResource("1_ig7tw")]
 layout_mode = 1
 offset_left = 542.0
 offset_top = 204.00002
@@ -88,7 +249,7 @@ offset_bottom = 204.00002
 scale = Vector2(1.4900024, 1.4900024)
 mouse_filter = 2
 
-[node name="Sun" parent="MainWindow/Objects" instance=ExtResource("5_w48qg")]
+[node name="Sun" parent="MainWindow/Objects" groups=["no_tint"] instance=ExtResource("5_w48qg")]
 layout_mode = 1
 anchors_preset = 0
 anchor_right = 0.0
@@ -101,7 +262,7 @@ grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(6, 6)
 
-[node name="Buttons" type="Control" parent="MainWindow"]
+[node name="Buttons" type="Control" parent="MainWindow" groups=["tintable"]]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -117,40 +278,52 @@ grow_vertical = 2
 scale = Vector2(0.8, 0.8)
 mouse_filter = 2
 
-[node name="PlayPauseButton" type="TextureButton" parent="MainWindow/Buttons"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -39.5
-offset_top = -80.0
-offset_right = 40.50006
-grow_horizontal = 2
-grow_vertical = 0
-texture_normal = SubResource("AtlasTexture_pgsak")
-stretch_mode = 0
-
-[node name="StopButton" type="TextureButton" parent="MainWindow/Buttons"]
+[node name="StopButton" type="Button" parent="MainWindow/Buttons"]
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 80.0
-texture_normal = ExtResource("5_lquwl")
-texture_hover = ExtResource("8_yaehf")
-stretch_mode = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_yaehf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cegan")
+theme_override_styles/hover = SubResource("StyleBoxTexture_074og")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_82xsv")
 
-[node name="ReverseButton" type="TextureButton" parent="MainWindow/Buttons"]
+[node name="ReverseButton" type="Button" parent="MainWindow/Buttons"]
 layout_mode = 0
-offset_left = 175.0
-offset_right = 255.00006
+offset_left = 174.99997
+offset_right = 254.99994
 offset_bottom = 80.0
-texture_normal = ExtResource("6_efxa6")
-texture_hover = ExtResource("10_074og")
-stretch_mode = 0
+focus_mode = 0
+theme = SubResource("Theme_xuqvo")
+theme_override_styles/normal = SubResource("StyleBoxTexture_getpj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ryguw")
+theme_override_styles/hover = SubResource("StyleBoxTexture_d13ii")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_1u8w0")
 
-[node name="PlaybackSpeedControlNode" parent="MainWindow" instance=ExtResource("6_7mycd")]
+[node name="PauseButton" type="Button" parent="MainWindow/Buttons"]
+layout_mode = 0
+offset_left = 87.50001
+offset_top = 129.99998
+offset_right = 167.5
+offset_bottom = 209.99998
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_abqjc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6iyjs")
+theme_override_styles/hover = SubResource("StyleBoxTexture_4w656")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_e71vb")
+
+[node name="PlayButton" type="Button" parent="MainWindow/Buttons"]
+layout_mode = 0
+offset_left = 88.0
+offset_right = 168.0
+offset_bottom = 80.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_0cbny")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hrvbo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_uypp3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_blkrb")
+
+[node name="PlaybackSpeedControlNode" parent="MainWindow" groups=["tintable"] instance=ExtResource("6_7mycd")]
 layout_mode = 0
 offset_left = 18.0
 offset_top = 337.0
@@ -158,24 +331,28 @@ offset_right = 186.0
 offset_bottom = 373.0
 scale = Vector2(1.82, 1.84)
 
-[node name="SpeedMinus" type="TextureButton" parent="MainWindow/PlaybackSpeedControlNode"]
+[node name="SpeedMinus" type="Button" parent="MainWindow/PlaybackSpeedControlNode"]
 layout_mode = 0
 offset_top = 16.0
 offset_right = 20.0
 offset_bottom = 36.0
-texture_normal = ExtResource("7_5vw27")
-texture_hover = ExtResource("14_vivmo")
-stretch_mode = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_0odxb")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lswn8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_a6jrf")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_xuqvo")
 
-[node name="SpeedPlus" type="TextureButton" parent="MainWindow/PlaybackSpeedControlNode"]
+[node name="SpeedPlus" type="Button" parent="MainWindow/PlaybackSpeedControlNode"]
 layout_mode = 0
-offset_left = 148.0
+offset_left = 147.802
 offset_top = 16.0
-offset_right = 168.0
+offset_right = 167.802
 offset_bottom = 36.0
-texture_normal = ExtResource("8_kek77")
-texture_hover = ExtResource("15_2cqfq")
-stretch_mode = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_qsp4k")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kq58d")
+theme_override_styles/hover = SubResource("StyleBoxTexture_seu75")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_htxhm")
 
 [node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode"]
 texture_filter = 1
@@ -190,7 +367,7 @@ label_settings = SubResource("LabelSettings_kek77")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VolumeControl" parent="MainWindow" instance=ExtResource("10_4c57u")]
+[node name="VolumeControl" parent="MainWindow" groups=["tintable"] instance=ExtResource("10_4c57u")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.03333332
@@ -203,24 +380,28 @@ offset_right = 473.33337
 offset_bottom = 39.00003
 scale = Vector2(1.82, 1.84)
 
-[node name="VolumeMinus" type="TextureButton" parent="MainWindow/VolumeControl"]
+[node name="VolumeMinus" type="Button" parent="MainWindow/VolumeControl"]
 layout_mode = 0
-offset_top = 15.55555
+offset_top = 15.556
 offset_right = 20.0
-offset_bottom = 35.55555
-texture_normal = ExtResource("7_5vw27")
-texture_hover = ExtResource("14_vivmo")
-stretch_mode = 0
+offset_bottom = 35.556
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_jq2sk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_4k2k6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0rl1p")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_ok6jj")
 
-[node name="VolumePlus" type="TextureButton" parent="MainWindow/VolumeControl"]
+[node name="VolumePlus" type="Button" parent="MainWindow/VolumeControl"]
 layout_mode = 0
-offset_left = 144.44444
-offset_top = 15.55555
-offset_right = 164.44444
-offset_bottom = 35.55555
-texture_normal = ExtResource("8_kek77")
-texture_hover = ExtResource("15_2cqfq")
-stretch_mode = 0
+offset_left = 144.505
+offset_top = 15.556
+offset_right = 164.505
+offset_bottom = 35.556
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_facbu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_b1qrp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_come4")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_h8e4i")
 
 [node name="VolumeValue" type="Label" parent="MainWindow/VolumeControl"]
 texture_filter = 1
@@ -235,7 +416,7 @@ label_settings = SubResource("LabelSettings_kek77")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CurrentTrack" type="Control" parent="MainWindow"]
+[node name="CurrentTrack" type="Control" parent="MainWindow" groups=["tintable"]]
 anchors_preset = 0
 offset_left = 18.000002
 offset_top = 268.0
@@ -253,50 +434,78 @@ text = "Current Track"
 label_settings = SubResource("LabelSettings_ycdy4")
 
 [node name="PanelContainer" type="PanelContainer" parent="MainWindow/CurrentTrack"]
-layout_mode = 0
-offset_left = 54.99998
-offset_top = 45.44443
-offset_right = 888.0
-offset_bottom = 102.44443
+clip_contents = true
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -415.6154
+offset_top = -5.3846207
+offset_right = 417.38458
+offset_bottom = 51.61538
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_0d6xb")
 
-[node name="CurrentTrackName" type="Label" parent="MainWindow/CurrentTrack/PanelContainer"]
-custom_minimum_size = Vector2(0, -100)
+[node name="Control" type="Control" parent="MainWindow/CurrentTrack/PanelContainer"]
 layout_mode = 2
+
+[node name="CurrentTrackName" type="Label" parent="MainWindow/CurrentTrack/PanelContainer/Control"]
+custom_minimum_size = Vector2(830, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("9_kek77")
+theme_override_font_sizes/font_size = 26
 text = "Current Track..."
-label_settings = SubResource("LabelSettings_yoe8j")
 horizontal_alignment = 1
-justification_flags = 35
-paragraph_separator = "/n"
-text_overrun_behavior = 1
+vertical_alignment = 2
+clip_text = true
+text_overrun_behavior = 4
 max_lines_visible = 1
 
-[node name="PreviousTrack" type="TextureButton" parent="MainWindow/CurrentTrack"]
+[node name="PreviousTrack" type="Button" parent="MainWindow/CurrentTrack"]
 layout_mode = 0
-offset_left = -2.0345055e-05
-offset_top = 45.44443
-offset_right = 56.99998
-offset_bottom = 102.44443
-texture_normal = ExtResource("7_5vw27")
-texture_hover = ExtResource("14_vivmo")
-stretch_mode = 0
+offset_top = 45.444
+offset_right = 57.0
+offset_bottom = 102.444
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_4lmeg")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_0cp0l")
+theme_override_styles/hover = SubResource("StyleBoxTexture_d2t1y")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_gngh3")
 
-[node name="NextTrack" type="TextureButton" parent="MainWindow/CurrentTrack"]
+[node name="NextTrack" type="Button" parent="MainWindow/CurrentTrack"]
 layout_mode = 0
-offset_left = 885.99994
-offset_top = 45.44443
-offset_right = 942.99994
-offset_bottom = 102.44443
-texture_normal = ExtResource("8_kek77")
-texture_hover = ExtResource("15_2cqfq")
-stretch_mode = 0
+offset_left = 886.154
+offset_top = 45.444
+offset_right = 943.154
+offset_bottom = 102.444
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_0n3wm")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_qnost")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wnkbs")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_f6a44")
+
+[node name="ClickSoundHandler" type="Node2D" parent="."]
+script = ExtResource("2_lswn8")
+click_sound_press = ExtResource("19_qsp4k")
+click_sound_release = ExtResource("20_kq58d")
 
 [connection signal="finished" from="MainWindow/AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
-[connection signal="pressed" from="MainWindow/Buttons/PlayPauseButton" to="." method="_on_play_pause_button_pressed"]
 [connection signal="pressed" from="MainWindow/Buttons/StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="MainWindow/Buttons/ReverseButton" to="." method="_on_reverse_button_pressed"]
+[connection signal="pressed" from="MainWindow/Buttons/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="MainWindow/Buttons/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="value_changed" from="MainWindow/PlaybackSpeedControlNode/SpeedControlSlide" to="." method="_on_speed_control_slide_value_changed"]
 [connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedMinus" to="." method="_on_speed_minus_pressed"]
 [connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedPlus" to="." method="_on_speed_plus_pressed"]

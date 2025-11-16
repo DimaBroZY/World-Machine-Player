@@ -1,14 +1,16 @@
-[gd_scene load_steps=23 format=3 uid="uid://dhq45ydho21wt"]
+[gd_scene load_steps=32 format=3 uid="uid://dhq45ydho21wt"]
 
+[ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_0m26i"]
 [ext_resource type="Script" uid="uid://dmx7d5dbrnmqu" path="res://Windows/settings_window.gd" id="1_6k48w"]
+[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_8x2rp"]
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="2_w5pex"]
 [ext_resource type="Texture2D" uid="uid://cseb2kw154ng7" path="res://Assets/Icons/Settings.png" id="3_qm3jx"]
+[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_qsxsv"]
 [ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="4_qm3jx"]
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="5_dfjad"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="6_0m26i"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="7_8x2rp"]
 [ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="8_qsxsv"]
-[ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="8_w5pex"]
 [ext_resource type="Script" uid="uid://gac3or0cc0wb" path="res://Windows/Scripts/handles_settings.gd" id="9_w5pex"]
 [ext_resource type="Texture2D" uid="uid://c00dabmmyfrty" path="res://Assets/Icons/Folder.png" id="10_p4q5k"]
 [ext_resource type="Texture2D" uid="uid://b2qva188m2f01" path="res://Assets/Icons/Folder_Hover.png" id="12_qm3jx"]
@@ -18,33 +20,39 @@ bg_color = Color(0, 0, 0, 1)
 border_width_left = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.588235, 0.396078, 1, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5yrt8"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 draw_center = false
 border_width_top = 5
 border_width_bottom = 8
-border_color = Color(0.588235, 0.396078, 1, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iuydb"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_j46xl"]
-line_spacing = 1.0
-font = ExtResource("4_qm3jx")
-font_size = 20
-font_color = Color(0.588235, 0.396078, 1, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qm3jx"]
+texture = ExtResource("7_8x2rp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dfjad"]
+texture = ExtResource("8_qsxsv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0m26i"]
+texture = ExtResource("8_qsxsv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8x2rp"]
+texture = ExtResource("8_qsxsv")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4ovt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sd6ct"]
-bg_color = Color(0.5882353, 0.39607844, 1, 1)
+bg_color = Color(1, 1, 1, 1)
 draw_center = false
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.5882353, 0.39607844, 1, 1)
+border_color = Color(1, 1, 1, 1)
 corner_detail = 20
 expand_margin_top = 9.0
 expand_margin_bottom = 18.0
@@ -52,7 +60,6 @@ expand_margin_bottom = 18.0
 [sub_resource type="LabelSettings" id="LabelSettings_w5pex"]
 font = ExtResource("4_qm3jx")
 font_size = 40
-font_color = Color(0.5882353, 0.39607844, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sd6ct"]
 
@@ -60,12 +67,28 @@ font_color = Color(0.5882353, 0.39607844, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6k48w"]
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qsxsv"]
+texture = ExtResource("10_p4q5k")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pkqi5"]
+texture = ExtResource("12_qm3jx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgkoj"]
+texture = ExtResource("12_qm3jx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mcsq1"]
+texture = ExtResource("12_qm3jx")
+
 [node name="Window" type="Window"]
 oversampling_override = 1.0
 initial_position = 2
-size = Vector2i(900, 500)
+size = Vector2i(600, 300)
 borderless = true
-always_on_top = true
+
+[node name="ClickSoundHandler" type="Node2D" parent="."]
+script = ExtResource("1_0m26i")
+click_sound_press = ExtResource("2_8x2rp")
+click_sound_release = ExtResource("3_qsxsv")
 
 [node name="SettingsWindow" type="Control" parent="."]
 texture_filter = 1
@@ -79,7 +102,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 3
 script = ExtResource("1_6k48w")
 
-[node name="Panel" type="Panel" parent="SettingsWindow"]
+[node name="Panel" type="Panel" parent="SettingsWindow" groups=["tintable"]]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -99,7 +122,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopBar" type="PanelContainer" parent="SettingsWindow/Layout"]
+[node name="TopBar" type="PanelContainer" parent="SettingsWindow/Layout" groups=["tintable"]]
 custom_minimum_size = Vector2(20, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5yrt8")
@@ -138,11 +161,9 @@ custom_minimum_size = Vector2(0, -100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
-theme_override_colors/font_color = Color(0.588235, 0.396078, 1, 1)
 theme_override_fonts/font = ExtResource("4_qm3jx")
-theme_override_font_sizes/font_size = 21
-text = "Options"
-label_settings = SubResource("LabelSettings_j46xl")
+theme_override_font_sizes/font_size = 20
+text = "Settings"
 
 [node name="HBox" type="HBoxContainer" parent="SettingsWindow/Layout/TopBar"]
 layout_mode = 2
@@ -167,18 +188,17 @@ texture_pressed = ExtResource("6_0m26i")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="CloseButton" type="TextureButton" parent="SettingsWindow/Layout/TopBar/HBox"]
-clip_contents = true
+[node name="CloseButton" type="Button" parent="SettingsWindow/Layout/TopBar/HBox"]
 custom_minimum_size = Vector2(35, 35)
-layout_direction = 4
+layout_direction = 1
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-size_flags_stretch_ratio = 0.0
-texture_normal = ExtResource("7_8x2rp")
-texture_hover = ExtResource("8_qsxsv")
-ignore_texture_size = true
-stretch_mode = 0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_qm3jx")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dfjad")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0m26i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_8x2rp")
 
 [node name="Spacer" type="VSeparator" parent="SettingsWindow/Layout/TopBar/HBox"]
 layout_mode = 2
@@ -233,12 +253,13 @@ grow_vertical = 0
 [node name="Content" type="VBoxContainer" parent="SettingsWindow"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 0
-offset_left = 15.0
-offset_top = 145.0
-offset_right = 882.0
-offset_bottom = 245.0
+offset_left = 14.0
+offset_top = 115.000015
+offset_right = 881.0
+offset_bottom = 215.00002
+scale = Vector2(0.65, 0.65)
 
-[node name="Panel" type="Panel" parent="SettingsWindow/Content"]
+[node name="Panel" type="Panel" parent="SettingsWindow/Content" groups=["tintable"]]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sd6ct")
@@ -262,9 +283,7 @@ offset_left = 10.0
 offset_top = -4.0
 offset_right = 779.0
 offset_bottom = 72.0
-theme = ExtResource("8_w5pex")
-theme_override_colors/font_color = Color(0.5882353, 0.39607844, 1, 1)
-theme_override_colors/font_placeholder_color = Color(0.5882353, 0.39607844, 1, 0.5176471)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_qm3jx")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxEmpty_sd6ct")
@@ -276,16 +295,17 @@ emoji_menu_enabled = false
 virtual_keyboard_enabled = false
 flat = true
 
-[node name="FolderButton" type="TextureButton" parent="SettingsWindow/Content/Panel"]
-texture_filter = 1
+[node name="FolderButton" type="Button" parent="SettingsWindow/Content/Panel"]
 layout_mode = 0
-offset_left = 790.0
-offset_top = -3.0
-offset_right = 855.0
-offset_bottom = 57.0
-texture_normal = ExtResource("10_p4q5k")
-texture_hover = ExtResource("12_qm3jx")
-stretch_mode = 0
+offset_left = 790.7692
+offset_top = -9.230816
+offset_right = 860.7692
+offset_bottom = 60.769184
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_qsxsv")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pkqi5")
+theme_override_styles/hover = SubResource("StyleBoxTexture_mgkoj")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mcsq1")
 
 [connection signal="gui_input" from="SettingsWindow/Layout/TopBar" to="SettingsWindow/Layout/TopBar" method="_on_gui_input"]
 [connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/MinimizeButton" to="SettingsWindow/Layout/TopBar" method="_on_minimize_button_pressed"]

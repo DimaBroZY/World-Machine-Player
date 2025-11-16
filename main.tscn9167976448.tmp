@@ -1,0 +1,111 @@
+[gd_scene load_steps=11 format=3 uid="uid://br0vuvri2rao8"]
+
+[ext_resource type="Script" uid="uid://bsrew7n8ldv1t" path="res://main.gd" id="1_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://c13dup7wgdm63" path="res://Objects/Niko.tscn" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="4_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://bmirln57b5vca" path="res://Assets/Buttons/PlayButton.png" id="4_lquwl"]
+[ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="5_lquwl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.564706, 0.4, 0.972549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvp3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 10
+border_color = Color(0.564706, 0.4, 0.972549, 1)
+
+[sub_resource type="GDScript" id="GDScript_lquwl"]
+script/source = "extends Panel
+
+var dragging = false
+var drag_offset = Vector2.ZERO
+@onready var root_layer = get_tree().root  # или твой CanvasLayer
+
+func _gui_input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		var panel_rect = Rect2(Vector2.ZERO, size)
+		if event.pressed and panel_rect.has_point(event.position):
+			dragging = true
+			# приводим позицию root_layer к Vector2
+			drag_offset = Vector2(root_layer.position) - event.global_position
+		elif not event.pressed:
+			dragging = false
+
+	elif event is InputEventMouseMotion and dragging:
+		# двигаем слой за мышью
+		root_layer.position = event.global_position + drag_offset
+"
+
+[sub_resource type="AudioStream" id="AudioStream_1bvp3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgsak"]
+atlas = ExtResource("4_lquwl")
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_1bvp3")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1154.0
+offset_bottom = 649.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h2yge")
+
+[node name="Panel2" type="Panel" parent="."]
+offset_right = 1153.0
+offset_bottom = 57.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1bvp3")
+script = SubResource("GDScript_lquwl")
+
+[node name="Niko" parent="." instance=ExtResource("1_ig7tw")]
+position = Vector2(776, 279)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStream_1bvp3")
+playback_type = 1
+
+[node name="Buttons" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 532.0
+offset_top = 411.0
+offset_right = 532.0
+offset_bottom = 411.0
+scale = Vector2(2.12, 1.96)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PlayPauseButton" type="TextureButton" parent="Buttons"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 71.0
+offset_bottom = 71.0
+texture_normal = SubResource("AtlasTexture_pgsak")
+stretch_mode = 0
+
+[node name="CloseButton" type="TextureButton" parent="Buttons"]
+layout_mode = 0
+offset_left = 273.113
+offset_top = -204.592
+offset_right = 401.113
+offset_bottom = -76.5919
+scale = Vector2(0.121888, 0.13539)
+texture_normal = ExtResource("4_1bvp3")
+stretch_mode = 0
+
+[node name="MinimizeButton" type="TextureButton" parent="Buttons"]
+layout_mode = 0
+offset_left = 252.83
+offset_top = -205.102
+offset_right = 284.83
+offset_bottom = -173.102
+scale = Vector2(0.547161, 0.547161)
+texture_normal = ExtResource("5_lquwl")
+stretch_mode = 0
+
+[connection signal="pressed" from="Buttons/PlayPauseButton" to="." method="_on_play_pause_button_pressed"]
+[connection signal="pressed" from="Buttons/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="Buttons/MinimizeButton" to="." method="_on_minimize_button_pressed"]
