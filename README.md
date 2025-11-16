@@ -1,3 +1,4 @@
+
 # 🎵 World Machine Player
 
 <div align="center">
@@ -8,7 +9,7 @@
 
 [![Godot](https://img.shields.io/badge/Godot-4.5-blue.svg)](https://godotengine.org/)
 [![License](https://img.shields.io/badge/License-Fan%20Project-orange.svg)](https://github.com/DimaBroZY/World-Machine-Player/edit/main/LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0.2-green.svg)](https://github.com/DimaBroZY/World-Machine-Player/releases/tag/1.0.2)
+[![Version](https://img.shields.io/badge/Version-1.0.3-green.svg)](https://github.com/DimaBroZY/World-Machine-Player/releases/tag/1.1.0)
 
 
 </div>
@@ -21,7 +22,7 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 ## 🌟 Features
 
 ### 🎶 **Music Playback**
-- **Multi-format Support**: Plays both `.ogg` and `.mp3` audio files
+- **Multi-format Support**: Plays `.ogg`, `.mp3`, `.flac`, and `.opus` audio files
 - **Track Navigation**: Next/Previous track controls
 - **Playback Controls**: Play, Pause, Stop, and Restart functionality
 
@@ -30,6 +31,8 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 - **Speed Control**: Playback speed adjustment from 50-150% 
 - **Loop Playback**: Automatic track looping
 
+### 🎨 **Customization**
+- **Themes**: Multiple visual themes to customize the player's appearance and match your mood  
 
 ### ⚙️ **Settings**
 - **Custom Music Folder**: Set your own music directory
@@ -45,14 +48,14 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 ### Quick Start
 1. **Download** the latest release from the releases section
 2. **Run** `WorldMachinePlayer.exe`
-3. **Add Music**: Place your `.ogg` or `.mp3` files in the music folder
+3. **Add Music**: Place your `.ogg`, `.mp3`, `.flac`, or `.opus` files in the music folder
 4. **Enjoy!** 🎵
 
 
 ### Adding Music
 1. Click the **Settings** button (OneShot icon in left corner)
 2. Set your **Music Folder Path**
-3. Add your `.ogg` or `.mp3` files to that folder
+3. Add your audio files to that folder
 4. The app will automatically scan and load your music!
 
 
