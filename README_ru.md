@@ -68,8 +68,6 @@ World Machine Player — фанатская реализация приложе�
 
 <img width="1000" height="800" alt="скриншот" src="https://github.com/user-attachments/assets/bd8b50b2-148f-4388-a026-1309494b1e74" />
 
-<img width="900" height="500" alt="скриншот" src="https://github.com/user-attachments/assets/dc0a9171-f593-4560-8d05-36134bba008e" />
-
 ## 📜 Лицензия
 
 Этот проект — **фанатская реализация**, основанная на OneShot: World Machine Edition.
