@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1udhb42gmue3"]
+
+[ext_resource type="Script" uid="uid://kwym210yhcm4" path="res://control.gd" id="1_s00xl"]
+[ext_resource type="Texture2D" uid="uid://bmirln57b5vca" path="res://Assets/Buttons/PlayButton.png" id="2_h3ybj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgsak"]
+atlas = ExtResource("2_h3ybj")
+
+[node name="PlayPause" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_s00xl")
+
+[node name="PlayPauseButton" type="TextureButton" parent="."]
+texture_filter = 1
+layout_mode = 0
+offset_right = 71.0
+offset_bottom = 71.0
+texture_normal = SubResource("AtlasTexture_pgsak")
+stretch_mode = 0
+
+[connection signal="pressed" from="PlayPauseButton" to="." method="_on_play_pause_button_pressed"]

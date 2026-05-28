@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn24kgmibsw8h"]
+
+[ext_resource type="Texture2D" uid="uid://c0pvehmqo87ki" path="res://Assets/Nintendo Switch - OneShot_ World Machine Edition - Desktop - Jukebox App.png" id="1_6weng"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfq87"]
+atlas = ExtResource("1_6weng")
+region = Rect2(948, 0, 18, 19)
+
+[node name="Sun" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_gfq87")
+centered = false

@@ -1,0 +1,233 @@
+[gd_scene load_steps=21 format=3 uid="uid://c13dup7wgdm63"]
+
+[ext_resource type="Texture2D" uid="uid://c0pvehmqo87ki" path="res://Assets/Nintendo Switch - OneShot_ World Machine Edition - Desktop - Jukebox App.png" id="1_4rfw1"]
+
+[sub_resource type="GDScript" id="GDScript_4rfw1"]
+script/source = "extends  Control
+
+@onready var anim = $AnimatedSprite2D
+@onready var animPlayer = $AnimationPlayer
+
+func _ready() -> void:
+	anim.play(\"Sleeping\")
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13lvy"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(250, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_icwuc"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(300, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_224s6"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(350, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ua3c6"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(400, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4rfw1"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(550, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqbo2"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(600, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30xfm"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(650, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ynbg"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(700, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uml3"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(750, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7tgi"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(800, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_raesn"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(850, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wdys"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(450, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ghy1"]
+atlas = ExtResource("1_4rfw1")
+region = Rect2(500, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qqbo2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13lvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_icwuc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_224s6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ua3c6")
+}],
+"loop": true,
+"name": &"Dance_Sitting",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4rfw1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqbo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30xfm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ynbg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uml3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7tgi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_raesn")
+}],
+"loop": true,
+"name": &"Dancing",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wdys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ghy1")
+}],
+"loop": true,
+"name": &"Sleeping",
+"speed": 2.0
+}]
+
+[sub_resource type="Animation" id="Animation_13lvy"]
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Dance_Sitting"]
+}
+
+[sub_resource type="Animation" id="Animation_4rfw1"]
+length = 3.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2, 2.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Dancing"]
+}
+
+[sub_resource type="Animation" id="Animation_icwuc"]
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Sleeping"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_224s6"]
+_data = {
+&"Dance_Sitting": SubResource("Animation_13lvy"),
+&"Dancing": SubResource("Animation_4rfw1"),
+&"Sleeping": SubResource("Animation_icwuc")
+}
+
+[node name="Niko" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = SubResource("GDScript_4rfw1")
+
+[node name="Niko" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0.999996, -39)
+scale = Vector2(4.2, 4.2)
+sprite_frames = SubResource("SpriteFrames_qqbo2")
+animation = &"Sleeping"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Niko")
+libraries = {
+&"": SubResource("AnimationLibrary_224s6")
+}

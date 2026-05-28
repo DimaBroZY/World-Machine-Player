@@ -1,0 +1,210 @@
+[gd_scene load_steps=23 format=3 uid="uid://bev3uug2qsy6i"]
+
+[ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_5kytl"]
+[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_dk7ee"]
+[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_6won7"]
+[ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="4_ncq2b"]
+[ext_resource type="Texture2D" uid="uid://dkbfxho4ys7g4" path="res://Assets/Icons/theme.png" id="5_n0v7l"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="6_isspj"]
+[ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="7_gvfb7"]
+[ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="8_kwekw"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="9_q2f55"]
+[ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="10_fdw21"]
+[ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="11_dk7ee"]
+
+[sub_resource type="GDScript" id="GDScript_5kytl"]
+script/source = "extends Window
+
+func _ready():
+	$CustomColorWindow/Layout/Main/ColorPicker.color_changed.connect(
+		func(c): ColorChanged.color_changed.emit(c)
+	)
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_edy1e"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xrgv3"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 5
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xmig2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_10kri"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q77qd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5kytl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dk7ee"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6won7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ncq2b"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n0v7l"]
+
+[node name="Window" type="Window"]
+canvas_item_default_texture_filter = 0
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(310, 320)
+borderless = true
+always_on_top = true
+popup_window = true
+script = SubResource("GDScript_5kytl")
+
+[node name="ClickSoundHandler" type="Node2D" parent="."]
+script = ExtResource("1_5kytl")
+click_sound_press = ExtResource("2_dk7ee")
+click_sound_release = ExtResource("3_6won7")
+
+[node name="CustomColorWindow" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="CustomColorWindow" groups=["tintable"]]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_edy1e")
+
+[node name="Layout" type="VBoxContainer" parent="CustomColorWindow"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="TopBar" type="PanelContainer" parent="CustomColorWindow/Layout" groups=["tintable"]]
+custom_minimum_size = Vector2(20, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xrgv3")
+script = ExtResource("4_ncq2b")
+
+[node name="TopBarHBox" type="HBoxContainer" parent="CustomColorWindow/Layout/TopBar"]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="Spacer2" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
+
+[node name="ThemeIcon" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = ExtResource("5_n0v7l")
+stretch_mode = 0
+
+[node name="Spacer3" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+clip_contents = true
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
+
+[node name="Title" type="Label" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+custom_minimum_size = Vector2(0, -100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("6_isspj")
+theme_override_font_sizes/font_size = 20
+text = "Select Color"
+
+[node name="HBox" type="HBoxContainer" parent="CustomColorWindow/Layout/TopBar"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Content" type="Control" parent="CustomColorWindow/Layout/TopBar/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="MinimizeButton" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/HBox"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.0
+disabled = true
+texture_normal = ExtResource("7_gvfb7")
+texture_pressed = ExtResource("8_kwekw")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CloseButton" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/HBox"]
+visible = false
+clip_contents = true
+custom_minimum_size = Vector2(35, 35)
+layout_direction = 4
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture_normal = ExtResource("9_q2f55")
+texture_hover = ExtResource("10_fdw21")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Spacer" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_10kri")
+
+[node name="Main" type="PanelContainer" parent="CustomColorWindow/Layout"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_q77qd")
+
+[node name="ColorPicker" type="ColorPicker" parent="CustomColorWindow/Layout/Main"]
+layout_mode = 2
+theme = ExtResource("11_dk7ee")
+theme_override_colors/focused_not_editing_cursor_color = Color(1, 1, 1, 0.275)
+theme_override_styles/sample_focus = SubResource("StyleBoxEmpty_5kytl")
+theme_override_styles/picker_focus_rectangle = SubResource("StyleBoxEmpty_dk7ee")
+theme_override_styles/picker_focus_circle = SubResource("StyleBoxEmpty_6won7")
+theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_ncq2b")
+theme_override_styles/tab_selected = SubResource("StyleBoxEmpty_n0v7l")
+edit_alpha = false
+edit_intensity = false
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+hex_visible = false
+presets_visible = false
+
+[connection signal="gui_input" from="CustomColorWindow/Layout/TopBar" to="CustomColorWindow/Layout/TopBar" method="_on_gui_input"]
+[connection signal="pressed" from="CustomColorWindow/Layout/TopBar/HBox/MinimizeButton" to="CustomColorWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
+[connection signal="pressed" from="CustomColorWindow/Layout/TopBar/HBox/CloseButton" to="CustomColorWindow/Layout/TopBar" method="_on_close_button_pressed"]
