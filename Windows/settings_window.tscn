@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dhq45ydho21wt"]
+[gd_scene format=3 uid="uid://dhq45ydho21wt"]
 
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_0m26i"]
 [ext_resource type="Script" uid="uid://dmx7d5dbrnmqu" path="res://Windows/settings_window.gd" id="1_6k48w"]
@@ -79,18 +79,18 @@ texture = ExtResource("12_qm3jx")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mcsq1"]
 texture = ExtResource("12_qm3jx")
 
-[node name="Window" type="Window"]
+[node name="Window" type="Window" unique_id=1166479097]
 oversampling_override = 1.0
 initial_position = 2
 size = Vector2i(600, 300)
 borderless = true
 
-[node name="ClickSoundHandler" type="Node2D" parent="."]
+[node name="ClickSoundHandler" type="Node2D" parent="." unique_id=101463129]
 script = ExtResource("1_0m26i")
 click_sound_press = ExtResource("2_8x2rp")
 click_sound_release = ExtResource("3_qsxsv")
 
-[node name="SettingsWindow" type="Control" parent="."]
+[node name="SettingsWindow" type="Control" parent="." unique_id=2042153467]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -102,7 +102,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 3
 script = ExtResource("1_6k48w")
 
-[node name="Panel" type="Panel" parent="SettingsWindow" groups=["tintable"]]
+[node name="Panel" type="Panel" parent="SettingsWindow" unique_id=793811266 groups=["tintable"]]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -114,7 +114,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q8n62")
 
-[node name="Layout" type="VBoxContainer" parent="SettingsWindow"]
+[node name="Layout" type="VBoxContainer" parent="SettingsWindow" unique_id=1517495138]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -122,19 +122,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopBar" type="PanelContainer" parent="SettingsWindow/Layout" groups=["tintable"]]
+[node name="TopBar" type="PanelContainer" parent="SettingsWindow/Layout" unique_id=948265809 groups=["tintable"]]
 custom_minimum_size = Vector2(20, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5yrt8")
 script = ExtResource("2_w5pex")
 
-[node name="TopBarHBox" type="HBoxContainer" parent="SettingsWindow/Layout/TopBar"]
+[node name="TopBarHBox" type="HBoxContainer" parent="SettingsWindow/Layout/TopBar" unique_id=1593305511]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 3
 
-[node name="Spacer2" type="VSeparator" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+[node name="Spacer2" type="VSeparator" parent="SettingsWindow/Layout/TopBar/TopBarHBox" unique_id=1873500383]
 clip_contents = true
 layout_direction = 4
 layout_mode = 2
@@ -142,13 +142,13 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
 
-[node name="SettingsIcon" type="TextureButton" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+[node name="SettingsIcon" type="TextureButton" parent="SettingsWindow/Layout/TopBar/TopBarHBox" unique_id=570454800]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture_normal = ExtResource("3_qm3jx")
 stretch_mode = 0
 
-[node name="Spacer3" type="VSeparator" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+[node name="Spacer3" type="VSeparator" parent="SettingsWindow/Layout/TopBar/TopBarHBox" unique_id=1444623423]
 clip_contents = true
 layout_direction = 4
 layout_mode = 2
@@ -156,7 +156,7 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
 
-[node name="Title" type="Label" parent="SettingsWindow/Layout/TopBar/TopBarHBox"]
+[node name="Title" type="Label" parent="SettingsWindow/Layout/TopBar/TopBarHBox" unique_id=904599049]
 custom_minimum_size = Vector2(0, -100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -165,17 +165,17 @@ theme_override_fonts/font = ExtResource("4_qm3jx")
 theme_override_font_sizes/font_size = 20
 text = "Settings"
 
-[node name="HBox" type="HBoxContainer" parent="SettingsWindow/Layout/TopBar"]
+[node name="HBox" type="HBoxContainer" parent="SettingsWindow/Layout/TopBar" unique_id=916919596]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Content" type="Control" parent="SettingsWindow/Layout/TopBar/HBox"]
+[node name="Content" type="Control" parent="SettingsWindow/Layout/TopBar/HBox" unique_id=22218431]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 
-[node name="MinimizeButton" type="TextureButton" parent="SettingsWindow/Layout/TopBar/HBox"]
+[node name="MinimizeButton" type="TextureButton" parent="SettingsWindow/Layout/TopBar/HBox" unique_id=310884912]
 visible = false
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -188,7 +188,7 @@ texture_pressed = ExtResource("6_0m26i")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="CloseButton" type="Button" parent="SettingsWindow/Layout/TopBar/HBox"]
+[node name="CloseButton" type="Button" parent="SettingsWindow/Layout/TopBar/HBox" unique_id=1138690774]
 custom_minimum_size = Vector2(35, 35)
 layout_direction = 1
 layout_mode = 2
@@ -200,12 +200,12 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_dfjad")
 theme_override_styles/hover = SubResource("StyleBoxTexture_0m26i")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_8x2rp")
 
-[node name="Spacer" type="VSeparator" parent="SettingsWindow/Layout/TopBar/HBox"]
+[node name="Spacer" type="VSeparator" parent="SettingsWindow/Layout/TopBar/HBox" unique_id=1611939446]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_t4ovt")
 
-[node name="Handles" type="Control" parent="SettingsWindow"]
+[node name="Handles" type="Control" parent="SettingsWindow" unique_id=516587098]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -215,7 +215,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("9_w5pex")
 
-[node name="Right" type="Control" parent="SettingsWindow/Handles"]
+[node name="Right" type="Control" parent="SettingsWindow/Handles" unique_id=465820189]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 11
@@ -226,7 +226,7 @@ grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.953109, 1.00146)
 
-[node name="Bottom" type="Control" parent="SettingsWindow/Handles"]
+[node name="Bottom" type="Control" parent="SettingsWindow/Handles" unique_id=1197678637]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 12
@@ -237,7 +237,7 @@ grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1.01367, 0.952266)
 
-[node name="Corner" type="Control" parent="SettingsWindow/Handles"]
+[node name="Corner" type="Control" parent="SettingsWindow/Handles" unique_id=710003153]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 3
@@ -250,7 +250,7 @@ offset_top = -5.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Content" type="VBoxContainer" parent="SettingsWindow"]
+[node name="Content" type="VBoxContainer" parent="SettingsWindow" unique_id=1280167273]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 0
 offset_left = 14.0
@@ -259,12 +259,12 @@ offset_right = 881.0
 offset_bottom = 215.00002
 scale = Vector2(0.65, 0.65)
 
-[node name="Panel" type="Panel" parent="SettingsWindow/Content" groups=["tintable"]]
+[node name="Panel" type="Panel" parent="SettingsWindow/Content" unique_id=1786388821 groups=["tintable"]]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sd6ct")
 
-[node name="Label" type="Label" parent="SettingsWindow/Content/Panel"]
+[node name="Label" type="Label" parent="SettingsWindow/Content/Panel" unique_id=264499457]
 texture_filter = 1
 layout_mode = 0
 offset_left = 12.0
@@ -275,7 +275,7 @@ text = "Music Folder"
 label_settings = SubResource("LabelSettings_w5pex")
 vertical_alignment = 2
 
-[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/Panel"]
+[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/Panel" unique_id=1886498792]
 clip_contents = true
 layout_direction = 1
 layout_mode = 0
@@ -292,10 +292,10 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_6k48w")
 placeholder_text = "Enter Path To Your  Folder"
 context_menu_enabled = false
 emoji_menu_enabled = false
-virtual_keyboard_enabled = false
 flat = true
+virtual_keyboard_enabled = false
 
-[node name="FolderButton" type="Button" parent="SettingsWindow/Content/Panel"]
+[node name="FolderButton" type="Button" parent="SettingsWindow/Content/Panel" unique_id=970856389]
 layout_mode = 0
 offset_left = 790.7692
 offset_top = -9.230816

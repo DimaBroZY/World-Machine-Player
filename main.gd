@@ -1,5 +1,7 @@
 extends Control
 
+# я DimaBroZY и я долбаеб
+
 @onready var music: AudioStreamPlayer = $MainWindow/AudioStreamPlayer
 @onready var curTrack: ScrollText = $MainWindow/CurrentTrack/PanelContainer/ScrollerControl
 @onready var loadingInfo: Label = $MainWindow/LoadingInfo
@@ -17,6 +19,7 @@ const MUSIC_CACHE_FILE: String = "user://music_cache.json"
 const MUSIC_CACHE_DIR: String = "user://music_cache"
 const MUSIC_FOLDER_SCAN_INTERVAL: float = 5.0
 const MIN_FILE_AGE_SECONDS: int = 2
+const STREAM_CACHE_RADIUS: int = 1
 const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
 
 var state: int = PAUSE
@@ -24,8 +27,10 @@ var playlist: Array[Dictionary] = []
 var current_index: int = 0
 var FOLDER_PATH: String
 var _music_cache: Dictionary = {}
+var _stream_cache: Dictionary = {}
 var _is_loading_tracks: bool = false
 var _last_music_scan_ok: bool = false
+var _stream_cache_refresh_queued: bool = false
 
 
 func _ready() -> void:
@@ -118,6 +123,9 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 
 		var track: Dictionary
 		if needs_import:
+			if not cached_track.is_empty():
+				_drop_cached_stream(str(cached_track.get("resource_path", "")))
+
 			imported_count += 1
 			changed_sources[source_path] = true
 			if show_loading:
@@ -369,7 +377,9 @@ func _cleanup_missing_tracks(existing_sources: Dictionary) -> void:
 
 func _delete_cached_track(track: Dictionary) -> void:
 	var source_path: String = str(track.get("source_path", ""))
-	_delete_cached_path(str(track.get("resource_path", "")), source_path)
+	var resource_path: String = str(track.get("resource_path", ""))
+	_drop_cached_stream(resource_path)
+	_delete_cached_path(resource_path, source_path)
 	_delete_cached_path(str(track.get("cached_path", "")), source_path)
 
 
@@ -414,6 +424,7 @@ func _remove_orphan_cache_files() -> void:
 		if not dir.current_is_dir():
 			var cache_path: String = _join_path(MUSIC_CACHE_DIR, file_name)
 			if not valid_paths.has(cache_path):
+				_drop_cached_stream(cache_path)
 				DirAccess.remove_absolute(cache_path)
 		file_name = dir.get_next()
 	dir.list_dir_end()
@@ -454,6 +465,7 @@ func _apply_playlist_after_refresh(previous_source_path: String, previous_resour
 			music.play()
 	else:
 		update_track_name()
+		_queue_stream_cache_refresh()
 
 
 func _load_current_track() -> void:
@@ -463,24 +475,105 @@ func _load_current_track() -> void:
 
 	current_index = int(clamp(current_index, 0, playlist.size() - 1))
 	var resource_path: String = _get_current_track_value("resource_path")
-	var resource: Resource = null
+	var stream: AudioStream = _get_or_load_stream(resource_path)
 
-	if not resource_path.is_empty() and FileAccess.file_exists(resource_path):
-		resource = ResourceLoader.load(resource_path, "", ResourceLoader.CACHE_MODE_REPLACE)
-
-	if resource is AudioStream:
-		music.stream = resource as AudioStream
+	if stream != null:
+		music.stream = stream
 	else:
 		print("Cached stream is missing or invalid: ", resource_path)
 		music.stream = MUSIC_FILE
 
 	update_track_name()
+	_queue_stream_cache_refresh()
 
 
 func _load_fallback_track() -> void:
 	music.stop()
 	music.stream = MUSIC_FILE
+	_stream_cache.clear()
 	update_track_name()
+
+
+func _get_or_load_stream(resource_path: String) -> AudioStream:
+	if resource_path.is_empty():
+		return null
+
+	var cached_stream: Variant = _stream_cache.get(resource_path, null)
+	if cached_stream is AudioStream:
+		return cached_stream as AudioStream
+
+	if not FileAccess.file_exists(resource_path):
+		return null
+
+	var resource: Resource = ResourceLoader.load(resource_path, "", ResourceLoader.CACHE_MODE_REPLACE)
+	if not (resource is AudioStream):
+		return null
+
+	var stream: AudioStream = resource as AudioStream
+	_stream_cache[resource_path] = stream
+	return stream
+
+
+func _drop_cached_stream(resource_path: String) -> void:
+	if resource_path.is_empty():
+		return
+
+	_stream_cache.erase(resource_path)
+
+
+func _queue_stream_cache_refresh() -> void:
+	if _stream_cache_refresh_queued:
+		return
+
+	_stream_cache_refresh_queued = true
+	call_deferred("_refresh_stream_cache")
+
+
+func _refresh_stream_cache() -> void:
+	_stream_cache_refresh_queued = false
+
+	if playlist.is_empty():
+		_stream_cache.clear()
+		return
+
+	var wanted_paths: Dictionary = {}
+	for offset: int in range(-STREAM_CACHE_RADIUS, STREAM_CACHE_RADIUS + 1):
+		var track_index: int = _wrap_track_index(current_index + offset)
+		if track_index == -1:
+			continue
+
+		var resource_path: String = _get_track_resource_path(track_index)
+		if resource_path.is_empty():
+			continue
+
+		wanted_paths[resource_path] = true
+		_get_or_load_stream(resource_path)
+
+	_prune_stream_cache(wanted_paths)
+
+
+func _prune_stream_cache(wanted_paths: Dictionary) -> void:
+	var cached_paths: Array = _stream_cache.keys()
+	for path_variant: Variant in cached_paths:
+		var resource_path: String = str(path_variant)
+		if not wanted_paths.has(resource_path):
+			_stream_cache.erase(resource_path)
+
+
+func _wrap_track_index(track_index: int) -> int:
+	if playlist.is_empty():
+		return -1
+
+	var playlist_size: int = playlist.size()
+	return ((track_index % playlist_size) + playlist_size) % playlist_size
+
+
+func _get_track_resource_path(track_index: int) -> String:
+	if track_index < 0 or track_index >= playlist.size():
+		return ""
+
+	var track: Dictionary = playlist[track_index]
+	return str(track.get("resource_path", ""))
 
 
 func update_track_name() -> void:
@@ -540,8 +633,15 @@ func _ensure_music_cache_dir() -> void:
 		DirAccess.make_dir_recursive_absolute(MUSIC_CACHE_DIR)
 
 
+
 func _show_loading_info(count: int) -> void:
-	loadingInfo.text = "Loading: " + str(count)
+	var all_files_count = DirAccess.get_files_at(FOLDER_PATH)
+	var files_count = 0
+	for f in all_files_count:
+		if f.get_extension().to_lower() in str([SUPPORTED_AUDIO_EXTENSIONS]):
+			files_count += 1
+	
+	loadingInfo.text = "Loading: " + str(count) + " / " + str(files_count)
 	loadingInfo.visible = true
 
 

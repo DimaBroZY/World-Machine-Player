@@ -208,7 +208,7 @@ texture = ExtResource("15_2cqfq")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f6a44"]
 texture = ExtResource("15_2cqfq")
 
-[node name="Main" type="Control" unique_id=1447891132]
+[node name="Main" type="Control" unique_id=1447891132 groups=["party_tintable"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -222,9 +222,8 @@ layout_mode = 1
 offset_bottom = 0.0
 
 [node name="LoadingInfo" type="Label" parent="MainWindow" unique_id=1563508309 groups=["tintable"]]
-visible = false
 layout_mode = 0
-offset_left = 455.0
+offset_left = 434.0
 offset_top = 448.0
 offset_right = 637.0
 offset_bottom = 492.0
@@ -236,7 +235,7 @@ clip_text = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
 
-[node name="Objects" type="Control" parent="MainWindow" unique_id=793731524 groups=["no_tint"]]
+[node name="Objects" type="Control" parent="MainWindow" unique_id=793731524 groups=["party_tintable"]]
 texture_filter = 1
 anchors_preset = 0
 offset_left = 150.0

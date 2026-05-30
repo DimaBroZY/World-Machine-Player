@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://b7h1s24s7a8v8"]
+[gd_scene format=3 uid="uid://b7h1s24s7a8v8"]
 
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_4v468"]
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_6jtpy"]
@@ -92,19 +92,19 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.654902, 0.654902, 0.654902, 1)
 
-[node name="Window" type="Window"]
+[node name="Window" type="Window" unique_id=732612012 groups=["party_tintable"]]
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(450, 300)
 borderless = true
 always_on_top = true
 
-[node name="ClickSoundHandler" type="Node2D" parent="."]
+[node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1011553714]
 script = ExtResource("1_4v468")
 click_sound_press = ExtResource("2_6jtpy")
 click_sound_release = ExtResource("3_ncui0")
 
-[node name="InfoWindow" type="Control" parent="."]
+[node name="InfoWindow" type="Control" parent="." unique_id=1307466660]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -115,7 +115,7 @@ grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="InfoWindow" groups=["tintable"]]
+[node name="Panel" type="Panel" parent="InfoWindow" unique_id=1935039411 groups=["tintable"]]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -127,7 +127,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b38yw")
 
-[node name="Layout" type="VBoxContainer" parent="InfoWindow"]
+[node name="Layout" type="VBoxContainer" parent="InfoWindow" unique_id=581855042]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,19 +135,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopBar" type="PanelContainer" parent="InfoWindow/Layout" groups=["tintable"]]
+[node name="TopBar" type="PanelContainer" parent="InfoWindow/Layout" unique_id=218743043 groups=["tintable"]]
 custom_minimum_size = Vector2(20, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_06wjn")
 script = ExtResource("5_8poqg")
 
-[node name="TopBarHBox" type="HBoxContainer" parent="InfoWindow/Layout/TopBar"]
+[node name="TopBarHBox" type="HBoxContainer" parent="InfoWindow/Layout/TopBar" unique_id=1664881567]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 3
 
-[node name="Spacer2" type="VSeparator" parent="InfoWindow/Layout/TopBar/TopBarHBox"]
+[node name="Spacer2" type="VSeparator" parent="InfoWindow/Layout/TopBar/TopBarHBox" unique_id=1338062683]
 clip_contents = true
 layout_direction = 4
 layout_mode = 2
@@ -155,13 +155,13 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_r7xj3")
 
-[node name="SettingsIcon" type="TextureButton" parent="InfoWindow/Layout/TopBar/TopBarHBox"]
+[node name="SettingsIcon" type="TextureButton" parent="InfoWindow/Layout/TopBar/TopBarHBox" unique_id=1552506229]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture_normal = ExtResource("5_4v468")
 stretch_mode = 0
 
-[node name="Spacer3" type="VSeparator" parent="InfoWindow/Layout/TopBar/TopBarHBox"]
+[node name="Spacer3" type="VSeparator" parent="InfoWindow/Layout/TopBar/TopBarHBox" unique_id=305534339]
 clip_contents = true
 layout_direction = 4
 layout_mode = 2
@@ -169,7 +169,7 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_r7xj3")
 
-[node name="Title" type="Label" parent="InfoWindow/Layout/TopBar/TopBarHBox"]
+[node name="Title" type="Label" parent="InfoWindow/Layout/TopBar/TopBarHBox" unique_id=276982704]
 custom_minimum_size = Vector2(0, -100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -178,17 +178,17 @@ theme_override_fonts/font = ExtResource("6_iokk2")
 theme_override_font_sizes/font_size = 20
 text = "Info"
 
-[node name="HBox" type="HBoxContainer" parent="InfoWindow/Layout/TopBar"]
+[node name="HBox" type="HBoxContainer" parent="InfoWindow/Layout/TopBar" unique_id=1416240031]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Content" type="Control" parent="InfoWindow/Layout/TopBar/HBox"]
+[node name="Content" type="Control" parent="InfoWindow/Layout/TopBar/HBox" unique_id=206033206]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 
-[node name="MinimizeButton" type="TextureButton" parent="InfoWindow/Layout/TopBar/HBox"]
+[node name="MinimizeButton" type="TextureButton" parent="InfoWindow/Layout/TopBar/HBox" unique_id=992738069]
 visible = false
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -201,7 +201,7 @@ texture_pressed = ExtResource("8_06wjn")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="CloseButton" type="Button" parent="InfoWindow/Layout/TopBar/HBox"]
+[node name="CloseButton" type="Button" parent="InfoWindow/Layout/TopBar/HBox" unique_id=736765692]
 custom_minimum_size = Vector2(35, 35)
 layout_direction = 1
 layout_mode = 2
@@ -213,16 +213,16 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_ytk5j")
 theme_override_styles/hover = SubResource("StyleBoxTexture_oxaws")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mm3wy")
 
-[node name="Spacer" type="VSeparator" parent="InfoWindow/Layout/TopBar/HBox"]
+[node name="Spacer" type="VSeparator" parent="InfoWindow/Layout/TopBar/HBox" unique_id=499037601]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_tilkb")
 
-[node name="Separator" type="HSeparator" parent="InfoWindow/Layout"]
+[node name="Separator" type="HSeparator" parent="InfoWindow/Layout" unique_id=893194414]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_4v468")
 
-[node name="Main" type="PanelContainer" parent="InfoWindow/Layout"]
+[node name="Main" type="PanelContainer" parent="InfoWindow/Layout" unique_id=1907677936]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -230,7 +230,7 @@ size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6jtpy")
 script = SubResource("GDScript_6jtpy")
 
-[node name="ContentLabel" type="Label" parent="InfoWindow/Layout/Main" groups=["tintable"]]
+[node name="ContentLabel" type="Label" parent="InfoWindow/Layout/Main" unique_id=1904174524 groups=["tintable"]]
 clip_contents = true
 layout_direction = 4
 layout_mode = 2
@@ -246,14 +246,14 @@ click \"Yes\""
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Buttons" type="HBoxContainer" parent="InfoWindow/Layout/Main" groups=["tintable"]]
+[node name="Buttons" type="HBoxContainer" parent="InfoWindow/Layout/Main" unique_id=1901267664 groups=["tintable"]]
 custom_minimum_size = Vector2(200, 150)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_constants/separation = 20
 
-[node name="YesButton" type="Button" parent="InfoWindow/Layout/Main/Buttons"]
+[node name="YesButton" type="Button" parent="InfoWindow/Layout/Main/Buttons" unique_id=2126085631]
 custom_minimum_size = Vector2(125, 40)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -265,7 +265,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ncui0")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_ncui0")
 script = ExtResource("11_6jtpy")
 
-[node name="YesLabel" type="Label" parent="InfoWindow/Layout/Main/Buttons/YesButton"]
+[node name="YesLabel" type="Label" parent="InfoWindow/Layout/Main/Buttons/YesButton" unique_id=152143835]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -281,7 +281,7 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("6_iokk2")
 text = "Yes"
 
-[node name="NoButton" type="Button" parent="InfoWindow/Layout/Main/Buttons"]
+[node name="NoButton" type="Button" parent="InfoWindow/Layout/Main/Buttons" unique_id=1161408381]
 custom_minimum_size = Vector2(125, 40)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -293,7 +293,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_8poqg")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8poqg")
 script = ExtResource("11_6jtpy")
 
-[node name="NoLabel" type="Label" parent="InfoWindow/Layout/Main/Buttons/NoButton"]
+[node name="NoLabel" type="Label" parent="InfoWindow/Layout/Main/Buttons/NoButton" unique_id=1472122338]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -309,7 +309,7 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("6_iokk2")
 text = "No"
 
-[node name="Handles" type="Control" parent="InfoWindow"]
+[node name="Handles" type="Control" parent="InfoWindow" unique_id=578251207]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -319,7 +319,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("13_iokk2")
 
-[node name="Right" type="Control" parent="InfoWindow/Handles"]
+[node name="Right" type="Control" parent="InfoWindow/Handles" unique_id=147247712]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 11
@@ -330,7 +330,7 @@ grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.953109, 1.00146)
 
-[node name="Bottom" type="Control" parent="InfoWindow/Handles"]
+[node name="Bottom" type="Control" parent="InfoWindow/Handles" unique_id=549577294]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 12
@@ -341,7 +341,7 @@ grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1.01367, 0.952266)
 
-[node name="Corner" type="Control" parent="InfoWindow/Handles"]
+[node name="Corner" type="Control" parent="InfoWindow/Handles" unique_id=372551814]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 3
