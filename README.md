@@ -43,7 +43,7 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 ## 📥 Installation
 
 ### Prerequisites
-- **Godot 4.5** or later (for development)
+- **Godot 4.6** or later (for development)
 - **Windows**
 
 ### Quick Start
