@@ -8,7 +8,7 @@
 
 *Реализация Jukebox из OneShot: World Machine Edition на Godot*
 
-[![Godot](https://img.shields.io/badge/Godot-4.5-blue.svg)](https://godotengine.org/)
+[![Godot](https://img.shields.io/badge/Godot-4.6-blue.svg)](https://godotengine.org/)
 [![Лицензия](https://img.shields.io/badge/License-Fan%20Project-orange.svg)](https://github.com/DimaBroZY/World-Machine-Player/edit/main/LICENSE)
 [![Версия](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/DimaBroZY/World-Machine-Player/releases/tag/1.1.0)
 
