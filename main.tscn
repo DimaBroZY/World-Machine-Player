@@ -29,6 +29,9 @@
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="19_qsp4k"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="20_kq58d"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_xuqvo"]
+font = ExtResource("9_kek77")
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yaehf"]
 texture = ExtResource("5_lquwl")
 
@@ -217,6 +220,19 @@ script = ExtResource("1_1bvp3")
 [node name="MainWindow" parent="." unique_id=1040742551 instance=ExtResource("2_1bvp3")]
 layout_mode = 1
 offset_bottom = 0.0
+
+[node name="LoadingInfo" type="Label" parent="MainWindow" unique_id=1563508309 groups=["tintable"]]
+visible = false
+layout_mode = 0
+offset_left = 455.0
+offset_top = 448.0
+offset_right = 637.0
+offset_bottom = 492.0
+text = "Loading:"
+label_settings = SubResource("LabelSettings_xuqvo")
+horizontal_alignment = 2
+vertical_alignment = 2
+clip_text = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
 
@@ -452,7 +468,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_0d6xb")
 clip_contents = true
 layout_mode = 2
 script = ExtResource("2_ticker")
-speed = 99.0
+speed = 101.0
 start_delay = 1.5
 restart_delay = 1.5
 gap = 101.0
