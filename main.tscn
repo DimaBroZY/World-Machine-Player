@@ -196,6 +196,9 @@ texture = ExtResource("14_vivmo")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gngh3"]
 texture = ExtResource("14_vivmo")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rnkwl"]
+texture = ExtResource("7_5vw27")
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0n3wm"]
 texture = ExtResource("8_kek77")
 
@@ -207,6 +210,9 @@ texture = ExtResource("15_2cqfq")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f6a44"]
 texture = ExtResource("15_2cqfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vke2r"]
+texture = ExtResource("8_kek77")
 
 [node name="Main" type="Control" unique_id=1447891132 groups=["party_tintable"]]
 layout_mode = 3
@@ -500,6 +506,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_4lmeg")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_0cp0l")
 theme_override_styles/hover = SubResource("StyleBoxTexture_d2t1y")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_gngh3")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_rnkwl")
 
 [node name="NextTrack" type="Button" parent="MainWindow/CurrentTrack" unique_id=889046617]
 layout_mode = 0
@@ -512,6 +519,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_0n3wm")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_qnost")
 theme_override_styles/hover = SubResource("StyleBoxTexture_wnkbs")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_f6a44")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_vke2r")
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=2098957084]
 script = ExtResource("2_lswn8")

@@ -9,6 +9,9 @@ extends Control
 @onready var gramophone = $MainWindow/Objects/Gramophone
 @onready var volumeControl = $MainWindow/VolumeControl
 @onready var speedControl = $MainWindow/PlaybackSpeedControlNode
+@onready var nextTrack =$MainWindow/CurrentTrack/NextTrack
+@onready var previousTrack = $MainWindow/CurrentTrack/PreviousTrack
+
 
 var MUSIC_FILE: AudioStream = preload("res://music/Prelude.mp3")
 
@@ -21,6 +24,7 @@ const MUSIC_FOLDER_SCAN_INTERVAL: float = 5.0
 const MIN_FILE_AGE_SECONDS: int = 2
 const STREAM_CACHE_RADIUS: int = 1
 const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
+const LOCK_TIME: float = 0.5
 
 var state: int = PAUSE
 var playlist: Array[Dictionary] = []
@@ -433,9 +437,10 @@ func _remove_orphan_cache_files() -> void:
 func _apply_playlist_after_refresh(previous_source_path: String, previous_resource_path: String, changed_sources: Dictionary) -> void:
 	if playlist.is_empty():
 		current_index = 0
-		_load_fallback_track()
-		if state == PLAY:
-			music.play()
+		if music.stream != MUSIC_FILE:  
+			_load_fallback_track()
+			if state == PLAY:
+				music.play()
 		return
 
 	var same_track_found: bool = false
@@ -648,14 +653,20 @@ func _show_loading_info(count: int) -> void:
 func _hide_loading_info() -> void:
 	loadingInfo.visible = false
 
-
+func _await_track_skip()-> void:
+	nextTrack.disabled = true
+	previousTrack.disabled = true
+	await get_tree().create_timer(LOCK_TIME).timeout
+	nextTrack.disabled = false
+	previousTrack.disabled = false
+	
 func _on_next_track_pressed() -> void:
 	if playlist.size() > 0:
 		current_index = (current_index + 1) % playlist.size()
 		music.stop()
 		_load_current_track()
 		update_state()
-
+		_await_track_skip()
 
 func _on_previous_track_pressed() -> void:
 	if playlist.size() > 0:
@@ -663,7 +674,9 @@ func _on_previous_track_pressed() -> void:
 		music.stop()
 		_load_current_track()
 		update_state()
-
+		nextTrack.disabled = true
+		_await_track_skip()
+		
 
 func update_state() -> void:
 	if state == PLAY:
@@ -734,7 +747,7 @@ func _on_volume_minus_pressed() -> void:
 	if music.volume_db >= -100:
 		music.volume_db -= 1
 		volumeControl.volumeControlSlide.value = music.volume_db
-		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 100)) + "%"
+		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(music.volume_db + 100) + "%"
 		if volumeControl.volumeControlSlide.value == -100:
 			music.volume_db = -99999
 
@@ -743,7 +756,7 @@ func _on_volume_plus_pressed() -> void:
 	if music.volume_db != 1:
 		music.volume_db += 1
 		volumeControl.volumeControlSlide.value = music.volume_db
-		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 99)) + "%"
+		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(music.volume_db + 99) + "%"
 
 
 func _on_play_button_pressed() -> void:
