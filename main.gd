@@ -37,6 +37,7 @@ var _stream_cache: Dictionary = {}
 var _is_loading_tracks: bool = false
 var _last_music_scan_ok: bool = false
 var _stream_cache_refresh_queued: bool = false
+var volume_percent: float = 100.0
 
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
@@ -44,12 +45,14 @@ func _ready() -> void:
 	FOLDER_PATH = str(Settings.get_setting("music_path", "user://music"))
 	Settings.setting_changed.connect(_on_setting_changed)
 
+	volume_percent = volumeControl.volumeControlSlide.value
+	set_volume(volume_percent)
+
 	_create_folder_scan_timer()
 
-	music.volume_db = 0
 	await load_tracks_from_folder(true)
 	update_state()
-	
+
 	_set_world_machine()
 
 func _set_world_machine() -> void:
@@ -732,11 +735,19 @@ func _on_speed_control_slide_value_changed(_value: float) -> void:
 	gramophone.animPlayer.speed_scale = speedControl.speedControlSlide.value / 100
 	notes.speed_scale = speedControl.speedControlSlide.value / 100
 
-func _on_volume_control_slide_value_changed(_value: float) -> void:
-	music.volume_db = volumeControl.volumeControlSlide.value
-	$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 100)) + "%"
-	notes.amount = round(remap(music.volume_db, -101.0, 0.0, 0.0, 5.0))
+func set_volume(percent: float) -> void:
+	volume_percent = clamp(percent, 0.0, 100.0)
 
+	music.volume_db = linear_to_db(volume_percent / 100.0)
+
+	# синхронизация UI
+	volumeControl.volumeControlSlide.value = volume_percent
+	$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(volume_percent)) + "%"
+
+func _on_volume_control_slide_value_changed(value: float) -> void:
+	set_volume(value)
+
+	notes.amount = int(round(lerp(1.0, 6.0, volume_percent / 100.0)))
 
 func _on_reverse_button_pressed() -> void:
 	if music.playing == true:
@@ -755,17 +766,16 @@ func _on_speed_plus_pressed() -> void:
 	speedControl.speedControlSlide.value = music.pitch_scale * 100
 
 
+func percent_to_db(percent: float) -> float:
+	if percent <= 0.0:
+		return -80.0 
+	return linear_to_db(percent / 100.0)
+
 func _on_volume_minus_pressed() -> void:
-	if music.volume_db >= -100:
-		music.volume_db -= 1
-		volumeControl.volumeControlSlide.value = music.volume_db
-		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 100)) + "%"
+	set_volume(volume_percent - 5.0)
 
 func _on_volume_plus_pressed() -> void:
-	if music.volume_db != 1:
-		music.volume_db += 1
-		volumeControl.volumeControlSlide.value = music.volume_db
-		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 99)) + "%"
+	set_volume(volume_percent + 5.0)
 
 
 func _on_play_button_pressed() -> void:

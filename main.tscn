@@ -308,7 +308,7 @@ position = Vector2(284, 133)
 rotation = -2.3562002
 scale = Vector2(0.99999994, 0.99999994)
 emitting = false
-amount = 5
+amount = 6
 texture = ExtResource("27_kq58d")
 lifetime = 2.1999999999999997
 explosiveness = 0.1
@@ -455,6 +455,11 @@ offset_top = 3.0000305
 offset_right = 473.33337
 offset_bottom = 39.00003
 scale = Vector2(1.82, 1.84)
+
+[node name="VolumeControlSlide" parent="MainWindow/VolumeControl" index="0"]
+min_value = 0.0
+max_value = 100.0
+value = 100.0
 
 [node name="VolumeMinus" type="Button" parent="MainWindow/VolumeControl" unique_id=666417068]
 layout_mode = 0
