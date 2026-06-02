@@ -14,6 +14,11 @@
 [ext_resource type="Script" uid="uid://gac3or0cc0wb" path="res://Windows/Scripts/handles_settings.gd" id="9_w5pex"]
 [ext_resource type="Texture2D" uid="uid://c00dabmmyfrty" path="res://Assets/Icons/Folder.png" id="10_p4q5k"]
 [ext_resource type="Texture2D" uid="uid://b2qva188m2f01" path="res://Assets/Icons/Folder_Hover.png" id="12_qm3jx"]
+[ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="15_8x2rp"]
+[ext_resource type="Texture2D" uid="uid://be5p6kftkj5dk" path="res://Assets/Icons/Slider_Start.png" id="16_mcsq1"]
+[ext_resource type="Texture2D" uid="uid://b6nupqg3h4fc2" path="res://Assets/Icons/Slider_Start_Hover.png" id="17_g5yv1"]
+[ext_resource type="Texture2D" uid="uid://dnfma8apjp42n" path="res://Assets/Icons/Slider_End.png" id="18_sjhro"]
+[ext_resource type="Texture2D" uid="uid://c5hgb0m3w030c" path="res://Assets/Icons/Slider_End_Hover.png" id="19_owwqo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8n62"]
 bg_color = Color(0, 0, 0, 1)
@@ -78,6 +83,93 @@ texture = ExtResource("12_qm3jx")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mcsq1"]
 texture = ExtResource("12_qm3jx")
+
+[sub_resource type="GDScript" id="GDScript_mcsq1"]
+resource_name = "WorldMachineThemeChanger"
+script/source = "extends Panel
+# onready var
+@onready var label = $ChangeSetting/PanelContainer/Label
+@onready var labelText = label.text
+# var
+var worldMachineTheme = Settings.get_setting(\"worldMachineTheme\")
+
+func _ready() -> void:
+	if worldMachineTheme == null:
+		Settings.save_setting(\"worldMachineTheme\", 0)
+		worldMachineTheme = Settings.get_setting(\"worldMachineTheme\")
+	else:	
+		worldMachineTheme = Settings.get_setting(\"worldMachineTheme\")
+		set_label_text()
+		
+func set_label_text():
+	if worldMachineTheme >= 2:
+		worldMachineTheme = 0
+	if worldMachineTheme < 0:
+		worldMachineTheme = 1
+			
+	if worldMachineTheme == 0:
+		label.text = \"Off\"
+	else:
+		label.text = \"On\"	
+	Settings.save_setting(\"worldMachineTheme\", worldMachineTheme)
+	
+func _on_previous_pressed() -> void:
+	worldMachineTheme -= 1 
+	set_label_text()
+	EventBus.setWorldMachine.emit()
+	
+func _on_next_pressed() -> void:
+	worldMachineTheme += 1
+	set_label_text()
+	EventBus.setWorldMachine.emit()
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_8x2rp"]
+font_size = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnyio"]
+content_margin_left = 15.0
+content_margin_right = 15.0
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mcsq1"]
+font = ExtResource("4_qm3jx")
+font_size = 27
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ooibu"]
+texture = ExtResource("16_mcsq1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jklcd"]
+texture = ExtResource("17_g5yv1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l8fi3"]
+texture = ExtResource("17_g5yv1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_logg6"]
+texture = ExtResource("17_g5yv1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6bdik"]
+texture = ExtResource("16_mcsq1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vhduf"]
+texture = ExtResource("18_sjhro")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tnr6a"]
+texture = ExtResource("19_owwqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xy3xa"]
+texture = ExtResource("19_owwqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jyvwr"]
+texture = ExtResource("19_owwqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q6p7f"]
+texture = ExtResource("18_sjhro")
 
 [node name="Window" type="Window" unique_id=1166479097]
 oversampling_override = 1.0
@@ -251,31 +343,35 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="Content" type="VBoxContainer" parent="SettingsWindow" unique_id=1280167273]
-custom_minimum_size = Vector2(0, 100)
 layout_mode = 0
-offset_left = 14.0
-offset_top = 115.000015
-offset_right = 881.0
-offset_bottom = 215.00002
+offset_left = 15.0
+offset_top = 115.0
+offset_right = 895.0
+offset_bottom = 265.0
 scale = Vector2(0.65, 0.65)
+theme_override_constants/separation = 100
 
-[node name="Panel" type="Panel" parent="SettingsWindow/Content" unique_id=1786388821 groups=["tintable"]]
+[node name="PathPanel" type="Panel" parent="SettingsWindow/Content" unique_id=1786388821 groups=["tintable"]]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sd6ct")
 
-[node name="Label" type="Label" parent="SettingsWindow/Content/Panel" unique_id=264499457]
+[node name="Label" type="Label" parent="SettingsWindow/Content/PathPanel" unique_id=264499457]
 texture_filter = 1
-layout_mode = 0
-offset_left = 12.0
-offset_top = -76.0
-offset_right = 337.0
-offset_bottom = -6.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -152.5
+offset_top = -78.0
+offset_right = 152.5
+offset_bottom = -8.0
+grow_horizontal = 2
 text = "Music Folder"
 label_settings = SubResource("LabelSettings_w5pex")
 vertical_alignment = 2
 
-[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/Panel" unique_id=1886498792]
+[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/PathPanel" unique_id=1886498792]
 clip_contents = true
 layout_direction = 1
 layout_mode = 0
@@ -295,7 +391,7 @@ emoji_menu_enabled = false
 flat = true
 virtual_keyboard_enabled = false
 
-[node name="FolderButton" type="Button" parent="SettingsWindow/Content/Panel" unique_id=970856389]
+[node name="FolderButton" type="Button" parent="SettingsWindow/Content/PathPanel" unique_id=970856389]
 layout_mode = 0
 offset_left = 790.7692
 offset_top = -9.230816
@@ -307,10 +403,87 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_pkqi5")
 theme_override_styles/hover = SubResource("StyleBoxTexture_mgkoj")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mcsq1")
 
+[node name="WorldMachineThemeSet" type="Panel" parent="SettingsWindow/Content" unique_id=701281214 groups=["tintable"]]
+layout_mode = 2
+script = SubResource("GDScript_mcsq1")
+
+[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/WorldMachineThemeSet" unique_id=367696724]
+anchors_preset = 0
+offset_left = -1.5384631
+offset_top = -3.8461642
+offset_right = 865.46155
+offset_bottom = -3.8461642
+scale = Vector2(0.93, 0.93)
+
+[node name="WorldMachineTheme" type="Label" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=519679220]
+layout_mode = 0
+offset_left = 244.83043
+offset_top = -77.7502
+offset_right = 739.83044
+offset_bottom = -7.7501984
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("15_8x2rp")
+text = "World Machine Theme"
+label_settings = SubResource("LabelSettings_8x2rp")
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=974561086]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -377.19315
+offset_top = -11.53844
+offset_right = 458.146
+offset_bottom = 45.46156
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jnyio")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/PanelContainer" unique_id=628387123]
+layout_mode = 2
+text = "Off"
+label_settings = SubResource("LabelSettings_mcsq1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Previous" type="Button" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=1649157753]
+layout_mode = 0
+offset_left = 1.6542625
+offset_top = -11.579829
+offset_right = 58.654263
+offset_bottom = 45.42017
+pivot_offset = Vector2(342.43176, -54.590576)
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ooibu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jklcd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l8fi3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_logg6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
+
+[node name="Next" type="Button" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=1748857874]
+layout_mode = 0
+offset_left = 891.646
+offset_top = -11.579829
+offset_right = 948.646
+offset_bottom = 45.42017
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vhduf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tnr6a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
+
 [connection signal="gui_input" from="SettingsWindow/Layout/TopBar" to="SettingsWindow/Layout/TopBar" method="_on_gui_input"]
 [connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/MinimizeButton" to="SettingsWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
 [connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/CloseButton" to="SettingsWindow/Layout/TopBar" method="_on_close_button_pressed"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Right" to="SettingsWindow/Handles" method="_on_right_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Bottom" to="SettingsWindow/Handles" method="_on_bottom_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Corner" to="SettingsWindow/Handles" method="_on_corner_gui_input"]
-[connection signal="pressed" from="SettingsWindow/Content/Panel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/Previous" to="SettingsWindow/Content/WorldMachineThemeSet" method="_on_previous_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/Next" to="SettingsWindow/Content/WorldMachineThemeSet" method="_on_next_pressed"]

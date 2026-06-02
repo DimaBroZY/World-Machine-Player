@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q8p8aw08uhvw"
-path="res://.godot/imported/Nintendo Switch - OneShot_ World Machine Edition - Desktop - Window Icons.png-db01eb1eda05b2eb8a19045e019d3d69.ctex"
+uid="uid://brbu8gmv7jshs"
+path="res://.godot/imported/CheckHD.png-740e79a38babc9de4dd31f856c533bcb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Nintendo Switch - OneShot_ World Machine Edition - Desktop - Window Icons.png"
-dest_files=["res://.godot/imported/Nintendo Switch - OneShot_ World Machine Edition - Desktop - Window Icons.png-db01eb1eda05b2eb8a19045e019d3d69.ctex"]
+source_file="res://Assets/Icons/CheckHD.png"
+dest_files=["res://.godot/imported/CheckHD.png-740e79a38babc9de4dd31f856c533bcb.ctex"]
 
 [params]
 

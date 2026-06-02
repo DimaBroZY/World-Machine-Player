@@ -13,7 +13,7 @@ func _on_close_button_pressed() -> void:
 
 func _on_one_shot_menu_button_pressed() -> void:
 		if menu_window != null and is_instance_valid(menu_window):
-			menu_window.show()
+			menu_window.grab_focus()
 			return
 	
 		# Загружаем сцену с Window как корневой нодой

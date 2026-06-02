@@ -95,26 +95,26 @@ func _on_orange_theme_button_pressed() -> void:
 
 
 func _on_rainbow_theme_button_pressed() -> void:
-	if info == true:
-		if info_window != null and is_instance_valid(info_window):
-			info_window.show()
-			return
-		# Загружаем сцену с Window как корневой нодой
-		info_window = preload(\"res://Windows/info_window.tscn\").instantiate()
-
-		# Добавляем Window в дерево сцен
-		get_tree().root.add_child(info_window)
-	
-		info_window.close_requested.connect(func(): 
-			info_window.queue_free()
-			info_window = null
-		)
-		info_window.show()
-		player.stream = preload(\"res://sfx/twm_notif4.wav\")
-		player.play()
-		TintManager.apply_tint_to_scene()
-
-	else:
+	#if info == true:
+		#if info_window != null and is_instance_valid(info_window):
+			#info_window.show()
+			#return
+		## Загружаем сцену с Window как корневой нодой
+		#info_window = preload(\"res://Windows/info_window.tscn\").instantiate()
+#
+		## Добавляем Window в дерево сцен
+		#get_tree().root.add_child(info_window)
+	#
+		#info_window.close_requested.connect(func(): 
+			#info_window.queue_free()
+			#info_window = null
+		#)
+		#info_window.show()
+		#player.stream = preload(\"res://sfx/twm_notif4.wav\")
+		#player.play()
+		#TintManager.apply_tint_to_scene()
+#
+	#else:
 		TintManager.enable_rainbow(true)
 
 
@@ -537,7 +537,6 @@ theme_override_fonts/font = ExtResource("2_mwwci")
 text = "Red"
 
 [node name="PinkThemeContainer" type="PanelContainer" parent="ThemeWindow/Layout/Main/ThemeChanger" unique_id=111149617]
-visible = false
 modulate = Color(0.99607843, 0.33333334, 0.7490196, 1)
 custom_minimum_size = Vector2(80, 110)
 layout_mode = 2

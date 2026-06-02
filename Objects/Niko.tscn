@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c13dup7wgdm63"]
+[gd_scene format=3 uid="uid://c13dup7wgdm63"]
 
 [ext_resource type="Texture2D" uid="uid://c0pvehmqo87ki" path="res://Assets/Nintendo Switch - OneShot_ World Machine Edition - Desktop - Jukebox App.png" id="1_4rfw1"]
 
@@ -211,23 +211,23 @@ _data = {
 &"Sleeping": SubResource("Animation_icwuc")
 }
 
-[node name="Niko" type="Control"]
+[node name="Niko" type="Control" unique_id=1133220869]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = SubResource("GDScript_4rfw1")
 
-[node name="Niko" type="Node2D" parent="."]
+[node name="Niko" type="Node2D" parent="." unique_id=374625801]
+use_parent_material = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2100689783]
+use_parent_material = true
 position = Vector2(0.999996, -39)
 scale = Vector2(4.2, 4.2)
 sprite_frames = SubResource("SpriteFrames_qqbo2")
-animation = &"Sleeping"
+animation = &"Dance_Sitting"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1843921936]
 root_node = NodePath("../Niko")
-libraries = {
-&"": SubResource("AnimationLibrary_224s6")
-}
+libraries/ = SubResource("AnimationLibrary_224s6")

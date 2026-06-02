@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://iwvpwtihkrel"]
+
+[ext_resource type="Shader" uid="uid://cho81n7f68yqs" path="res://shaders/world_machine_shader.tres" id="1_v4t5g"]
+
+[resource]
+shader = ExtResource("1_v4t5g")
+shader_parameter/time_scale = 8.0

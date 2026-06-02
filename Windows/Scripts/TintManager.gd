@@ -64,7 +64,7 @@ func set_tint(color: Color):
 
 func enable_rainbow(enable: bool):
 	if rainbow_enabled == enable:
-		return  # Уже в том же состоянии — ничего не делаем
+		return  
 	rainbow_enabled = enable
 	Settings.save_setting("rainbow_enabled", enable)
 	if not enable:

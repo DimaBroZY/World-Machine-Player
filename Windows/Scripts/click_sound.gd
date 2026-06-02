@@ -5,8 +5,8 @@ extends Node
 
 var player: AudioStreamPlayer
 
+
 func _ready():
-	
 	player = AudioStreamPlayer.new()
 	add_child(player)
 	player.volume_db = -10

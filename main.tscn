@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bsrew7n8ldv1t" path="res://main.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c13dup7wgdm63" path="res://Objects/Niko.tscn" id="1_ig7tw"]
+[ext_resource type="Material" uid="uid://iwvpwtihkrel" path="res://materials/world_machine_material.tres" id="1_qsp4k"]
 [ext_resource type="PackedScene" uid="uid://dnkli7cvqq5qe" path="res://main_windows.tscn" id="2_1bvp3"]
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="2_lswn8"]
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="2_ticker"]
@@ -28,9 +29,43 @@
 [ext_resource type="Texture2D" uid="uid://c5hgb0m3w030c" path="res://Assets/Icons/Slider_End_Hover.png" id="15_2cqfq"]
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="19_qsp4k"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="20_kq58d"]
+[ext_resource type="Texture2D" uid="uid://ccnsv1qmv6r3f" path="res://Assets/Icons/Notes.png" id="27_kq58d"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xuqvo"]
 font = ExtResource("9_kek77")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_seu75"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_kq58d"]
+offsets = PackedFloat32Array(0, 0.9328358, 0.98507464, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0.16400003, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_seu75"]
+gradient = SubResource("Gradient_kq58d")
+width = 1024
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_seu75"]
+particle_flag_disable_z = true
+velocity_pivot = Vector3(1000, 0, 0)
+spread = 62.089
+initial_velocity_min = 100.0
+initial_velocity_max = 300.0
+orbit_velocity_min = 0.2050001
+orbit_velocity_max = 0.2050001
+gravity = Vector3(0, -98, 0)
+tangential_accel_min = -47.59
+tangential_accel_max = -47.59
+scale_min = 1.1
+scale_max = 1.1
+color = Color(0.71212965, 0.7121293, 0.71212935, 1)
+color_ramp = SubResource("GradientTexture1D_seu75")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994
+anim_offset_max = 1.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yaehf"]
 texture = ExtResource("5_lquwl")
@@ -184,6 +219,10 @@ border_width_right = 2
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_qsp4k"]
+font = ExtResource("9_kek77")
+font_size = 26
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4lmeg"]
 texture = ExtResource("7_5vw27")
 
@@ -215,6 +254,7 @@ texture = ExtResource("15_2cqfq")
 texture = ExtResource("8_kek77")
 
 [node name="Main" type="Control" unique_id=1447891132 groups=["party_tintable"]]
+material = ExtResource("1_qsp4k")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -258,6 +298,23 @@ offset_right = 269.99997
 offset_bottom = 130.0
 scale = Vector2(6.9, 6.9)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="MainWindow/Objects/Gramophone" unique_id=578057254]
+layer = 10
+
+[node name="Notes" type="GPUParticles2D" parent="MainWindow/Objects/Gramophone/CanvasLayer" unique_id=1605462823]
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_seu75")
+position = Vector2(284, 133)
+rotation = -2.3562002
+scale = Vector2(0.99999994, 0.99999994)
+emitting = false
+amount = 5
+texture = ExtResource("27_kq58d")
+lifetime = 2.1999999999999997
+explosiveness = 0.1
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_seu75")
+
 [node name="Niko" parent="MainWindow/Objects" unique_id=71496036 groups=["no_tint"] instance=ExtResource("1_ig7tw")]
 layout_mode = 1
 offset_left = 542.0
@@ -281,6 +338,7 @@ grow_vertical = 1
 scale = Vector2(6, 6)
 
 [node name="Buttons" type="Control" parent="MainWindow" unique_id=1820426466 groups=["tintable"]]
+use_parent_material = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -487,9 +545,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("9_kek77")
-theme_override_font_sizes/font_size = 26
 text = "Current Track..."
+label_settings = SubResource("LabelSettings_qsp4k")
 horizontal_alignment = 1
 vertical_alignment = 2
 clip_text = true

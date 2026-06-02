@@ -73,7 +73,7 @@ func _process(_delta: float) -> void:
 
 func _on_settings_button_pressed() -> void:
 		if settings_window != null and is_instance_valid(settings_window):
-			settings_window.show()
+			settings_window.grab_focus()
 			return
 	
 		# Загружаем сцену с Window как корневой нодой
@@ -91,7 +91,7 @@ func _on_settings_button_pressed() -> void:
 
 func _on_theme_button_pressed() -> void:
 	if theme_window != null and is_instance_valid(theme_window):
-		theme_window.show()	
+		theme_window.grab_focus()
 		return
 	
 	# Загружаем сцену с Window как корневой нодой
@@ -114,7 +114,7 @@ func _on_minimize_button_pressed() -> void:
 
 func _on_secret_settings_button_pressed() -> void:
 	if secret_settings_window != null and is_instance_valid(secret_settings_window):
-		secret_settings_window.show()
+		secret_settings_window.grab_focus()
 		return
 	
 	# Загружаем сцену с Window как корневой нодой

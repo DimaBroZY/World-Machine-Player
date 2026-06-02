@@ -11,6 +11,8 @@ extends Control
 @onready var speedControl = $MainWindow/PlaybackSpeedControlNode
 @onready var nextTrack =$MainWindow/CurrentTrack/NextTrack
 @onready var previousTrack = $MainWindow/CurrentTrack/PreviousTrack
+@onready var notes: GPUParticles2D = $MainWindow/Objects/Gramophone/CanvasLayer/Notes
+
 
 
 var MUSIC_FILE: AudioStream = preload("res://music/Prelude.mp3")
@@ -36,8 +38,8 @@ var _is_loading_tracks: bool = false
 var _last_music_scan_ok: bool = false
 var _stream_cache_refresh_queued: bool = false
 
-
 func _ready() -> void:
+	EventBus.setWorldMachine.connect(_set_world_machine)
 	loadingInfo.visible = false
 	FOLDER_PATH = str(Settings.get_setting("music_path", "user://music"))
 	Settings.setting_changed.connect(_on_setting_changed)
@@ -47,7 +49,16 @@ func _ready() -> void:
 	music.volume_db = 0
 	await load_tracks_from_folder(true)
 	update_state()
+	
+	_set_world_machine()
 
+func _set_world_machine() -> void:
+		if Settings.get_setting("worldMachineTheme") == 0:
+			niko.material = null
+			niko.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		else:
+			niko.material = preload("res://materials/world_machine_material.tres")
+			niko.modulate = Color(1.0, 1.0, 1.0, 0.75)
 
 func nicoAnim() -> void:
 	if randi_range(1, 2) == 1:
@@ -154,7 +165,8 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 	_apply_playlist_after_refresh(previous_source_path, previous_resource_path, changed_sources)
 	_hide_loading_info()
 	_is_loading_tracks = false
-
+	
+	
 
 func _scan_music_folder() -> Array[Dictionary]:
 	var found_tracks: Array[Dictionary] = []
@@ -693,6 +705,7 @@ func play_state() -> void:
 	$MainWindow/Buttons/PauseButton.position = Vector2(87.5, 0)
 	nicoAnim()
 	gramophone.animPlayer.play("Playing")
+	notes.emitting = true
 
 
 func pause_state() -> void:
@@ -701,7 +714,7 @@ func pause_state() -> void:
 	$MainWindow/Buttons/PauseButton.position = Vector2(87.5, 130)
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
-
+	notes.emitting = false
 
 func _on_stop_button_pressed() -> void:
 	music.stop()
@@ -717,13 +730,12 @@ func _on_speed_control_slide_value_changed(_value: float) -> void:
 	music.pitch_scale = speedControl.speedControlSlide.value / 100
 	niko.animPlayer.speed_scale = speedControl.speedControlSlide.value / 100
 	gramophone.animPlayer.speed_scale = speedControl.speedControlSlide.value / 100
-
+	notes.speed_scale = speedControl.speedControlSlide.value / 100
 
 func _on_volume_control_slide_value_changed(_value: float) -> void:
 	music.volume_db = volumeControl.volumeControlSlide.value
 	$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 100)) + "%"
-	if volumeControl.volumeControlSlide.value == -100:
-		music.volume_db = -99999
+	notes.amount = round(remap(music.volume_db, -101.0, 0.0, 0.0, 5.0))
 
 
 func _on_reverse_button_pressed() -> void:
@@ -747,16 +759,13 @@ func _on_volume_minus_pressed() -> void:
 	if music.volume_db >= -100:
 		music.volume_db -= 1
 		volumeControl.volumeControlSlide.value = music.volume_db
-		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(music.volume_db + 100) + "%"
-		if volumeControl.volumeControlSlide.value == -100:
-			music.volume_db = -99999
-
+		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 100)) + "%"
 
 func _on_volume_plus_pressed() -> void:
 	if music.volume_db != 1:
 		music.volume_db += 1
 		volumeControl.volumeControlSlide.value = music.volume_db
-		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(music.volume_db + 99) + "%"
+		$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(music.volume_db + 99)) + "%"
 
 
 func _on_play_button_pressed() -> void:

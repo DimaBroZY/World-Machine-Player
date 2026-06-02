@@ -37,6 +37,7 @@ buses/default_bus_layout=""
 Settings="*res://Settings.gd"
 TintManager="*res://Windows/Scripts/TintManager.gd"
 ColorChanged="*res://Windows/Scripts/ColorChanger.gd"
+EventBus="*uid://y57mki3he356"
 
 [debug]
 

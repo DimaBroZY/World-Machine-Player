@@ -1,10 +1,20 @@
 [gd_resource type="Theme" format=3 uid="uid://coyfkert1wq05"]
 
 [ext_resource type="Texture2D" uid="uid://t6piefk2l1r" path="res://Assets/Theme/Slider_Grabber.png" id="1_5j3x3"]
+[ext_resource type="Texture2D" uid="uid://brbu8gmv7jshs" path="res://Assets/Icons/CheckHD.png" id="1_ot014"]
 [ext_resource type="Texture2D" uid="uid://bf7wlnmlydwic" path="res://Assets/Theme/Grabber_Tick.png" id="2_5rteq"]
+[ext_resource type="Texture2D" uid="uid://dx1vig0tp4mkk" path="res://Assets/Icons/check_hover.png" id="2_nqj2l"]
 [ext_resource type="Texture2D" uid="uid://dtyeqrs665mm4" path="res://Assets/Theme/Slider_Grabber_Hover.png" id="2_v3jyk"]
 [ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_ipw7k"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="4_v3jyk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ot014"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3jyk"]
 
@@ -38,7 +48,13 @@ expand_margin_bottom = 1.0
 
 [resource]
 default_font = ExtResource("3_ipw7k")
-default_font_size = 22
+default_font_size = 35
+CheckBox/icons/checked = ExtResource("1_ot014")
+CheckBox/icons/checked_disabled = ExtResource("2_nqj2l")
+CheckBox/styles/hover = SubResource("StyleBoxFlat_ot014")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxFlat_ot014")
+CheckBox/styles/normal = SubResource("StyleBoxFlat_ot014")
+CheckBox/styles/pressed = SubResource("StyleBoxFlat_ot014")
 ColorPicker/colors/focused_not_editing_cursor_color = Color(1, 1, 1, 0.3764706)
 ColorPicker/constants/sv_height = 240
 ColorPicker/styles/picker_focus_circle = SubResource("StyleBoxEmpty_v3jyk")

@@ -22,4 +22,3 @@ func _refresh(anim_player):
 
 func _exit_tree():
 	remove_inspector_plugin(plugin)
-
