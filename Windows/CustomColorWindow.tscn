@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bev3uug2qsy6i"]
+[gd_scene format=3 uid="uid://bev3uug2qsy6i"]
 
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_5kytl"]
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_dk7ee"]
@@ -17,7 +17,7 @@ script/source = "extends Window
 
 func _ready():
 	$CustomColorWindow/Layout/Main/ColorPicker.color_changed.connect(
-		func(c): ColorChanged.color_changed.emit(c)
+		func(c): EventBus.color_changed.emit(c)
 	)
 "
 
@@ -47,11 +47,7 @@ border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6won7"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ncq2b"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n0v7l"]
-
-[node name="Window" type="Window"]
+[node name="Window" type="Window" unique_id=860988360]
 canvas_item_default_texture_filter = 0
 oversampling_override = 1.0
 initial_position = 2
@@ -61,12 +57,12 @@ always_on_top = true
 popup_window = true
 script = SubResource("GDScript_5kytl")
 
-[node name="ClickSoundHandler" type="Node2D" parent="."]
+[node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1579421210]
 script = ExtResource("1_5kytl")
 click_sound_press = ExtResource("2_dk7ee")
 click_sound_release = ExtResource("3_6won7")
 
-[node name="CustomColorWindow" type="Control" parent="."]
+[node name="CustomColorWindow" type="Control" parent="." unique_id=1190879085]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -76,7 +72,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="CustomColorWindow" groups=["tintable"]]
+[node name="Panel" type="Panel" parent="CustomColorWindow" unique_id=171270533 groups=["tintable"]]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,7 +83,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_edy1e")
 
-[node name="Layout" type="VBoxContainer" parent="CustomColorWindow"]
+[node name="Layout" type="VBoxContainer" parent="CustomColorWindow" unique_id=1551195408]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -96,19 +92,19 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
 
-[node name="TopBar" type="PanelContainer" parent="CustomColorWindow/Layout" groups=["tintable"]]
+[node name="TopBar" type="PanelContainer" parent="CustomColorWindow/Layout" unique_id=2107947332 groups=["tintable"]]
 custom_minimum_size = Vector2(20, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_xrgv3")
 script = ExtResource("4_ncq2b")
 
-[node name="TopBarHBox" type="HBoxContainer" parent="CustomColorWindow/Layout/TopBar"]
+[node name="TopBarHBox" type="HBoxContainer" parent="CustomColorWindow/Layout/TopBar" unique_id=1746563811]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 3
 
-[node name="Spacer2" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+[node name="Spacer2" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox" unique_id=40109539]
 clip_contents = true
 layout_direction = 4
 layout_mode = 2
@@ -116,13 +112,13 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
 
-[node name="ThemeIcon" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+[node name="ThemeIcon" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/TopBarHBox" unique_id=1079280264]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture_normal = ExtResource("5_n0v7l")
 stretch_mode = 0
 
-[node name="Spacer3" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+[node name="Spacer3" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox" unique_id=905631054]
 clip_contents = true
 layout_direction = 4
 layout_mode = 2
@@ -130,7 +126,7 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
 
-[node name="Title" type="Label" parent="CustomColorWindow/Layout/TopBar/TopBarHBox"]
+[node name="Title" type="Label" parent="CustomColorWindow/Layout/TopBar/TopBarHBox" unique_id=1982266379]
 custom_minimum_size = Vector2(0, -100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -139,17 +135,17 @@ theme_override_fonts/font = ExtResource("6_isspj")
 theme_override_font_sizes/font_size = 20
 text = "Select Color"
 
-[node name="HBox" type="HBoxContainer" parent="CustomColorWindow/Layout/TopBar"]
+[node name="HBox" type="HBoxContainer" parent="CustomColorWindow/Layout/TopBar" unique_id=2076684549]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Content" type="Control" parent="CustomColorWindow/Layout/TopBar/HBox"]
+[node name="Content" type="Control" parent="CustomColorWindow/Layout/TopBar/HBox" unique_id=129954431]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 
-[node name="MinimizeButton" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/HBox"]
+[node name="MinimizeButton" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/HBox" unique_id=1884395261]
 visible = false
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -162,7 +158,7 @@ texture_pressed = ExtResource("8_kwekw")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="CloseButton" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/HBox"]
+[node name="CloseButton" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/HBox" unique_id=833198323]
 visible = false
 clip_contents = true
 custom_minimum_size = Vector2(35, 35)
@@ -176,27 +172,25 @@ texture_hover = ExtResource("10_fdw21")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Spacer" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/HBox"]
+[node name="Spacer" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/HBox" unique_id=264567557]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_10kri")
 
-[node name="Main" type="PanelContainer" parent="CustomColorWindow/Layout"]
+[node name="Main" type="PanelContainer" parent="CustomColorWindow/Layout" unique_id=2009356876]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_q77qd")
 
-[node name="ColorPicker" type="ColorPicker" parent="CustomColorWindow/Layout/Main"]
+[node name="ColorPicker" type="ColorPicker" parent="CustomColorWindow/Layout/Main" unique_id=564396151]
 layout_mode = 2
 theme = ExtResource("11_dk7ee")
 theme_override_colors/focused_not_editing_cursor_color = Color(1, 1, 1, 0.275)
 theme_override_styles/sample_focus = SubResource("StyleBoxEmpty_5kytl")
 theme_override_styles/picker_focus_rectangle = SubResource("StyleBoxEmpty_dk7ee")
 theme_override_styles/picker_focus_circle = SubResource("StyleBoxEmpty_6won7")
-theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_ncq2b")
-theme_override_styles/tab_selected = SubResource("StyleBoxEmpty_n0v7l")
 edit_alpha = false
 edit_intensity = false
 sampler_visible = false

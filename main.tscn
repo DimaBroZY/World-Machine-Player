@@ -46,7 +46,7 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0.16400003, 0, 0, 0, 
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_seu75"]
 gradient = SubResource("Gradient_kq58d")
-width = 1024
+width = 512
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_seu75"]
 particle_flag_disable_z = true
@@ -312,7 +312,7 @@ amount = 6
 texture = ExtResource("27_kq58d")
 lifetime = 2.1999999999999997
 explosiveness = 0.1
-fixed_fps = 60
+fixed_fps = 0
 process_material = SubResource("ParticleProcessMaterial_seu75")
 
 [node name="Niko" parent="MainWindow/Objects" unique_id=71496036 groups=["no_tint"] instance=ExtResource("1_ig7tw")]

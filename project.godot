@@ -36,8 +36,8 @@ buses/default_bus_layout=""
 
 Settings="*res://Settings.gd"
 TintManager="*res://Windows/Scripts/TintManager.gd"
-ColorChanged="*res://Windows/Scripts/ColorChanger.gd"
 EventBus="*uid://y57mki3he356"
+WindowManager="*uid://jq3xrh6vnfjp"
 
 [debug]
 
@@ -51,6 +51,10 @@ window/size/borderless=true
 window/subwindows/embed_subwindows=false
 window/frame_pacing/android/enable_frame_pacing=false
 window/stretch/mode="viewport"
+
+[editor]
+
+movie_writer/movie_file="D:/Desktop/World Machine Player/test"
 
 [editor_plugins]
 

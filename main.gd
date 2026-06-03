@@ -41,6 +41,7 @@ var volume_percent: float = 100.0
 
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
+	EventBus.noteEnabling.connect(_enable_notes)
 	loadingInfo.visible = false
 	FOLDER_PATH = str(Settings.get_setting("music_path", "user://music"))
 	Settings.setting_changed.connect(_on_setting_changed)
@@ -54,14 +55,24 @@ func _ready() -> void:
 	update_state()
 
 	_set_world_machine()
+	_enable_notes()
 
 func _set_world_machine() -> void:
-		if Settings.get_setting("worldMachineTheme") == 0:
-			niko.material = null
-			niko.modulate = Color(1.0, 1.0, 1.0, 1.0)
-		else:
+		if Settings.get_setting("worldMachineTheme") == true:
 			niko.material = preload("res://materials/world_machine_material.tres")
 			niko.modulate = Color(1.0, 1.0, 1.0, 0.75)
+		else:
+			niko.material = null
+			niko.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+func _enable_notes() -> void:
+	var enabled = Settings.get_setting("noteEnabled")
+
+	if enabled == null:
+		enabled = true
+		Settings.save_setting("noteEnabled", enabled)
+
+	notes.emitting = enabled and (state == PLAY)
 
 func nicoAnim() -> void:
 	if randi_range(1, 2) == 1:
@@ -708,7 +719,7 @@ func play_state() -> void:
 	$MainWindow/Buttons/PauseButton.position = Vector2(87.5, 0)
 	nicoAnim()
 	gramophone.animPlayer.play("Playing")
-	notes.emitting = true
+	_enable_notes()
 
 
 func pause_state() -> void:
@@ -717,7 +728,7 @@ func pause_state() -> void:
 	$MainWindow/Buttons/PauseButton.position = Vector2(87.5, 130)
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
-	notes.emitting = false
+	_enable_notes()
 
 func _on_stop_button_pressed() -> void:
 	music.stop()

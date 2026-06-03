@@ -50,9 +50,6 @@ script/source = "extends PanelContainer
 
 var moving := false 
 var mouse_start: Vector2i
-var settings_window = null
-var theme_window = null
-var secret_settings_window = null
 
 
 func _on_close_button_pressed() -> void:
@@ -72,39 +69,43 @@ func _process(_delta: float) -> void:
 
 
 func _on_settings_button_pressed() -> void:
-		if settings_window != null and is_instance_valid(settings_window):
-			settings_window.grab_focus()
-			return
-	
-		# Загружаем сцену с Window как корневой нодой
-		settings_window = preload(\"res://Windows/settings_window.tscn\").instantiate()
-	
-		# Добавляем Window в дерево сцен
-		get_tree().root.add_child(settings_window)
-	
-		settings_window.close_requested.connect(func(): 
-			settings_window.queue_free()
-			settings_window = null
-		)
-		settings_window.show()
-		TintManager.apply_tint_to_scene()
+	# Если окно уже существует
+	if WindowManager.settings_window != null and is_instance_valid(WindowManager.settings_window):
+		WindowManager.settings_window.show()
+		WindowManager.settings_window.grab_focus()
+		return
+
+	# Создаем окно
+	WindowManager.settings_window = preload(\"res://Windows/settings_window.tscn\").instantiate()
+
+	get_tree().root.add_child(WindowManager.settings_window)
+
+	WindowManager.settings_window.close_requested.connect(func():
+		WindowManager.settings_window.hide()
+	)
+
+	WindowManager.settings_window.show()
+
+	TintManager.apply_tint_to_scene()
 
 func _on_theme_button_pressed() -> void:
-	if theme_window != null and is_instance_valid(theme_window):
-		theme_window.grab_focus()
+	# Если окно уже существует
+	if WindowManager.theme_window != null and is_instance_valid(WindowManager.theme_window):
+		WindowManager.theme_window.show()
+		WindowManager.theme_window.grab_focus()
 		return
-	
-	# Загружаем сцену с Window как корневой нодой
-	theme_window = preload(\"res://Windows/theme_window.tscn\").instantiate()
-	
-	# Добавляем Window в дерево сцен
-	get_tree().root.add_child(theme_window)
-	
-	theme_window.close_requested.connect(func(): 
-		theme_window.queue_free()
-		theme_window = null
+
+	# Создаем окно
+	WindowManager.theme_window = preload(\"res://Windows/theme_window.tscn\").instantiate()
+
+	get_tree().root.add_child(WindowManager.theme_window)
+
+	WindowManager.theme_window.close_requested.connect(func():
+		WindowManager.theme_window.hide()
 	)
-	theme_window.show()
+
+	WindowManager.theme_window.show()
+
 	TintManager.apply_tint_to_scene()
 
 
@@ -113,21 +114,22 @@ func _on_minimize_button_pressed() -> void:
 
 
 func _on_secret_settings_button_pressed() -> void:
-	if secret_settings_window != null and is_instance_valid(secret_settings_window):
-		secret_settings_window.grab_focus()
+	if WindowManager.secret_settings_window != null and is_instance_valid(WindowManager.secret_settings_window):
+		WindowManager.secret_settings_window.show()
+		WindowManager.secret_settings_window.grab_focus()
 		return
 	
 	# Загружаем сцену с Window как корневой нодой
-	secret_settings_window = preload(\"res://Windows/secret_settings_window.tscn\").instantiate()
+	WindowManager.secret_settings_window = preload(\"res://Windows/secret_settings_window.tscn\").instantiate()
 	
 	# Добавляем Window в дерево сцен
-	get_tree().root.add_child(secret_settings_window)
+	get_tree().root.add_child(WindowManager.secret_settings_window)
 	
-	secret_settings_window.close_requested.connect(func(): 
-		secret_settings_window.queue_free()
-		secret_settings_window = null
+	WindowManager.secret_settings_window.close_requested.connect(func(): 
+		WindowManager.secret_settings_window.queue_free()
+		WindowManager.secret_settings_window = null
 	)
-	secret_settings_window.show()
+	WindowManager.secret_settings_window.show()
 	TintManager.apply_tint_to_scene()
 "
 

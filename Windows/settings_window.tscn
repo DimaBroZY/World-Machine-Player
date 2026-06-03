@@ -93,33 +93,30 @@ script/source = "extends Panel
 # var
 var worldMachineTheme = Settings.get_setting(\"worldMachineTheme\")
 
+
+
 func _ready() -> void:
 	if worldMachineTheme == null:
-		Settings.save_setting(\"worldMachineTheme\", 0)
+		Settings.save_setting(\"worldMachineTheme\", false)
 		worldMachineTheme = Settings.get_setting(\"worldMachineTheme\")
 	else:	
 		worldMachineTheme = Settings.get_setting(\"worldMachineTheme\")
 		set_label_text()
 		
 func set_label_text():
-	if worldMachineTheme >= 2:
-		worldMachineTheme = 0
-	if worldMachineTheme < 0:
-		worldMachineTheme = 1
-			
-	if worldMachineTheme == 0:
+	if worldMachineTheme == false:
 		label.text = \"Off\"
 	else:
 		label.text = \"On\"	
 	Settings.save_setting(\"worldMachineTheme\", worldMachineTheme)
 	
 func _on_previous_pressed() -> void:
-	worldMachineTheme -= 1 
+	worldMachineTheme = !worldMachineTheme
 	set_label_text()
 	EventBus.setWorldMachine.emit()
 	
 func _on_next_pressed() -> void:
-	worldMachineTheme += 1
+	worldMachineTheme = !worldMachineTheme
 	set_label_text()
 	EventBus.setWorldMachine.emit()
 "
@@ -171,10 +168,41 @@ texture = ExtResource("19_owwqo")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q6p7f"]
 texture = ExtResource("18_sjhro")
 
+[sub_resource type="GDScript" id="GDScript_g5yv1"]
+resource_name = "notes"
+script/source = "extends Panel
+# onready var
+@onready var label = $ChangeSetting/PanelContainer/Label
+@onready var labelText = label.text
+# var
+var noteEnabled = Settings.get_setting(\"noteEnabled\")
+
+func _ready() -> void:
+	noteEnabled = Settings.get_setting(\"noteEnabled\")
+	set_label_text()
+		
+func set_label_text():
+	if noteEnabled == false:
+		label.text = \"Off\"
+	else:
+		label.text = \"On\"	
+	Settings.save_setting(\"noteEnabled\", noteEnabled)
+	
+func _on_previous_pressed() -> void:
+	noteEnabled = !noteEnabled
+	set_label_text()
+	EventBus.noteEnabling.emit()
+	
+func _on_next_pressed() -> void:
+	noteEnabled = !noteEnabled
+	set_label_text()
+	EventBus.noteEnabling.emit()
+"
+
 [node name="Window" type="Window" unique_id=1166479097]
 oversampling_override = 1.0
 initial_position = 2
-size = Vector2i(600, 300)
+size = Vector2i(600, 400)
 borderless = true
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=101463129]
@@ -349,7 +377,7 @@ offset_top = 115.0
 offset_right = 895.0
 offset_bottom = 265.0
 scale = Vector2(0.65, 0.65)
-theme_override_constants/separation = 100
+theme_override_constants/separation = 120
 
 [node name="PathPanel" type="Panel" parent="SettingsWindow/Content" unique_id=1786388821 groups=["tintable"]]
 custom_minimum_size = Vector2(0, 50)
@@ -362,10 +390,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -152.5
-offset_top = -78.0
-offset_right = 152.5
-offset_bottom = -8.0
+offset_left = -143.07693
+offset_top = -78.46154
+offset_right = 161.9231
+offset_bottom = -8.46154
 grow_horizontal = 2
 text = "Music Folder"
 label_settings = SubResource("LabelSettings_w5pex")
@@ -478,6 +506,82 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
+[node name="Notes" type="Panel" parent="SettingsWindow/Content" unique_id=1074696923 groups=["tintable"]]
+layout_mode = 2
+script = SubResource("GDScript_g5yv1")
+
+[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/Notes" unique_id=1724590423]
+anchors_preset = 0
+offset_left = -1.5384631
+offset_top = -3.8461642
+offset_right = 865.46155
+offset_bottom = -3.8461642
+scale = Vector2(0.93, 0.93)
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=594009631]
+layout_mode = 0
+offset_left = 221.67079
+offset_top = -74.44168
+offset_right = 716.6708
+offset_bottom = -4.441681
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("15_8x2rp")
+text = "Notes"
+label_settings = SubResource("LabelSettings_8x2rp")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=1178478946]
+custom_minimum_size = Vector2(500, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -377.19315
+offset_top = -11.53844
+offset_right = 458.146
+offset_bottom = 45.46156
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jnyio")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/Notes/ChangeSetting/PanelContainer" unique_id=113044722]
+layout_mode = 2
+text = "Off"
+label_settings = SubResource("LabelSettings_mcsq1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Previous" type="Button" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=6234301]
+layout_mode = 0
+offset_left = 1.6542625
+offset_top = -11.579829
+offset_right = 58.654263
+offset_bottom = 45.42017
+pivot_offset = Vector2(342.43176, -54.590576)
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ooibu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jklcd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l8fi3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_logg6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
+
+[node name="Next" type="Button" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=1242323207]
+layout_mode = 0
+offset_left = 891.646
+offset_top = -11.579829
+offset_right = 948.646
+offset_bottom = 45.42017
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vhduf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tnr6a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
+
 [connection signal="gui_input" from="SettingsWindow/Layout/TopBar" to="SettingsWindow/Layout/TopBar" method="_on_gui_input"]
 [connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/MinimizeButton" to="SettingsWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
 [connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/CloseButton" to="SettingsWindow/Layout/TopBar" method="_on_close_button_pressed"]
@@ -487,3 +591,5 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 [connection signal="pressed" from="SettingsWindow/Content/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/Previous" to="SettingsWindow/Content/WorldMachineThemeSet" method="_on_previous_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/Next" to="SettingsWindow/Content/WorldMachineThemeSet" method="_on_next_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/Notes/ChangeSetting/Previous" to="SettingsWindow/Content/Notes" method="_on_previous_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/Notes/ChangeSetting/Next" to="SettingsWindow/Content/Notes" method="_on_next_pressed"]

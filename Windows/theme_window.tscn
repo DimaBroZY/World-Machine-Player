@@ -42,7 +42,7 @@ var player: AudioStreamPlayer
 var colorSelectionMenu = null
 
 func _ready() -> void:
-		ColorChanged.color_changed.connect(_on_color_changed)
+		EventBus.color_changed.connect(_on_color_changed)
 		var saved_info = Settings.get_setting(\"is_info_message_appear\", true)
 		info = saved_info
 		
