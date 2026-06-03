@@ -67,8 +67,7 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 
 
 ## 🧩 Credits
-World Machine shader used in this project was taken from **DesktopNiko**  
-:contentReference[oaicite:1]{index=1}  
+World Machine shader used in this project was taken from [**DesktopNiko**](https://github.com/Issac8658/DesktopNiko)
 Licensed under the **Apache-2.0 License**, which permits use, modification, and redistribution under its terms.  
 The shader is used in accordance with that license.
 
