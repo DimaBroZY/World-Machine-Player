@@ -11,22 +11,27 @@ extends Control
 @onready var speedControl = $MainWindow/PlaybackSpeedControlNode
 @onready var nextTrack =$MainWindow/CurrentTrack/NextTrack
 @onready var previousTrack = $MainWindow/CurrentTrack/PreviousTrack
-@onready var notes: GPUParticles2D = $MainWindow/Objects/Gramophone/CanvasLayer/Notes
+@onready var notes: GPUParticles2D = $MainWindow/Objects/Gramophone/Notes
 
 
 
-var MUSIC_FILE: AudioStream = preload("res://music/Prelude.mp3")
+const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
 
 const PLAY: int = 0
 const PAUSE: int = 1
-const MUSIC_CACHE_VERSION: int = 1
+const MUSIC_CACHE_VERSION: int = 2
 const MUSIC_CACHE_FILE: String = "user://music_cache.json"
 const MUSIC_CACHE_DIR: String = "user://music_cache"
-const MUSIC_FOLDER_SCAN_INTERVAL: float = 5.0
+const MUSIC_CACHE_RESOURCE_EXTENSION: String = "res"
+const MUSIC_FOLDER_WATCH_SCAN_DELAY: float = 1.0
+const MUSIC_FOLDER_WATCH_SCAN_STEP: int = 20
+const MUSIC_FOLDER_REFRESH_DEBOUNCE: float = 2.25
 const MIN_FILE_AGE_SECONDS: int = 2
 const STREAM_CACHE_RADIUS: int = 1
 const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
-const LOCK_TIME: float = 0.5
+const LOCK_TIME: float = 0.0
+
+var MUSIC_FILE: AudioStream = preload("res://music/Prelude.mp3")
 
 var state: int = PAUSE
 var playlist: Array[Dictionary] = []
@@ -37,8 +42,24 @@ var _stream_cache: Dictionary = {}
 var _is_loading_tracks: bool = false
 var _last_music_scan_ok: bool = false
 var _stream_cache_refresh_queued: bool = false
+var _music_folder_watcher
+var _music_folder_refresh_queued: bool = false
+var _music_folder_refresh_requested: bool = false
 var volume_percent: float = 100.0
 
+var pos := 0.0
+
+func _process(_delta):
+	if music == null:
+		return
+
+	var new_pos := music.get_playback_position()
+
+	if new_pos - pos > 0.2:
+		print("audio jump: ", new_pos - pos)
+
+	pos = new_pos
+		
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
 	EventBus.noteEnabling.connect(_enable_notes)
@@ -49,9 +70,8 @@ func _ready() -> void:
 	volume_percent = volumeControl.volumeControlSlide.value
 	set_volume(volume_percent)
 
-	_create_folder_scan_timer()
-
 	await load_tracks_from_folder(true)
+	_create_music_folder_watcher()
 	update_state()
 
 	_set_world_machine()
@@ -89,22 +109,63 @@ func _on_setting_changed(key: String, value: Variant) -> void:
 	if key == "music_path":
 		FOLDER_PATH = str(value)
 		current_index = 0
+		_create_music_folder_watcher()
 		await load_tracks_from_folder(true)
 		update_state()
 
 
-func _create_folder_scan_timer() -> void:
-	var folder_scan_timer: Timer = Timer.new()
-	folder_scan_timer.wait_time = MUSIC_FOLDER_SCAN_INTERVAL
-	folder_scan_timer.one_shot = false
-	folder_scan_timer.autostart = false
-	folder_scan_timer.timeout.connect(_on_folder_scan_timer_timeout)
-	add_child(folder_scan_timer)
-	folder_scan_timer.start()
+func _create_music_folder_watcher() -> void:
+	if _music_folder_watcher != null:
+		_music_folder_watcher.queue_free()
+		_music_folder_watcher = null
+
+	if DirAccess.open(FOLDER_PATH) == null:
+		return
+
+	_music_folder_watcher = DIRECTORY_WATCHER_SCRIPT.new()
+	_music_folder_watcher.scan_delay = MUSIC_FOLDER_WATCH_SCAN_DELAY
+	_music_folder_watcher.scan_step = MUSIC_FOLDER_WATCH_SCAN_STEP
+	_music_folder_watcher.files_created.connect(_on_music_folder_files_changed)
+	_music_folder_watcher.files_modified.connect(_on_music_folder_files_changed)
+	_music_folder_watcher.files_deleted.connect(_on_music_folder_files_changed)
+	add_child(_music_folder_watcher)
+	_music_folder_watcher.add_scan_directory(FOLDER_PATH)
 
 
-func _on_folder_scan_timer_timeout() -> void:
-	await load_tracks_from_folder(true)
+func _on_music_folder_files_changed(files: PackedStringArray) -> void:
+	if _contains_supported_audio_file(files):
+		_queue_music_folder_refresh()
+
+
+func _contains_supported_audio_file(paths: PackedStringArray) -> bool:
+	for path: String in paths:
+		if _is_supported_audio_file(path):
+			return true
+
+	return false
+
+
+func _queue_music_folder_refresh() -> void:
+	_music_folder_refresh_requested = true
+	if _music_folder_refresh_queued:
+		return
+
+	_music_folder_refresh_queued = true
+	call_deferred("_run_music_folder_refresh_queue")
+
+
+func _run_music_folder_refresh_queue() -> void:
+	while _music_folder_refresh_requested:
+		_music_folder_refresh_requested = false
+		await get_tree().create_timer(MUSIC_FOLDER_REFRESH_DEBOUNCE).timeout
+		if _is_loading_tracks:
+			_music_folder_refresh_requested = true
+			await get_tree().process_frame
+			continue
+
+		await load_tracks_from_folder(false)
+
+	_music_folder_refresh_queued = false
 
 
 func load_tracks_from_folder(show_loading: bool = true) -> void:
@@ -299,6 +360,9 @@ func _track_needs_import(cached_track: Dictionary, file_info: Dictionary) -> boo
 
 	var resource_path: String = str(cached_track.get("resource_path", ""))
 	if resource_path.is_empty() or not FileAccess.file_exists(resource_path):
+		return true
+
+	if resource_path.get_extension().to_lower() != MUSIC_CACHE_RESOURCE_EXTENSION:
 		return true
 
 	if int(cached_track.get("size", -1)) != int(file_info["size"]):
@@ -637,7 +701,7 @@ func _get_cache_resource_path(file_info: Dictionary) -> String:
 	var file_name: String = str(file_info["file_name"])
 	var safe_name: String = _sanitize_cache_file_name(file_name.get_basename())
 	var path_hash: int = int(abs(source_path.hash()))
-	return _join_path(MUSIC_CACHE_DIR, safe_name + "_" + str(path_hash) + ".tres")
+	return _join_path(MUSIC_CACHE_DIR, safe_name + "_" + str(path_hash) + "." + MUSIC_CACHE_RESOURCE_EXTENSION)
 
 
 func _sanitize_cache_file_name(file_name: String) -> String:

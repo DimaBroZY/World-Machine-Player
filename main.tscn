@@ -298,15 +298,12 @@ offset_right = 269.99997
 offset_bottom = 130.0
 scale = Vector2(6.9, 6.9)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="MainWindow/Objects/Gramophone" unique_id=578057254]
-layer = 10
-
-[node name="Notes" type="GPUParticles2D" parent="MainWindow/Objects/Gramophone/CanvasLayer" unique_id=1605462823]
+[node name="Notes" type="GPUParticles2D" parent="MainWindow/Objects/Gramophone" unique_id=1605462823]
 texture_filter = 1
 material = SubResource("CanvasItemMaterial_seu75")
-position = Vector2(284, 133)
+position = Vector2(-6.763283, -3.8647308)
 rotation = -2.3562002
-scale = Vector2(0.99999994, 0.99999994)
+scale = Vector2(0.24154584, 0.24154584)
 emitting = false
 amount = 6
 texture = ExtResource("27_kq58d")

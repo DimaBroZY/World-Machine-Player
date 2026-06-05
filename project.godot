@@ -20,6 +20,7 @@ run/main_scene="uid://br0vuvri2rao8"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="WorldMachinePlayer"
 config/features=PackedStringArray("4.6", "Mobile")
+run/max_fps=60
 run/low_processor_mode=true
 boot_splash/show_image=false
 boot_splash/stretch_mode=0
@@ -31,6 +32,9 @@ config/windows_native_icon="res://Assets/dotIco/Color_Sun.ico"
 [audio]
 
 buses/default_bus_layout=""
+driver/output_latency=100
+driver/output_latency.web=100
+driver/mix_rate=48000
 
 [autoload]
 
