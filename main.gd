@@ -12,7 +12,7 @@ extends Control
 @onready var nextTrack =$MainWindow/CurrentTrack/NextTrack
 @onready var previousTrack = $MainWindow/CurrentTrack/PreviousTrack
 @onready var notes: GPUParticles2D = $MainWindow/Objects/Gramophone/Notes
-
+@onready var tracks_container = $MainWindow/CurrentTrack/TrackListPanel/PanelContainer/ScrollContainer/VBoxContainer
 
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
@@ -30,6 +30,9 @@ const MIN_FILE_AGE_SECONDS: int = 2
 const STREAM_CACHE_RADIUS: int = 1
 const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
 const LOCK_TIME: float = 0.0
+const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
+
+
 
 var MUSIC_FILE: AudioStream = preload("res://music/Prelude.mp3")
 
@@ -47,18 +50,19 @@ var _music_folder_refresh_queued: bool = false
 var _music_folder_refresh_requested: bool = false
 var volume_percent: float = 100.0
 
-var pos := 0.0
+# проверка на задержку
 
-func _process(_delta):
-	if music == null:
-		return
-
-	var new_pos := music.get_playback_position()
-
-	if new_pos - pos > 0.2:
-		print("audio jump: ", new_pos - pos)
-
-	pos = new_pos
+#var last_tick := 0
+#
+#func _process(_delta: float) -> void:
+	#var now = Time.get_ticks_msec()
+#
+	#if last_tick != 0:
+		#var diff = now - last_tick
+		#if diff > 40:
+			#print("🔥 SPIKE:", diff, "ms")
+#
+	#last_tick = now
 		
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
@@ -71,6 +75,9 @@ func _ready() -> void:
 	set_volume(volume_percent)
 
 	await load_tracks_from_folder(true)
+	
+	refresh_track_list()
+	
 	_create_music_folder_watcher()
 	update_state()
 
@@ -238,6 +245,9 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 	_remove_orphan_cache_files()
 	_save_music_cache()
 	_apply_playlist_after_refresh(previous_source_path, previous_resource_path, changed_sources)
+
+	refresh_track_list()
+
 	_hide_loading_info()
 	_is_loading_tracks = false
 	
@@ -860,4 +870,41 @@ func _on_play_button_pressed() -> void:
 
 func _on_pause_button_pressed() -> void:
 	state = PAUSE
+	update_state()
+
+
+func refresh_track_list() -> void:
+	for child in tracks_container.get_children():
+		child.queue_free()
+
+	for i in range(playlist.size()):
+		var track = playlist[i]
+
+		var button: Button = TRACK_ITEM.instantiate()
+
+		button.text = str(track.get("name", "Unknown Track"))
+
+		var idx := i
+
+		button.pressed.connect(
+			func():
+				play_track_by_index(idx)
+		)
+
+		tracks_container.add_child(button)
+
+
+func play_track_by_index(index: int) -> void:
+	if index < 0 or index >= playlist.size():
+		return
+
+	current_index = index
+
+	music.stop()
+
+	_load_current_track()
+
+	if state == PLAY:
+		music.play()
+
 	update_state()

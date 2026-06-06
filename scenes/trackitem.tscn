@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://dtoy8qu18yplx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56cce"]
+bg_color = Color(0.64685506, 0.64685506, 0.64685506, 0.326)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vvadg"]
+bg_color = Color(0.6155507, 0.6155507, 0.6155507, 0)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.6174547, 0.61745477, 0.6174545, 1)
+
+[node name="Button" type="Button" unique_id=530456163]
+clip_contents = true
+custom_minimum_size = Vector2(813, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+size_flags_vertical = 3
+theme_override_colors/font_pressed_color = Color(0.6784314, 0.6784314, 0.6784314, 1)
+theme_override_colors/font_hover_color = Color(0.6784314, 0.6784314, 0.6784314, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.6784314, 0.6784314, 0.6784314, 1)
+theme_override_constants/align_to_largest_stylebox = 150
+theme_override_styles/normal = SubResource("StyleBoxFlat_56cce")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vvadg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vvadg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_vvadg")
+text_overrun_behavior = 6
+clip_text = true
+text_direction = 1

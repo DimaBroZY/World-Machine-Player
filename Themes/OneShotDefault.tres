@@ -46,6 +46,9 @@ expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nqj2l"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqj2l"]
+bg_color = Color(1, 1, 1, 1)
+
 [resource]
 default_font = ExtResource("3_ipw7k")
 default_font_size = 35
@@ -81,3 +84,6 @@ LineEdit/icons/clear = ExtResource("4_v3jyk")
 LineEdit/styles/focus = SubResource("StyleBoxEmpty_alvq2")
 LineEdit/styles/normal = SubResource("StyleBoxEmpty_ot014")
 LineEdit/styles/read_only = SubResource("StyleBoxEmpty_nqj2l")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_nqj2l")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_nqj2l")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_nqj2l")
