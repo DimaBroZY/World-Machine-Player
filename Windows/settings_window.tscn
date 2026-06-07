@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dhq45ydho21wt"]
 
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_0m26i"]
-[ext_resource type="Script" uid="uid://dmx7d5dbrnmqu" path="res://Windows/settings_window.gd" id="1_6k48w"]
+[ext_resource type="Script" uid="uid://dmx7d5dbrnmqu" path="res://Windows/Scripts/settings_window.gd" id="1_6k48w"]
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_8x2rp"]
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="2_w5pex"]
 [ext_resource type="Texture2D" uid="uid://cseb2kw154ng7" path="res://Assets/Icons/Settings.png" id="3_qm3jx"]
@@ -495,9 +495,9 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
 
 [node name="Next" type="Button" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=1748857874]
 layout_mode = 0
-offset_left = 891.646
+offset_left = 885.02893
 offset_top = -11.579829
-offset_right = 948.646
+offset_right = 942.02893
 offset_bottom = 45.42017
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_vhduf")
@@ -571,9 +571,9 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
 
 [node name="Next" type="Button" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=1242323207]
 layout_mode = 0
-offset_left = 891.646
+offset_left = 885.02893
 offset_top = -11.579829
-offset_right = 948.646
+offset_right = 942.02893
 offset_bottom = 45.42017
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_vhduf")
