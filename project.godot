@@ -55,6 +55,8 @@ window/size/borderless=true
 window/subwindows/embed_subwindows=false
 window/frame_pacing/android/enable_frame_pacing=false
 window/stretch/mode="viewport"
+window/per_pixel_transparency/allowed=true
+window/vsync/vsync_mode=0
 
 [editor]
 
@@ -92,5 +94,12 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 
 occlusion_culling/bvh_build_quality=0
 textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"
+textures/vram_compression/compress_with_gpu=false
+textures/vram_compression/cache_gpu_compressor=false
 textures/default_filters/anisotropic_filtering_level=0
+textures/decals/filter=2
+textures/light_projectors/filter=2
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

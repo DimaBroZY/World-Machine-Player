@@ -74,6 +74,8 @@ func _ready() -> void:
 	volume_percent = volumeControl.volumeControlSlide.value
 	set_volume(volume_percent)
 
+	
+
 	await load_tracks_from_folder(true)
 	
 	refresh_track_list()
@@ -94,13 +96,15 @@ func _set_world_machine() -> void:
 
 func _enable_notes() -> void:
 	var enabled = Settings.get_setting("noteEnabled")
+	
+
 
 	if enabled == null:
 		enabled = true
 		Settings.save_setting("noteEnabled", enabled)
 
 	notes.emitting = enabled and (state == PLAY)
-
+	
 func nicoAnim() -> void:
 	if randi_range(1, 2) == 1:
 		niko.animPlayer.play("Dancing")
