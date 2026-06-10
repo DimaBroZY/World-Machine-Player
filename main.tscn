@@ -232,6 +232,14 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seu75"]
+content_margin_left = 14.0
+draw_center = false
+border_width_top = 3
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+anti_aliasing = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0d6xb"]
 content_margin_left = 15.0
 content_margin_right = 15.0
@@ -312,6 +320,10 @@ vertical_alignment = 2
 clip_text = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
+process_mode = 3
+process_thread_group = 2
+process_thread_group_order = 0
+process_thread_messages = 1
 
 [node name="Objects" type="Control" parent="MainWindow" unique_id=793731524 groups=["party_tintable"]]
 texture_filter = 1
@@ -534,7 +546,6 @@ offset_bottom = 368.0
 scale = Vector2(0.65, 0.65)
 
 [node name="TrackListPanel" type="Control" parent="MainWindow/CurrentTrack" unique_id=806466984]
-visible = false
 anchors_preset = 0
 offset_left = 56.923073
 offset_top = -303.07693
@@ -551,8 +562,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_htxhm")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer" unique_id=1471640953]
+[node name="LineEdit" type="LineEdit" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer" unique_id=814861633]
+custom_minimum_size = Vector2(825, 70)
 layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("27_htxhm")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("9_kek77")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_seu75")
+placeholder_text = "Search here..."
+context_menu_enabled = false
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer" unique_id=1471640953]
+custom_minimum_size = Vector2(0, 260)
+layout_mode = 2
+size_flags_vertical = 8
 theme = ExtResource("27_htxhm")
 draw_focus_border = true
 horizontal_scroll_mode = 0
@@ -565,6 +592,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 5
 
 [node name="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer/ScrollContainer/VBoxContainer" unique_id=530456163 instance=ExtResource("28_htxhm")]
+custom_minimum_size = Vector2(820, 0)
 layout_mode = 2
 
 [node name="CurrentTrackLabel" type="Label" parent="MainWindow/CurrentTrack" unique_id=1942783716]
