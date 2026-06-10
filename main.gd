@@ -13,6 +13,7 @@ extends Control
 @onready var previousTrack = $MainWindow/CurrentTrack/PreviousTrack
 @onready var notes: GPUParticles2D = $MainWindow/Objects/Gramophone/Notes
 @onready var tracks_container = $MainWindow/CurrentTrack/TrackListPanel/PanelContainer/ScrollContainer/VBoxContainer
+@onready var search_bar = $MainWindow/CurrentTrack/TrackListPanel/PanelContainer/LineEdit
 
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
@@ -49,20 +50,9 @@ var _music_folder_watcher
 var _music_folder_refresh_queued: bool = false
 var _music_folder_refresh_requested: bool = false
 var volume_percent: float = 100.0
+var full_playlist: Array = []
+var search_query: String = ""
 
-# проверка на задержку
-
-#var last_tick := 0
-#
-#func _process(_delta: float) -> void:
-	#var now = Time.get_ticks_msec()
-#
-	#if last_tick != 0:
-		#var diff = now - last_tick
-		#if diff > 40:
-			#print("🔥 SPIKE:", diff, "ms")
-#
-	#last_tick = now
 		
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
@@ -75,7 +65,6 @@ func _ready() -> void:
 	set_volume(volume_percent)
 
 	
-
 	await load_tracks_from_folder(true)
 	
 	refresh_track_list()
@@ -246,6 +235,7 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 		refreshed_playlist.append(track)
 
 	playlist = refreshed_playlist
+	full_playlist = refreshed_playlist.duplicate()
 	_remove_orphan_cache_files()
 	_save_music_cache()
 	_apply_playlist_after_refresh(previous_source_path, previous_resource_path, changed_sources)
@@ -912,3 +902,24 @@ func play_track_by_index(index: int) -> void:
 		music.play()
 
 	update_state()
+	
+func _on_line_edit_text_changed(text: String) -> void:
+	apply_search(text)
+	
+func apply_search(query: String) -> void:
+	search_query = query.to_lower()
+
+	if search_query.strip_edges() == "":
+		playlist = full_playlist.duplicate()
+	else:
+		playlist = []
+
+
+		for track in full_playlist:
+			var name = str(track.get("name", "")).to_lower()
+			var file = str(track.get("file_name", "")).to_lower()
+
+			if search_query in name or search_query in file:
+				playlist.append(track)
+
+	refresh_track_list()

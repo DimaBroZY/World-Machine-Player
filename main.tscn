@@ -235,7 +235,6 @@ border_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seu75"]
 content_margin_left = 14.0
 draw_center = false
-border_width_top = 3
 border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 anti_aliasing = false
@@ -546,6 +545,7 @@ offset_bottom = 368.0
 scale = Vector2(0.65, 0.65)
 
 [node name="TrackListPanel" type="Control" parent="MainWindow/CurrentTrack" unique_id=806466984]
+visible = false
 anchors_preset = 0
 offset_left = 56.923073
 offset_top = -303.07693
@@ -569,7 +569,7 @@ size_flags_vertical = 0
 theme = ExtResource("27_htxhm")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("9_kek77")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_seu75")
 placeholder_text = "Search here..."
 context_menu_enabled = false
@@ -577,7 +577,7 @@ emoji_menu_enabled = false
 virtual_keyboard_enabled = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer" unique_id=1471640953]
-custom_minimum_size = Vector2(0, 260)
+custom_minimum_size = Vector2(0, 265)
 layout_mode = 2
 size_flags_vertical = 8
 theme = ExtResource("27_htxhm")
@@ -592,16 +592,21 @@ size_flags_vertical = 3
 theme_override_constants/separation = 5
 
 [node name="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer/ScrollContainer/VBoxContainer" unique_id=530456163 instance=ExtResource("28_htxhm")]
-custom_minimum_size = Vector2(820, 0)
+custom_minimum_size = Vector2(820, 70)
 layout_mode = 2
+size_flags_vertical = 2
+text = "This is Song (mamoy klyanus)"
 
 [node name="CurrentTrackLabel" type="Label" parent="MainWindow/CurrentTrack" unique_id=1942783716]
 show_behind_parent = true
-layout_mode = 0
-offset_left = 361.99997
-offset_top = 4.4444275
-offset_right = 566.0
-offset_bottom = 45.444427
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -102.0
+offset_right = 102.0
+offset_bottom = 41.0
+grow_horizontal = 2
 theme_override_fonts/font = ExtResource("9_kek77")
 theme_override_font_sizes/font_size = 23
 text = "Current Track"
@@ -699,6 +704,7 @@ click_sound_release = ExtResource("20_kq58d")
 [connection signal="value_changed" from="MainWindow/VolumeControl/VolumeControlSlide" to="." method="_on_volume_control_slide_value_changed"]
 [connection signal="pressed" from="MainWindow/VolumeControl/VolumeMinus" to="." method="_on_volume_minus_pressed"]
 [connection signal="pressed" from="MainWindow/VolumeControl/VolumePlus" to="." method="_on_volume_plus_pressed"]
+[connection signal="text_changed" from="MainWindow/CurrentTrack/TrackListPanel/PanelContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="pressed" from="MainWindow/CurrentTrack/PanelContainer/OpenButton" to="MainWindow/CurrentTrack/TrackListPanel" method="_on_open_button_pressed"]
 [connection signal="pressed" from="MainWindow/CurrentTrack/PreviousTrack" to="." method="_on_previous_track_pressed"]
 [connection signal="pressed" from="MainWindow/CurrentTrack/NextTrack" to="." method="_on_next_track_pressed"]

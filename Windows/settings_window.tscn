@@ -326,6 +326,7 @@ theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_t4ovt")
 
 [node name="Handles" type="Control" parent="SettingsWindow" unique_id=516587098]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -407,6 +408,7 @@ offset_left = 10.0
 offset_top = -4.0
 offset_right = 779.0
 offset_bottom = 72.0
+theme = ExtResource("15_8x2rp")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_qm3jx")
 theme_override_font_sizes/font_size = 40
@@ -422,7 +424,7 @@ virtual_keyboard_enabled = false
 [node name="FolderButton" type="Button" parent="SettingsWindow/Content/PathPanel" unique_id=970856389]
 layout_mode = 0
 offset_left = 790.7692
-offset_top = -9.230816
+offset_top = -7.6923027
 offset_right = 860.7692
 offset_bottom = 60.769184
 focus_mode = 0
