@@ -916,7 +916,6 @@ func apply_search(query: String) -> void:
 
 
 		for track in full_playlist:
-			var name = str(track.get("name", "")).to_lower()
 			var file = str(track.get("file_name", "")).to_lower()
 
 			if search_query in name or search_query in file:
