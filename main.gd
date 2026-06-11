@@ -12,8 +12,8 @@ extends Control
 @onready var nextTrack =$MainWindow/CurrentTrack/NextTrack
 @onready var previousTrack = $MainWindow/CurrentTrack/PreviousTrack
 @onready var notes: GPUParticles2D = $MainWindow/Objects/Gramophone/Notes
-@onready var tracks_container = $MainWindow/CurrentTrack/TrackListPanel/PanelContainer/ScrollContainer/VBoxContainer
-@onready var search_bar = $MainWindow/CurrentTrack/TrackListPanel/PanelContainer/LineEdit
+@onready var tracks_container = $MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer
+@onready var search_bar = $MainWindow/CurrentTrack/TrackListPanel/TrackList/LineEdit
 
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")

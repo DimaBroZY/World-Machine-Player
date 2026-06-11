@@ -67,7 +67,7 @@ func _process(delta: float) -> void:
 func _setup_label(label: Label) -> void:
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	label.clip_text = false
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.set_anchors_preset(Control.PRESET_TOP_LEFT)
 

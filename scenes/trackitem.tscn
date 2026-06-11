@@ -23,9 +23,7 @@ border_width_bottom = 3
 border_color = Color(1, 1, 1, 0.4862745)
 
 [node name="Button" type="Button" unique_id=530456163]
-clip_contents = true
-custom_minimum_size = Vector2(813, 70)
-layout_direction = 1
+custom_minimum_size = Vector2(605, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,6 +39,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_obhcq")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_32t18")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vvadg")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_32t18")
-text_overrun_behavior = 6
+text_overrun_behavior = 3
 clip_text = true
-text_direction = 1

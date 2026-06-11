@@ -224,6 +224,119 @@ func _on_open_button_pressed() -> void:
 		track_list_panel.visible = true
 "
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jq2sk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0rl1p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4k2k6"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rl1p"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ok6jj"]
+bg_color = Color(1, 1, 1, 0.17254902)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0n3wm"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1qrp"]
+draw_center = false
+border_width_left = 2
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_come4"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h8e4i"]
+bg_color = Color(1, 1, 1, 0.17254902)
+border_width_left = 2
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lmeg"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_facbu"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_b1qrp"]
+font = ExtResource("9_kek77")
+font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0cp0l"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2t1y"]
+bg_color = Color(1, 1, 1, 0.22352941)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gngh3"]
+bg_color = Color(1, 1, 1, 0.17254902)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_color = Color(1, 1, 1, 1)
+expand_margin_left = 3.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htxhm"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 3
@@ -470,7 +583,6 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_seu75")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_htxhm")
 
 [node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode" unique_id=224617813]
-texture_filter = 1
 layout_mode = 0
 offset_left = 24.0
 offset_top = 2.717
@@ -545,25 +657,123 @@ offset_bottom = 368.0
 scale = Vector2(0.65, 0.65)
 
 [node name="TrackListPanel" type="Control" parent="MainWindow/CurrentTrack" unique_id=806466984]
-visible = false
+layout_direction = 1
 anchors_preset = 0
-offset_left = 56.923073
-offset_top = -303.07693
-offset_right = 884.6155
-offset_bottom = 38.461548
+offset_left = 57.0
+offset_top = -303.0
+offset_right = 883.07697
+offset_bottom = 38.0
 script = SubResource("GDScript_kq58d")
 
-[node name="PanelContainer" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel" unique_id=1561185524]
+[node name="PlaylistsAndModes" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel" unique_id=1287341985]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -60.076935
+offset_right = 260.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jq2sk")
+
+[node name="PlaylistTitleAndButtonsCotainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes" unique_id=391968903]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ModeButtonsContainer" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=574866284]
+custom_minimum_size = Vector2(0, 73)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0rl1p")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer" unique_id=928293875]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="LocalButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer" unique_id=324981946]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_kek77")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_4k2k6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0rl1p")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ok6jj")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_0n3wm")
+toggle_mode = true
+button_pressed = true
+text = "[LOCAL]"
+
+[node name="YouTubeButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer" unique_id=1508099524]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_kek77")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_b1qrp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_come4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h8e4i")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4lmeg")
+toggle_mode = true
+text = "[YOUTUBE]"
+
+[node name="PlaylistsTitleContainer" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=729568778]
+custom_minimum_size = Vector2(320, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_facbu")
+
+[node name="Label" type="Label" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsTitleContainer" unique_id=1139939118]
+layout_mode = 2
+text = "*PLAYLISTS*"
+label_settings = SubResource("LabelSettings_b1qrp")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="PlaylistsScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=632820976]
+custom_minimum_size = Vector2(100, 177)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("27_htxhm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer" unique_id=1723871941]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NewPlaylistButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=2105005784]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("9_kek77")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_0cp0l")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_d2t1y")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gngh3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_d2t1y")
+text = "[*NEW]"
+
+[node name="TrackList" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel" unique_id=1561185524]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 259.9231
+offset_right = 60.61548
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_htxhm")
 
-[node name="LineEdit" type="LineEdit" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer" unique_id=814861633]
-custom_minimum_size = Vector2(825, 70)
+[node name="LineEdit" type="LineEdit" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList" unique_id=814861633]
+custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 size_flags_vertical = 0
 theme = ExtResource("27_htxhm")
@@ -576,7 +786,7 @@ context_menu_enabled = false
 emoji_menu_enabled = false
 virtual_keyboard_enabled = false
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer" unique_id=1471640953]
+[node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList" unique_id=1471640953]
 custom_minimum_size = Vector2(0, 265)
 layout_mode = 2
 size_flags_vertical = 8
@@ -584,18 +794,17 @@ theme = ExtResource("27_htxhm")
 draw_focus_border = true
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer/ScrollContainer" unique_id=605642092]
-custom_minimum_size = Vector2(813, 0)
+[node name="VBoxContainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer" unique_id=605642092]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 5
 
-[node name="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PanelContainer/ScrollContainer/VBoxContainer" unique_id=530456163 instance=ExtResource("28_htxhm")]
-custom_minimum_size = Vector2(820, 70)
+[node name="First Track" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer" unique_id=530456163 instance=ExtResource("28_htxhm")]
 layout_mode = 2
-size_flags_vertical = 2
-text = "This is Song (mamoy klyanus)"
+text = "First Track"
+
+[node name="Second Track" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer" unique_id=1194406453 instance=ExtResource("28_htxhm")]
+layout_mode = 2
+text = "Second Track
+"
 
 [node name="CurrentTrackLabel" type="Label" parent="MainWindow/CurrentTrack" unique_id=1942783716]
 show_behind_parent = true
@@ -647,6 +856,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
+theme = ExtResource("27_htxhm")
 text = "Current Track..."
 label_settings = SubResource("LabelSettings_qsp4k")
 horizontal_alignment = 1
@@ -704,7 +914,7 @@ click_sound_release = ExtResource("20_kq58d")
 [connection signal="value_changed" from="MainWindow/VolumeControl/VolumeControlSlide" to="." method="_on_volume_control_slide_value_changed"]
 [connection signal="pressed" from="MainWindow/VolumeControl/VolumeMinus" to="." method="_on_volume_minus_pressed"]
 [connection signal="pressed" from="MainWindow/VolumeControl/VolumePlus" to="." method="_on_volume_plus_pressed"]
-[connection signal="text_changed" from="MainWindow/CurrentTrack/TrackListPanel/PanelContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="text_changed" from="MainWindow/CurrentTrack/TrackListPanel/TrackList/LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="pressed" from="MainWindow/CurrentTrack/PanelContainer/OpenButton" to="MainWindow/CurrentTrack/TrackListPanel" method="_on_open_button_pressed"]
 [connection signal="pressed" from="MainWindow/CurrentTrack/PreviousTrack" to="." method="_on_previous_track_pressed"]
 [connection signal="pressed" from="MainWindow/CurrentTrack/NextTrack" to="." method="_on_next_track_pressed"]
