@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cthigskjg6cwo"]
+
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_6qq0t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6k8do"]
+content_margin_left = 10.0
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
+content_margin_left = 10.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6qq0t"]
+content_margin_left = 10.0
+bg_color = Color(1, 1, 1, 0.17)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[node name="Button" type="Button" unique_id=336575494]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_6qq0t")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_6k8do")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_32t18")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6qq0t")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_32t18")
+toggle_mode = true
+text_overrun_behavior = 3

@@ -1,12 +1,16 @@
 [gd_scene format=3 uid="uid://dtoy8qu18yplx"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obhcq"]
-bg_color = Color(1, 1, 1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
+content_margin_left = 10.0
 draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obhcq"]
+content_margin_left = 10.0
 bg_color = Color(1, 1, 1, 0.22352941)
 border_width_left = 3
 border_width_top = 3
@@ -14,7 +18,8 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vvadg"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4s2h"]
+content_margin_left = 10.0
 bg_color = Color(1, 1, 1, 0.17254902)
 border_width_left = 3
 border_width_top = 3
@@ -35,9 +40,8 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_constants/align_to_largest_stylebox = 150
-theme_override_styles/normal = SubResource("StyleBoxFlat_obhcq")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_32t18")
-theme_override_styles/hover = SubResource("StyleBoxFlat_vvadg")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_32t18")
+theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_obhcq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h4s2h")
 text_overrun_behavior = 3
 clip_text = true
