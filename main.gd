@@ -875,8 +875,8 @@ func refresh_track_list() -> void:
 		var track = playlist[i]
 
 		var button: Button = TRACK_ITEM.instantiate()
-
-		button.text = str(track.get("name", "Unknown Track"))
+		var label: Label = button.get_node("ScrollText/Label")
+		label.text = str(track.get("name", "Unknown Track"))
 
 		var idx := i
 

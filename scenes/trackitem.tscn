@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://dtoy8qu18yplx"]
 
+[ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="1_obhcq"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
-content_margin_left = 10.0
+content_margin_left = 20.0
 draw_center = false
 border_width_left = 3
 border_width_top = 3
@@ -10,7 +12,7 @@ border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obhcq"]
-content_margin_left = 10.0
+content_margin_left = 20.0
 bg_color = Color(1, 1, 1, 0.22352941)
 border_width_left = 3
 border_width_top = 3
@@ -19,7 +21,7 @@ border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4s2h"]
-content_margin_left = 10.0
+content_margin_left = 20.0
 bg_color = Color(1, 1, 1, 0.17254902)
 border_width_left = 3
 border_width_top = 3
@@ -27,8 +29,13 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 0.4862745)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lax10"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+draw_center = false
+
 [node name="Button" type="Button" unique_id=530456163]
-custom_minimum_size = Vector2(605, 0)
+custom_minimum_size = Vector2(605, 50)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -43,5 +50,31 @@ theme_override_constants/align_to_largest_stylebox = 150
 theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_obhcq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_h4s2h")
-text_overrun_behavior = 3
-clip_text = true
+
+[node name="ScrollText" type="Control" parent="." unique_id=836347480]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_obhcq")
+label_path = NodePath("Label")
+speed = 101.0
+start_delay = 1.5
+restart_delay = 1.5
+gap = 101.0
+metadata/_custom_type_script = "uid://b8sghqja4vkma"
+
+[node name="Label" type="Label" parent="ScrollText" unique_id=183812521]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_lax10")
+horizontal_alignment = 1
+vertical_alignment = 2

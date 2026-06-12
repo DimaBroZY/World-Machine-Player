@@ -22,6 +22,7 @@ config/custom_user_dir_name="WorldMachinePlayer"
 config/features=PackedStringArray("4.6", "Mobile")
 run/max_fps=60
 run/low_processor_mode=true
+run/low_processor_mode_sleep_usec=25000
 boot_splash/show_image=false
 boot_splash/stretch_mode=0
 boot_splash/use_filter=false

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cthigskjg6cwo"]
 
 [ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_6qq0t"]
+[ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="2_fjyi4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6k8do"]
 content_margin_left = 10.0
@@ -29,7 +30,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
-[node name="Button" type="Button" unique_id=336575494]
+[node name="TrackName" type="Button" unique_id=336575494]
 custom_minimum_size = Vector2(0, 50)
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,3 +49,16 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_6qq0t")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_32t18")
 toggle_mode = true
 text_overrun_behavior = 3
+
+[node name="ScrollText" type="Control" parent="." unique_id=1708026011]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_fjyi4")
+label_path = NodePath("label")
+metadata/_custom_type_script = "uid://b8sghqja4vkma"
+
+[node name="label" type="Label" parent="ScrollText" unique_id=369757752]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

@@ -35,6 +35,14 @@ func _ready() -> void:
 	call_deferred("_rebuild")
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		if is_visible_in_tree() and _scrolling:
+			set_process(true)
+		else:
+			set_process(false)
+
+
 func set_track_name(text: String) -> void:
 	if _source_text == text:
 		return
@@ -44,7 +52,9 @@ func set_track_name(text: String) -> void:
 
 
 func _process(delta: float) -> void:
-	if not _scrolling:
+	# Дополнительная проверка на случай, если родитель скрылся
+	if not is_visible_in_tree() or not _scrolling:
+		set_process(false)
 		return
 
 	if _delay_left > 0.0:
@@ -111,7 +121,8 @@ func _rebuild() -> void:
 	_label.position = Vector2.ZERO
 	_copy.position = Vector2(_text_width + gap, 0.0)
 
-	set_process(true)
+	# Включаем процессинг только если объект реально виден на экране
+	set_process(is_visible_in_tree())
 
 
 func _measure_text(text: String) -> float:
