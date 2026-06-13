@@ -317,6 +317,7 @@ font_size = 24
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnost"]
 content_margin_left = 4.0
 content_margin_top = 4.0
+content_margin_right = 8.0
 content_margin_bottom = 4.0
 draw_center = false
 
@@ -670,7 +671,6 @@ offset_bottom = 368.0
 scale = Vector2(0.65, 0.65)
 
 [node name="TrackListPanel" type="Control" parent="MainWindow/CurrentTrack" unique_id=806466984]
-visible = false
 layout_direction = 1
 anchors_preset = 0
 offset_left = 57.0
@@ -680,6 +680,7 @@ offset_bottom = 38.0
 script = SubResource("GDScript_kq58d")
 
 [node name="PlaylistsAndModes" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel" unique_id=1287341985]
+texture_filter = 1
 custom_minimum_size = Vector2(260, 0)
 layout_mode = 1
 anchors_preset = 9
@@ -690,6 +691,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jq2sk")
 
 [node name="PlaylistTitleAndButtonsCotainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes" unique_id=391968903]
+texture_filter = 1
 layout_mode = 2
 theme_override_constants/separation = 0
 
@@ -750,6 +752,7 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="PlaylistsScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=632820976]
+texture_filter = 1
 custom_minimum_size = Vector2(100, 177)
 layout_mode = 2
 size_flags_vertical = 0
@@ -761,45 +764,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Playlist1" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=336575494 instance=ExtResource("27_jq2sk")]
+[node name="Playlist" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=336575494 instance=ExtResource("27_jq2sk")]
 layout_mode = 2
-text = "Music here ya ebal i td"
-
-[node name="Playlist2" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=740079221 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here wgwegwggwgwegw"
-
-[node name="Playlist3" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=1968710742 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
-
-[node name="Playlist4" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=1816924167 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
-
-[node name="Playlist5" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=1033622708 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
-
-[node name="Playlist6" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=2085605307 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
-
-[node name="Playlist7" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=1855725651 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
-
-[node name="Playlist8" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=594106096 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
-
-[node name="Playlist9" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=428782972 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
-
-[node name="Playlist10" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=248266121 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
-text = "Music Here"
 
 [node name="NewPlaylistButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=2105005784]
 layout_mode = 2

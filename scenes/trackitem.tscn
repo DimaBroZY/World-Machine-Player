@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://dtoy8qu18yplx"]
 
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="1_obhcq"]
+[ext_resource type="Texture2D" uid="uid://dbuan0n1gm2dd" path="res://Assets/Icons/Star.png" id="2_lax10"]
+[ext_resource type="Texture2D" uid="uid://ckmylm2cp28r3" path="res://Assets/Icons/Star_Hover.png" id="3_f5fjr"]
+[ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="4_f5fjr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
-content_margin_left = 20.0
 draw_center = false
 border_width_left = 3
 border_width_top = 3
@@ -12,7 +14,6 @@ border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obhcq"]
-content_margin_left = 20.0
 bg_color = Color(1, 1, 1, 0.22352941)
 border_width_left = 3
 border_width_top = 3
@@ -21,7 +22,6 @@ border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4s2h"]
-content_margin_left = 20.0
 bg_color = Color(1, 1, 1, 0.17254902)
 border_width_left = 3
 border_width_top = 3
@@ -31,8 +31,49 @@ border_color = Color(1, 1, 1, 0.4862745)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lax10"]
 content_margin_left = 20.0
-content_margin_right = 20.0
 draw_center = false
+
+[sub_resource type="GDScript" id="GDScript_lax10"]
+script/source = "extends TextureButton
+
+
+func _on_pressed() -> void:
+	# Если окно уже существует
+	if WindowManager.select_playlist_window != null and is_instance_valid(WindowManager.select_playlist_window):
+		WindowManager.select_playlist_window.show()
+		WindowManager.select_playlist_window.grab_focus()
+		return
+
+	# Создаем окно
+	WindowManager.select_playlist_window = preload(\"res://Windows/SelectPlaylistWindow.tscn\").instantiate()
+
+	get_tree().root.add_child(WindowManager.select_playlist_window)
+
+	WindowManager.select_playlist_window.close_requested.connect(func():
+		WindowManager.select_playlist_window.hide()
+	)
+
+	WindowManager.select_playlist_window.show()
+
+	TintManager.apply_tint_to_scene()
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vi7mk"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 4
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pr6v"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 4
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
 
 [node name="Button" type="Button" unique_id=530456163]
 custom_minimum_size = Vector2(605, 50)
@@ -56,6 +97,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 40.0
+offset_right = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -73,8 +116,48 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 48.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_lax10")
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="AddToPlaylistButton" type="TextureButton" parent="." unique_id=819976130]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -18.0
+offset_right = -10.0
+offset_bottom = 22.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("2_lax10")
+texture_pressed = ExtResource("2_lax10")
+texture_hover = ExtResource("3_f5fjr")
+stretch_mode = 0
+script = SubResource("GDScript_lax10")
+
+[node name="CheckBox" type="CheckBox" parent="." unique_id=1763021516]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -15.0
+offset_right = 43.0
+offset_bottom = 15.0
+grow_vertical = 2
+theme = ExtResource("4_f5fjr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_vi7mk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2pr6v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vi7mk")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_2pr6v")
+
+[connection signal="pressed" from="AddToPlaylistButton" to="AddToPlaylistButton" method="_on_pressed"]

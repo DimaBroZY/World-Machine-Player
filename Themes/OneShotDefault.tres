@@ -6,6 +6,12 @@
 [ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_ipw7k"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="4_v3jyk"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v3jyk"]
+size = Vector2(0, 0)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_alvq2"]
+size = Vector2(0, 0)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v3jyk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6twqd"]
@@ -42,6 +48,8 @@ bg_color = Color(1, 1, 1, 1)
 [resource]
 default_font = ExtResource("3_ipw7k")
 default_font_size = 35
+CheckBox/icons/checked = SubResource("PlaceholderTexture2D_v3jyk")
+CheckBox/icons/unchecked = SubResource("PlaceholderTexture2D_alvq2")
 ColorPicker/colors/focused_not_editing_cursor_color = Color(1, 1, 1, 0.3764706)
 ColorPicker/constants/sv_height = 240
 ColorPicker/styles/picker_focus_circle = SubResource("StyleBoxEmpty_v3jyk")

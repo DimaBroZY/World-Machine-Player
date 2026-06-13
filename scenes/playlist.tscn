@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://cthigskjg6cwo"]
 
 [ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_6qq0t"]
+[ext_resource type="Script" uid="uid://cu6eekq0hj26b" path="res://scenes/playlist.gd" id="1_playlist_gd"]
+[ext_resource type="Texture2D" uid="uid://iswjjlpabe1n" path="res://Assets/Icons/RecycleBin.png" id="2_5oyxb"]
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="2_fjyi4"]
+[ext_resource type="Texture2D" uid="uid://dhdsbuatleswy" path="res://Assets/Icons/RecycleBin_Hover.png" id="3_uispw"]
+[ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="6_8votw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6k8do"]
-content_margin_left = 10.0
 draw_center = false
 border_width_left = 3
 border_width_top = 3
@@ -30,13 +33,32 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8votw"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wdmaq"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xais8"]
+
 [node name="TrackName" type="Button" unique_id=336575494]
-custom_minimum_size = Vector2(0, 50)
+texture_filter = 1
+custom_minimum_size = Vector2(0, 52)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -49,16 +71,83 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_6qq0t")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_32t18")
 toggle_mode = true
 text_overrun_behavior = 3
+script = ExtResource("1_playlist_gd")
 
 [node name="ScrollText" type="Control" parent="." unique_id=1708026011]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_right = -74.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("2_fjyi4")
 label_path = NodePath("label")
+speed = 101.0
+start_delay = 1.5
+restart_delay = 1.5
+gap = 101.0
 metadata/_custom_type_script = "uid://b8sghqja4vkma"
 
 [node name="label" type="Label" parent="ScrollText" unique_id=369757752]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="CheckBox" type="CheckBox" parent="." unique_id=556261976]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -15.0
+offset_right = 43.0
+offset_bottom = 15.0
+grow_vertical = 2
+theme = ExtResource("6_8votw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_8votw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wdmaq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8votw")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_wdmaq")
+
+[node name="ButtonsContainer" type="PanelContainer" parent="." unique_id=406754269]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -18.0
+offset_right = 52.0
+offset_bottom = 46.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.56, 0.56)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_xais8")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ButtonsContainer" unique_id=1583327456]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="RecycleBinButton" type="TextureButton" parent="ButtonsContainer/HBoxContainer" unique_id=1302751145]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture_normal = ExtResource("2_5oyxb")
+texture_pressed = ExtResource("2_5oyxb")
+texture_hover = ExtResource("3_uispw")
+stretch_mode = 0
+
+[connection signal="pressed" from="ButtonsContainer/HBoxContainer/RecycleBinButton" to="." method="_on_recycle_bin_button_pressed"]
