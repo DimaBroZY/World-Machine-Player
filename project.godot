@@ -15,14 +15,13 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="World Machine Player"
-config/version="1.0.2"
+config/version="1.2.0"
 run/main_scene="uid://br0vuvri2rao8"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="WorldMachinePlayer"
 config/features=PackedStringArray("4.6", "Mobile")
 run/max_fps=60
 run/low_processor_mode=true
-run/low_processor_mode_sleep_usec=25000
 boot_splash/show_image=false
 boot_splash/stretch_mode=0
 boot_splash/use_filter=false
@@ -95,7 +94,11 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 [rendering]
 
 occlusion_culling/bvh_build_quality=0
+rendering_device/staging_buffer/block_size_kb=512
+rendering_device/staging_buffer/max_size_mb=256
 textures/canvas_textures/default_texture_filter=3
+rendering_device/driver.windows="d3d12"
+rendering_device/fallback_to_d3d12=false
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/lossless_compression/force_png=true

@@ -94,6 +94,23 @@ func _ready() -> void:
 	_set_world_machine()
 	_enable_notes()
 
+	
+	## Высокий приоритет для программы (костыльное решение проблем со звуком)
+	#if OS.get_name() == "Windows":
+		#var pid = OS.get_process_id()
+		#
+		#var command = "(Get-Process -Id %d).PriorityClass = 'High'" % pid
+		#var args = ["-Command", command]
+		#
+		#var output = []
+		#var exit_code = OS.execute("powershell", args, output, false, true)
+		#
+		#if exit_code == 0:
+			#print("Приоритет процесса успешно повышен!")
+		#else:
+			#print("Не удалось изменить приоритет. Код ошибки: ", exit_code)
+
+
 func _set_world_machine() -> void:
 		if Settings.get_setting("worldMachineTheme") == true:
 			niko.material = preload("res://materials/world_machine_material.tres")
@@ -260,7 +277,7 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 	_save_music_cache()
 	_apply_playlist_after_refresh(previous_source_path, previous_resource_path, changed_sources)
 
-	_apply_active_playlist_filter()
+	_apply_active_playlist_filter(true)
 
 	_hide_loading_info()
 	_is_loading_tracks = false

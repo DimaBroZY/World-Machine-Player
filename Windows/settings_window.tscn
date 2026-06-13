@@ -302,7 +302,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 3.0
-disabled = true
 texture_normal = ExtResource("5_dfjad")
 texture_pressed = ExtResource("6_0m26i")
 ignore_texture_size = true
