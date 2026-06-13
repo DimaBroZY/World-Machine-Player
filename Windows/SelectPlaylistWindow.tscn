@@ -10,10 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="8_5yhuv"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="9_bjl83"]
 [ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="10_4pf38"]
-[ext_resource type="PackedScene" uid="uid://cthigskjg6cwo" path="res://scenes/playlist.tscn" id="11_c5h4v"]
 [ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="11_cp482"]
-[ext_resource type="Script" uid="uid://gac3or0cc0wb" path="res://Windows/Scripts/handles_settings.gd" id="12_gstaj"]
 [ext_resource type="Script" uid="uid://c5kjbrfihtusl" path="res://Windows/Scripts/button_label.gd" id="12_p0x8i"]
+[ext_resource type="Script" uid="uid://capjeaxrs0wfw" path="res://Windows/Scripts/select_playlist_window.gd" id="13_select_window"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b38yw"]
 bg_color = Color(0, 0, 0, 1)
@@ -51,19 +50,6 @@ texture = ExtResource("10_4pf38")
 content_margin_left = 10.0
 content_margin_right = 10.0
 draw_center = false
-
-[sub_resource type="GDScript" id="GDScript_6jtpy"]
-script/source = "extends PanelContainer
-
-
-func _on_no_button_pressed() -> void:
-	get_window().queue_free()
-
-func _on_yes_button_pressed() -> void:
-	Settings.save_setting(\"is_info_message_appear\", false) 
-	get_tree().quit()
-	
-"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myu8i"]
 draw_center = false
@@ -106,6 +92,7 @@ initial_position = 1
 size = Vector2i(450, 300)
 borderless = true
 always_on_top = true
+script = ExtResource("13_select_window")
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1011553714]
 script = ExtResource("1_0mrs4")
@@ -136,6 +123,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b38yw")
 
 [node name="Layout" type="VBoxContainer" parent="SelectPlaylistWindow" unique_id=581855042]
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -234,7 +222,6 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_4v468")
 custom_minimum_size = Vector2(0, 215)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ig7ow")
-script = SubResource("GDScript_6jtpy")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="SelectPlaylistWindow/Layout/Main" unique_id=1357663078]
 custom_minimum_size = Vector2(0, 175)
@@ -247,12 +234,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TrackName" parent="SelectPlaylistWindow/Layout/Main/ScrollContainer/VBoxContainer" unique_id=336575494 instance=ExtResource("11_c5h4v")]
-layout_mode = 2
-
 [node name="ButtonsContainer" type="PanelContainer" parent="SelectPlaylistWindow/Layout/Main" unique_id=475251911]
 texture_filter = 1
 layout_mode = 2
+size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxFlat_myu8i")
 
 [node name="Buttons" type="HBoxContainer" parent="SelectPlaylistWindow/Layout/Main/ButtonsContainer" unique_id=536451404 groups=["tintable"]]
@@ -321,54 +306,6 @@ theme_override_fonts/font = ExtResource("6_2ypa1")
 text = "Cancel"
 horizontal_alignment = 1
 
-[node name="Handles" type="Control" parent="SelectPlaylistWindow" unique_id=578251207]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("12_gstaj")
-
-[node name="Right" type="Control" parent="SelectPlaylistWindow/Handles" unique_id=147247712]
-custom_minimum_size = Vector2(5, 5)
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
-scale = Vector2(0.953109, 1.00146)
-
-[node name="Bottom" type="Control" parent="SelectPlaylistWindow/Handles" unique_id=549577294]
-custom_minimum_size = Vector2(5, 5)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(1.01367, 0.952266)
-
-[node name="Corner" type="Control" parent="SelectPlaylistWindow/Handles" unique_id=372551814]
-custom_minimum_size = Vector2(5, 5)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -5.0
-offset_top = -5.0
-grow_horizontal = 0
-grow_vertical = 0
-
 [connection signal="gui_input" from="SelectPlaylistWindow/Layout/TopBar" to="SelectPlaylistWindow/Layout/TopBar" method="_on_gui_input"]
 [connection signal="pressed" from="SelectPlaylistWindow/Layout/TopBar/HBox/MinimizeButton" to="SelectPlaylistWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
 [connection signal="pressed" from="SelectPlaylistWindow/Layout/TopBar/HBox/CloseButton" to="SelectPlaylistWindow/Layout/TopBar" method="_on_close_button_pressed"]
-[connection signal="gui_input" from="SelectPlaylistWindow/Handles/Right" to="SelectPlaylistWindow/Handles" method="_on_right_gui_input"]
-[connection signal="gui_input" from="SelectPlaylistWindow/Handles/Bottom" to="SelectPlaylistWindow/Handles" method="_on_bottom_gui_input"]
-[connection signal="gui_input" from="SelectPlaylistWindow/Handles/Corner" to="SelectPlaylistWindow/Handles" method="_on_corner_gui_input"]

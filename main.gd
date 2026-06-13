@@ -14,6 +14,10 @@ extends Control
 @onready var notes: GPUParticles2D = $MainWindow/Objects/Gramophone/Notes
 @onready var tracks_container = $MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer
 @onready var search_bar = $MainWindow/CurrentTrack/TrackListPanel/TrackList/LineEdit
+@onready var local_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/LocalButton
+@onready var youtube_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/YouTubeButton
+@onready var playlists_container: VBoxContainer = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer
+@onready var new_playlist_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/NewPlaylistButton
 
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
@@ -32,6 +36,13 @@ const STREAM_CACHE_RADIUS: int = 1
 const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
 const LOCK_TIME: float = 0.0
 const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
+const PLAYLIST_ITEM = preload("res://scenes/playlist.tscn")
+
+static var mode_button_group: ButtonGroup
+var _showing_youtube_mode: bool = false
+var _local_track_list_cache: Array[Dictionary] = []
+var _local_track_list_cache_valid: bool = false
+var _rebuilding_playlist_ui: bool = false
 
 
 
@@ -52,6 +63,7 @@ var _music_folder_refresh_requested: bool = false
 var volume_percent: float = 100.0
 var full_playlist: Array = []
 var search_query: String = ""
+var _checked_track_source_path: String = ""
 
 		
 func _ready() -> void:
@@ -66,8 +78,15 @@ func _ready() -> void:
 
 	
 	await load_tracks_from_folder(true)
-	
-	refresh_track_list()
+
+	_setup_mode_buttons()
+	_setup_playlist_ui()
+	PlaylistManager.playlists_changed.connect(_on_playlists_structure_changed)
+	PlaylistManager.playlist_tracks_changed.connect(_on_playlist_tracks_changed)
+	PlaylistManager.active_playlist_changed.connect(_on_active_playlist_changed)
+	new_playlist_button.pressed.connect(_on_new_playlist_button_pressed)
+
+	_apply_active_playlist_filter()
 	
 	_create_music_folder_watcher()
 	update_state()
@@ -236,11 +255,12 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 
 	playlist = refreshed_playlist
 	full_playlist = refreshed_playlist.duplicate()
+	_local_track_list_cache_valid = false
 	_remove_orphan_cache_files()
 	_save_music_cache()
 	_apply_playlist_after_refresh(previous_source_path, previous_resource_path, changed_sources)
 
-	refresh_track_list()
+	_apply_active_playlist_filter()
 
 	_hide_loading_info()
 	_is_loading_tracks = false
@@ -867,25 +887,219 @@ func _on_pause_button_pressed() -> void:
 	update_state()
 
 
+func _setup_mode_buttons() -> void:
+	mode_button_group = ButtonGroup.new()
+	mode_button_group.allow_unpress = false
+	local_button.button_group = mode_button_group
+	youtube_button.button_group = mode_button_group
+	local_button.toggle_mode = true
+	youtube_button.toggle_mode = true
+	local_button.button_pressed = true
+	local_button.toggled.connect(_on_local_button_toggled)
+	youtube_button.toggled.connect(_on_youtube_button_toggled)
+
+
+func _setup_playlist_ui() -> void:
+	_refresh_playlist_ui()
+
+
+func _on_playlists_structure_changed() -> void:
+	_refresh_playlist_ui()
+	_apply_active_playlist_filter()
+
+
+func _refresh_playlist_ui() -> void:
+	_rebuilding_playlist_ui = true
+	for child in playlists_container.get_children():
+		child.queue_free()
+
+	for playlist_data: Dictionary in PlaylistManager.playlists:
+		var playlist_id := str(playlist_data.get("id", ""))
+		var item: Button = PLAYLIST_ITEM.instantiate()
+		playlists_container.add_child(item)
+		item.configure_for_main(
+			playlist_id,
+			str(playlist_data.get("name", "Playlist")),
+			playlist_id == PlaylistManager.active_playlist_id
+		)
+		item.playlist_selected.connect(_on_playlist_selected)
+		item.playlist_deselected.connect(_on_playlist_deselected)
+		item.playlist_deleted.connect(_on_playlist_deleted)
+		item.playlist_renamed.connect(_on_playlist_renamed)
+	_rebuilding_playlist_ui = false
+
+
+func _sync_playlist_button_states() -> void:
+	for child in playlists_container.get_children():
+		if not child.has_method("get_playlist_id") or not child.has_method("set_pressed_silent"):
+			continue
+		var is_active := str(child.get_playlist_id()) == PlaylistManager.active_playlist_id
+		child.set_pressed_silent(is_active)
+
+
+func _on_new_playlist_button_pressed() -> void:
+	PlaylistManager.create_playlist(PlaylistManager.get_next_playlist_name())
+
+
+func _on_playlist_selected(playlist_id: String) -> void:
+	PlaylistManager.set_active_playlist(playlist_id)
+
+
+func _on_playlist_deselected() -> void:
+	if _rebuilding_playlist_ui:
+		return
+	PlaylistManager.clear_active_playlist()
+
+
+func _on_playlist_deleted(playlist_id: String) -> void:
+	PlaylistManager.delete_playlist(playlist_id)
+
+
+func _on_playlist_renamed(playlist_id: String, new_name: String) -> void:
+	PlaylistManager.rename_playlist(playlist_id, new_name)
+	for child in playlists_container.get_children():
+		if child.has_method("get_playlist_id") and child.get_playlist_id() == playlist_id:
+			child.set_playlist_name(new_name)
+			if child.has_method("set_pressed_silent"):
+				child.set_pressed_silent(false)
+			break
+	if PlaylistManager.active_playlist_id == playlist_id:
+		PlaylistManager.clear_active_playlist()
+
+
+func _on_playlist_tracks_changed(playlist_id: String) -> void:
+	if PlaylistManager.active_playlist_id == playlist_id:
+		_apply_active_playlist_filter(true)
+
+
+func set_checked_track_source_path(source_path: String) -> void:
+	_checked_track_source_path = source_path
+
+
+func _on_active_playlist_changed(_playlist_id: String) -> void:
+	_sync_playlist_button_states()
+	_apply_active_playlist_filter()
+
+
+func _on_local_button_toggled(is_pressed: bool) -> void:
+	if not is_pressed:
+		return
+	if _showing_youtube_mode:
+		_showing_youtube_mode = false
+		_apply_active_playlist_filter()
+
+
+func _on_youtube_button_toggled(is_pressed: bool) -> void:
+	if not is_pressed:
+		return
+	if not _showing_youtube_mode:
+		_showing_youtube_mode = true
+		_apply_active_playlist_filter()
+
+
+func _compute_local_playlist() -> Array[Dictionary]:
+	var base_playlist: Array[Dictionary] = []
+	if PlaylistManager.active_playlist_id.is_empty():
+		base_playlist = full_playlist.duplicate()
+	else:
+		var track_paths := PlaylistManager.get_playlist_track_paths(PlaylistManager.active_playlist_id)
+		for track: Dictionary in full_playlist:
+			if track_paths.has(str(track.get("source_path", ""))):
+				base_playlist.append(track)
+
+	if search_query.strip_edges() == "":
+		return base_playlist
+
+	var filtered_playlist: Array[Dictionary] = []
+	for track: Dictionary in base_playlist:
+		var track_name := str(track.get("name", "")).to_lower()
+		var file_name := str(track.get("file_name", "")).to_lower()
+		if search_query in track_name or search_query in file_name:
+			filtered_playlist.append(track)
+	return filtered_playlist
+
+
+func _playlists_have_same_tracks(left: Array, right: Array) -> bool:
+	if left.size() != right.size():
+		return false
+	for index: int in range(left.size()):
+		if str(left[index].get("source_path", "")) != str(right[index].get("source_path", "")):
+			return false
+	return true
+
+
+func _apply_active_playlist_filter(force_refresh: bool = false) -> void:
+	if _showing_youtube_mode:
+		tracks_container.visible = false
+		return
+
+	tracks_container.visible = true
+
+	if not playlist.is_empty() and current_index >= 0 and current_index < playlist.size():
+		_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
+	elif _checked_track_source_path.is_empty() and not playlist.is_empty():
+		_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
+
+	var next_playlist := _compute_local_playlist()
+	var ui_is_empty := tracks_container.get_child_count() == 0
+	if not force_refresh and not ui_is_empty and _playlists_have_same_tracks(playlist, next_playlist):
+		return
+
+	playlist = next_playlist
+	_local_track_list_cache = next_playlist.duplicate()
+	_local_track_list_cache_valid = true
+
+	var found_index := _find_track_index_by_source(_checked_track_source_path)
+	if found_index >= 0:
+		current_index = found_index
+	elif not playlist.is_empty():
+		current_index = 0
+		_checked_track_source_path = str(playlist[0].get("source_path", ""))
+	else:
+		current_index = 0
+
+	refresh_track_list()
+
+
 func refresh_track_list() -> void:
 	for child in tracks_container.get_children():
 		child.queue_free()
 
-	for i in range(playlist.size()):
-		var track = playlist[i]
+	if playlist.is_empty():
+		return
 
+	if _checked_track_source_path.is_empty():
+		current_index = int(clamp(current_index, 0, playlist.size() - 1))
+		_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
+	else:
+		var found_index := _find_track_index_by_source(_checked_track_source_path)
+		if found_index >= 0:
+			current_index = found_index
+		else:
+			current_index = int(clamp(current_index, 0, playlist.size() - 1))
+			_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
+
+	for i in range(playlist.size()):
+		var track: Dictionary = playlist[i]
 		var button: Button = TRACK_ITEM.instantiate()
-		var label: Label = button.get_node("ScrollText/Label")
-		label.text = str(track.get("name", "Unknown Track"))
+		tracks_container.add_child(button)
+		if button.has_method("setup"):
+			button.setup(track, i)
+		if button.has_method("set_checkbox_pressed"):
+			var source_path := str(track.get("source_path", ""))
+			button.set_checkbox_pressed(source_path == _checked_track_source_path)
 
 		var idx := i
-
 		button.pressed.connect(
 			func():
 				play_track_by_index(idx)
 		)
 
-		tracks_container.add_child(button)
+
+func _sync_track_checkboxes(source_path: String) -> void:
+	for child: Node in tracks_container.get_children():
+		if child.has_method("get_track_source_path") and child.has_method("set_checkbox_pressed"):
+			child.set_checkbox_pressed(child.get_track_source_path() == source_path)
 
 
 func play_track_by_index(index: int) -> void:
@@ -893,6 +1107,8 @@ func play_track_by_index(index: int) -> void:
 		return
 
 	current_index = index
+	_checked_track_source_path = str(playlist[index].get("source_path", ""))
+	_sync_track_checkboxes(_checked_track_source_path)
 
 	music.stop()
 
@@ -908,17 +1124,4 @@ func _on_line_edit_text_changed(text: String) -> void:
 	
 func apply_search(query: String) -> void:
 	search_query = query.to_lower()
-
-	if search_query.strip_edges() == "":
-		playlist = full_playlist.duplicate()
-	else:
-		playlist = []
-
-
-		for track in full_playlist:
-			var file = str(track.get("file_name", "")).to_lower()
-
-			if search_query in name or search_query in file:
-				playlist.append(track)
-
-	refresh_track_list()
+	_apply_active_playlist_filter()

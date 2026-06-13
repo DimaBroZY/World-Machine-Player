@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://dtoy8qu18yplx"]
 
+[ext_resource type="Script" path="res://scenes/trackitem.gd" id="1_trackitem"]
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="1_obhcq"]
 [ext_resource type="Texture2D" uid="uid://dbuan0n1gm2dd" path="res://Assets/Icons/Star.png" id="2_lax10"]
 [ext_resource type="Texture2D" uid="uid://ckmylm2cp28r3" path="res://Assets/Icons/Star_Hover.png" id="3_f5fjr"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="5_font"]
 [ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="4_f5fjr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
@@ -32,31 +34,6 @@ border_color = Color(1, 1, 1, 0.4862745)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lax10"]
 content_margin_left = 20.0
 draw_center = false
-
-[sub_resource type="GDScript" id="GDScript_lax10"]
-script/source = "extends TextureButton
-
-
-func _on_pressed() -> void:
-	# Если окно уже существует
-	if WindowManager.select_playlist_window != null and is_instance_valid(WindowManager.select_playlist_window):
-		WindowManager.select_playlist_window.show()
-		WindowManager.select_playlist_window.grab_focus()
-		return
-
-	# Создаем окно
-	WindowManager.select_playlist_window = preload(\"res://Windows/SelectPlaylistWindow.tscn\").instantiate()
-
-	get_tree().root.add_child(WindowManager.select_playlist_window)
-
-	WindowManager.select_playlist_window.close_requested.connect(func():
-		WindowManager.select_playlist_window.hide()
-	)
-
-	WindowManager.select_playlist_window.show()
-
-	TintManager.apply_tint_to_scene()
-"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vi7mk"]
 bg_color = Color(1, 1, 1, 1)
@@ -91,6 +68,7 @@ theme_override_constants/align_to_largest_stylebox = 150
 theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_obhcq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_h4s2h")
+script = ExtResource("1_trackitem")
 
 [node name="ScrollText" type="Control" parent="." unique_id=836347480]
 layout_mode = 1
@@ -119,6 +97,8 @@ anchor_bottom = 1.0
 offset_right = 48.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_lax10")
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -141,7 +121,6 @@ texture_normal = ExtResource("2_lax10")
 texture_pressed = ExtResource("2_lax10")
 texture_hover = ExtResource("3_f5fjr")
 stretch_mode = 0
-script = SubResource("GDScript_lax10")
 
 [node name="CheckBox" type="CheckBox" parent="." unique_id=1763021516]
 custom_minimum_size = Vector2(30, 30)
@@ -159,5 +138,3 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_vi7mk")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_2pr6v")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vi7mk")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_2pr6v")
-
-[connection signal="pressed" from="AddToPlaylistButton" to="AddToPlaylistButton" method="_on_pressed"]

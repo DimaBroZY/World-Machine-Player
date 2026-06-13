@@ -29,9 +29,7 @@
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="19_qsp4k"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="20_kq58d"]
 [ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="27_htxhm"]
-[ext_resource type="PackedScene" uid="uid://cthigskjg6cwo" path="res://scenes/playlist.tscn" id="27_jq2sk"]
 [ext_resource type="Texture2D" uid="uid://ccnsv1qmv6r3f" path="res://Assets/Icons/Notes.png" id="27_kq58d"]
-[ext_resource type="PackedScene" uid="uid://dtoy8qu18yplx" path="res://scenes/trackitem.tscn" id="28_htxhm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xuqvo"]
 font = ExtResource("9_kek77")
@@ -295,6 +293,14 @@ border_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lmeg"]
 bg_color = Color(1, 1, 1, 1)
 border_width_left = 2
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq58d"]
+draw_center = false
+border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 4
@@ -671,6 +677,7 @@ offset_bottom = 368.0
 scale = Vector2(0.65, 0.65)
 
 [node name="TrackListPanel" type="Control" parent="MainWindow/CurrentTrack" unique_id=806466984]
+visible = false
 layout_direction = 1
 anchors_preset = 0
 offset_left = 57.0
@@ -735,6 +742,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_b1qrp")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_come4")
 theme_override_styles/hover = SubResource("StyleBoxFlat_h8e4i")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4lmeg")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_kq58d")
+disabled = true
 toggle_mode = true
 text = "[YOUTUBE]"
 
@@ -763,9 +772,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_qnost")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Playlist" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer" unique_id=336575494 instance=ExtResource("27_jq2sk")]
-layout_mode = 2
 
 [node name="NewPlaylistButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=2105005784]
 layout_mode = 2
@@ -818,15 +824,6 @@ horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer" unique_id=605642092]
 layout_mode = 2
-
-[node name="First Track" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer" unique_id=530456163 instance=ExtResource("28_htxhm")]
-layout_mode = 2
-text = "First Track"
-
-[node name="Second Track" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer" unique_id=1194406453 instance=ExtResource("28_htxhm")]
-layout_mode = 2
-text = "Second Track
-"
 
 [node name="CurrentTrackLabel" type="Label" parent="MainWindow/CurrentTrack" unique_id=1942783716]
 show_behind_parent = true

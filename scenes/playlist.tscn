@@ -33,6 +33,9 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8votw"]
+content_margin_left = 10.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8votw"]
 draw_center = false
 border_width_left = 3
@@ -97,10 +100,12 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_6qq0t")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8votw")
 
 [node name="CheckBox" type="CheckBox" parent="." unique_id=556261976]
 custom_minimum_size = Vector2(30, 30)
