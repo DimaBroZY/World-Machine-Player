@@ -35,6 +35,7 @@ func _on_track_pressed() -> void:
 	_apply_single_checkbox_selection()
 
 
+@warning_ignore("shadowed_variable_base_class")
 func _on_check_box_toggled(pressed: bool) -> void:
 	if _ignore_checkbox_sync:
 		return
@@ -83,6 +84,7 @@ func _apply_single_checkbox_selection() -> void:
 		main_node.set_checked_track_source_path(track_source_path)
 
 
+@warning_ignore("shadowed_variable_base_class")
 func set_checkbox_pressed(is_pressed: bool) -> void:
 	check_box.button_pressed = is_pressed
 

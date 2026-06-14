@@ -64,6 +64,7 @@ func set_playlist_name(playlist_name: String) -> void:
 		_set_display_name(playlist_name)
 
 
+@warning_ignore("shadowed_variable_base_class")
 func set_pressed_silent(is_pressed: bool) -> void:
 	_suppress_toggle_signals = true
 	button_pressed = is_pressed
@@ -177,6 +178,7 @@ func _finish_rename(_new_text: String = "") -> void:
 	playlist_renamed.emit(playlist_id, new_name)
 
 
+@warning_ignore("shadowed_variable_base_class")
 func _on_toggled(is_pressed: bool) -> void:
 	_update_visuals(is_pressed)
 
@@ -196,6 +198,7 @@ func _on_playlist_pressed() -> void:
 		playlist_selected.emit(playlist_id)
 
 
+@warning_ignore("shadowed_variable_base_class")
 func _update_visuals(is_pressed: bool) -> void:
 	if is_pressed:
 		scroll_text.modulate = Color.BLACK

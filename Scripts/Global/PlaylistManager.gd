@@ -73,7 +73,7 @@ func save_playlists() -> void:
 	file.store_string(JSON.stringify(data, "\t"))
 	file.close()
 
-
+@warning_ignore("shadowed_variable_base_class")
 func create_playlist(name: String) -> String:
 	var playlist_id := "%d_%d" % [Time.get_unix_time_from_system(), randi()]
 	playlists.append({
@@ -211,7 +211,7 @@ func get_next_playlist_name() -> String:
 func _has_playlist(playlist_id: String) -> bool:
 	return not get_playlist(playlist_id).is_empty()
 
-
+@warning_ignore("shadowed_variable_base_class")
 func _playlist_name_exists(name: String) -> bool:
 	for playlist: Dictionary in playlists:
 		if str(playlist.get("name", "")) == name:
