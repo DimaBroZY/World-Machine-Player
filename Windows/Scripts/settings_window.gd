@@ -1,6 +1,6 @@
 extends Control
 
-@onready var line_edit = $Content/PathPanel/FolderPath
+@onready var line_edit = $Content/ScrollContainer/MarginContainer/VBox/PathPanel/FolderPath
 
 
 func _ready():

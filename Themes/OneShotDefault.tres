@@ -24,9 +24,11 @@ size = Vector2(0, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xpr28"]
 bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3y5ev"]
 bg_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q1c80"]
 bg_color = Color(0.6, 0.6, 0.6, 0)

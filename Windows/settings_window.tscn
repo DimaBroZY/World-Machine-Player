@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://be5p6kftkj5dk" path="res://Assets/Icons/Slider_Start.png" id="16_mcsq1"]
 [ext_resource type="Texture2D" uid="uid://b6nupqg3h4fc2" path="res://Assets/Icons/Slider_Start_Hover.png" id="17_g5yv1"]
 [ext_resource type="Texture2D" uid="uid://dnfma8apjp42n" path="res://Assets/Icons/Slider_End.png" id="18_sjhro"]
+[ext_resource type="Script" uid="uid://t8kh4ydb8o8c" path="res://Nodes/Scripts/tooltip.gd" id="19_g5yv1"]
 [ext_resource type="Texture2D" uid="uid://c5hgb0m3w030c" path="res://Assets/Icons/Slider_End_Hover.png" id="19_owwqo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8n62"]
@@ -50,6 +51,14 @@ texture = ExtResource("8_qsxsv")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t4ovt"]
 
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_mcsq1"]
+color = Color(1, 1, 1, 1)
+thickness = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_g5yv1"]
+font = ExtResource("4_qm3jx")
+font_size = 28
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sd6ct"]
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
@@ -72,6 +81,8 @@ font_size = 40
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6k48w"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g5yv1"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qsxsv"]
 texture = ExtResource("10_p4q5k")
 
@@ -83,6 +94,10 @@ texture = ExtResource("12_qm3jx")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mcsq1"]
 texture = ExtResource("12_qm3jx")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_g5yv1"]
+color = Color(1, 1, 1, 1)
+thickness = 6
 
 [sub_resource type="GDScript" id="GDScript_mcsq1"]
 resource_name = "WorldMachineThemeChanger"
@@ -370,21 +385,60 @@ offset_top = -5.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Content" type="VBoxContainer" parent="SettingsWindow" unique_id=1280167273]
+[node name="Content" type="MarginContainer" parent="SettingsWindow" unique_id=1280167273]
 layout_mode = 0
 offset_left = 15.0
-offset_top = 115.0
-offset_right = 895.0
-offset_bottom = 265.0
+offset_top = 62.0
+offset_right = 917.0
+offset_bottom = 568.53845
 scale = Vector2(0.65, 0.65)
-theme_override_constants/separation = 120
 
-[node name="PathPanel" type="Panel" parent="SettingsWindow/Content" unique_id=1786388821 groups=["tintable"]]
+[node name="ScrollContainer" type="ScrollContainer" parent="SettingsWindow/Content" unique_id=1192933955]
+layout_mode = 2
+theme = ExtResource("15_8x2rp")
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="SettingsWindow/Content/ScrollContainer" unique_id=1193908216]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 10
+
+[node name="VBox" type="VBoxContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer" unique_id=1432789625]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="SectionHeader_General" type="HBoxContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=2100704151]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HSeparatorLeft" type="HSeparator" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/SectionHeader_General" unique_id=1590997091]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_mcsq1")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/SectionHeader_General" unique_id=514610406]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_qm3jx")
+theme_override_font_sizes/font_size = 20
+text = "General"
+label_settings = SubResource("LabelSettings_g5yv1")
+
+[node name="HSeparatorRight" type="HSeparator" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/SectionHeader_General" unique_id=1474678941]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_mcsq1")
+
+[node name="Spacer1" type="Control" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=701531398]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+
+[node name="PathPanel" type="Panel" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=1786388821 groups=["tintable"]]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sd6ct")
 
-[node name="Label" type="Label" parent="SettingsWindow/Content/PathPanel" unique_id=264499457]
+[node name="Label" type="Label" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/PathPanel" unique_id=264499457]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 5
@@ -399,7 +453,7 @@ text = "Music Folder"
 label_settings = SubResource("LabelSettings_w5pex")
 vertical_alignment = 2
 
-[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/PathPanel" unique_id=1886498792]
+[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/PathPanel" unique_id=1886498792]
 clip_contents = true
 layout_direction = 1
 layout_mode = 0
@@ -420,7 +474,15 @@ emoji_menu_enabled = false
 flat = true
 virtual_keyboard_enabled = false
 
-[node name="FolderButton" type="Button" parent="SettingsWindow/Content/PathPanel" unique_id=970856389]
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/PathPanel/FolderPath" unique_id=1423358485]
+layout_mode = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_g5yv1")
+script = ExtResource("19_g5yv1")
+custom_text = "Set path to folder
+with your music"
+metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
+
+[node name="FolderButton" type="Button" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/PathPanel" unique_id=970856389]
 layout_mode = 0
 offset_left = 790.7692
 offset_top = -7.6923027
@@ -432,11 +494,40 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_pkqi5")
 theme_override_styles/hover = SubResource("StyleBoxTexture_mgkoj")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mcsq1")
 
-[node name="WorldMachineThemeSet" type="Panel" parent="SettingsWindow/Content" unique_id=701281214 groups=["tintable"]]
+[node name="Spacer1_5" type="Control" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=773317936]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="SectionHeader_Visual" type="HBoxContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=301894409]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HSeparatorLeft" type="HSeparator" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/SectionHeader_Visual" unique_id=113924214]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_g5yv1")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/SectionHeader_Visual" unique_id=1352213476]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_qm3jx")
+theme_override_font_sizes/font_size = 20
+text = "Visual"
+label_settings = SubResource("LabelSettings_g5yv1")
+
+[node name="HSeparatorRight" type="HSeparator" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/SectionHeader_Visual" unique_id=558494575]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_g5yv1")
+
+[node name="Spacer2" type="Control" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=67266540]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+
+[node name="WorldMachineThemeSet" type="Panel" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=701281214 groups=["tintable"]]
 layout_mode = 2
 script = SubResource("GDScript_mcsq1")
 
-[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/WorldMachineThemeSet" unique_id=367696724]
+[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet" unique_id=367696724]
 anchors_preset = 0
 offset_left = -1.5384631
 offset_top = -3.8461642
@@ -444,7 +535,7 @@ offset_right = 865.46155
 offset_bottom = -3.8461642
 scale = Vector2(0.93, 0.93)
 
-[node name="WorldMachineTheme" type="Label" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=519679220]
+[node name="WorldMachineTheme" type="Label" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting" unique_id=519679220]
 layout_mode = 0
 offset_left = 244.83043
 offset_top = -77.7502
@@ -456,7 +547,7 @@ theme = ExtResource("15_8x2rp")
 text = "World Machine Theme"
 label_settings = SubResource("LabelSettings_8x2rp")
 
-[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=974561086]
+[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting" unique_id=974561086]
 custom_minimum_size = Vector2(500, 40)
 layout_mode = 1
 anchors_preset = 8
@@ -473,14 +564,22 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_jnyio")
 
-[node name="Label" type="Label" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/PanelContainer" unique_id=628387123]
+[node name="Label" type="Label" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting/PanelContainer" unique_id=628387123]
 layout_mode = 2
 text = "Off"
 label_settings = SubResource("LabelSettings_mcsq1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Previous" type="Button" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=1649157753]
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting/PanelContainer" unique_id=350534819]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_g5yv1")
+script = ExtResource("19_g5yv1")
+custom_text = "Turn on/off World Machine Theme
+for Niko sprite"
+metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
+
+[node name="Previous" type="Button" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting" unique_id=1649157753]
 layout_mode = 0
 offset_left = 1.6542625
 offset_top = -11.579829
@@ -494,7 +593,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_l8fi3")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_logg6")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
 
-[node name="Next" type="Button" parent="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting" unique_id=1748857874]
+[node name="Next" type="Button" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting" unique_id=1748857874]
 layout_mode = 0
 offset_left = 885.02893
 offset_top = -11.579829
@@ -507,11 +606,15 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
-[node name="Notes" type="Panel" parent="SettingsWindow/Content" unique_id=1074696923 groups=["tintable"]]
+[node name="Spacer3" type="Control" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=1573051334]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="Notes" type="Panel" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=1074696923 groups=["tintable"]]
 layout_mode = 2
 script = SubResource("GDScript_g5yv1")
 
-[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/Notes" unique_id=1724590423]
+[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes" unique_id=1724590423]
 anchors_preset = 0
 offset_left = -1.5384631
 offset_top = -3.8461642
@@ -519,7 +622,7 @@ offset_right = 865.46155
 offset_bottom = -3.8461642
 scale = Vector2(0.93, 0.93)
 
-[node name="Label" type="Label" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=594009631]
+[node name="Label" type="Label" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting" unique_id=594009631]
 layout_mode = 0
 offset_left = 221.67079
 offset_top = -74.44168
@@ -532,7 +635,7 @@ text = "Notes"
 label_settings = SubResource("LabelSettings_8x2rp")
 horizontal_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=1178478946]
+[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting" unique_id=1178478946]
 custom_minimum_size = Vector2(500, 40)
 layout_mode = 1
 anchors_preset = 8
@@ -549,14 +652,14 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_jnyio")
 
-[node name="Label" type="Label" parent="SettingsWindow/Content/Notes/ChangeSetting/PanelContainer" unique_id=113044722]
+[node name="Label" type="Label" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting/PanelContainer" unique_id=113044722]
 layout_mode = 2
 text = "Off"
 label_settings = SubResource("LabelSettings_mcsq1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Previous" type="Button" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=6234301]
+[node name="Previous" type="Button" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting" unique_id=6234301]
 layout_mode = 0
 offset_left = 1.6542625
 offset_top = -11.579829
@@ -570,7 +673,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_l8fi3")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_logg6")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
 
-[node name="Next" type="Button" parent="SettingsWindow/Content/Notes/ChangeSetting" unique_id=1242323207]
+[node name="Next" type="Button" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting" unique_id=1242323207]
 layout_mode = 0
 offset_left = 885.02893
 offset_top = -11.579829
@@ -583,14 +686,18 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
+[node name="Spacer4" type="Control" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox" unique_id=1967585582]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+
 [connection signal="gui_input" from="SettingsWindow/Layout/TopBar" to="SettingsWindow/Layout/TopBar" method="_on_gui_input"]
 [connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/MinimizeButton" to="SettingsWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
 [connection signal="pressed" from="SettingsWindow/Layout/TopBar/HBox/CloseButton" to="SettingsWindow/Layout/TopBar" method="_on_close_button_pressed"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Right" to="SettingsWindow/Handles" method="_on_right_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Bottom" to="SettingsWindow/Handles" method="_on_bottom_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Corner" to="SettingsWindow/Handles" method="_on_corner_gui_input"]
-[connection signal="pressed" from="SettingsWindow/Content/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
-[connection signal="pressed" from="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/Previous" to="SettingsWindow/Content/WorldMachineThemeSet" method="_on_previous_pressed"]
-[connection signal="pressed" from="SettingsWindow/Content/WorldMachineThemeSet/ChangeSetting/Next" to="SettingsWindow/Content/WorldMachineThemeSet" method="_on_next_pressed"]
-[connection signal="pressed" from="SettingsWindow/Content/Notes/ChangeSetting/Previous" to="SettingsWindow/Content/Notes" method="_on_previous_pressed"]
-[connection signal="pressed" from="SettingsWindow/Content/Notes/ChangeSetting/Next" to="SettingsWindow/Content/Notes" method="_on_next_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting/Previous" to="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet" method="_on_previous_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet/ChangeSetting/Next" to="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/WorldMachineThemeSet" method="_on_next_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting/Previous" to="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes" method="_on_previous_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting/Next" to="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes" method="_on_next_pressed"]
