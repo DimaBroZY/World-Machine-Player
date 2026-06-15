@@ -659,6 +659,13 @@ label_settings = SubResource("LabelSettings_mcsq1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting/PanelContainer" unique_id=1103386029]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_g5yv1")
+script = ExtResource("19_g5yv1")
+custom_text = "Turn on/off notes"
+metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
+
 [node name="Previous" type="Button" parent="SettingsWindow/Content/ScrollContainer/MarginContainer/VBox/Notes/ChangeSetting" unique_id=6234301]
 layout_mode = 0
 offset_left = 1.6542625
