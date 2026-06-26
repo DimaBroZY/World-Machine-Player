@@ -678,12 +678,12 @@ scale = Vector2(0.65, 0.65)
 
 [node name="TrackListPanel" type="Control" parent="MainWindow/CurrentTrack" unique_id=806466984]
 visible = false
-layout_direction = 1
 anchors_preset = 0
 offset_left = 57.0
 offset_top = -303.0
 offset_right = 883.07697
 offset_bottom = 38.0
+layout_direction = 1
 script = SubResource("GDScript_kq58d")
 
 [node name="PlaylistsAndModes" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel" unique_id=1287341985]

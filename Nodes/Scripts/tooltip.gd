@@ -46,6 +46,8 @@ func _ready() -> void:
 			parent.connect("mouse_entered", Callable(self, "_on_parent_mouse_entered"))
 		if parent.has_signal("mouse_exited"):
 			parent.connect("mouse_exited", Callable(self, "_on_parent_mouse_exited"))
+		
+		call_deferred("reparent", get_window())
 
 func _process(_delta: float) -> void:
 	if visible:

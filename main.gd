@@ -69,6 +69,7 @@ var _checked_track_source_path: String = ""
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
 	EventBus.noteEnabling.connect(_enable_notes)
+	EventBus.highPriority.connect(_set_high_priority)
 	loadingInfo.visible = false
 	FOLDER_PATH = str(Settings.get_setting("music_path", "user://music"))
 	Settings.setting_changed.connect(_on_setting_changed)
@@ -90,25 +91,30 @@ func _ready() -> void:
 	
 	_create_music_folder_watcher()
 	update_state()
-
 	_set_world_machine()
 	_enable_notes()
-
 	
-	## Высокий приоритет для программы (костыльное решение проблем со звуком)
-	#if OS.get_name() == "Windows":
-		#var pid = OS.get_process_id()
-		#
-		#var command = "(Get-Process -Id %d).PriorityClass = 'High'" % pid
-		#var args = ["-Command", command]
-		#
-		#var output = []
-		#var exit_code = OS.execute("powershell", args, output, false, true)
-		#
-		#if exit_code == 0:
-			#print("Приоритет процесса успешно повышен!")
-		#else:
-			#print("Не удалось изменить приоритет. Код ошибки: ", exit_code)
+	# Меняем приоритет при запуске только если он включен в настройках
+	if Settings.get_setting("highPriority", false):
+		_set_high_priority()
+
+func _set_high_priority() -> void:
+	if OS.get_name() == "Windows":
+		var is_enabled = Settings.get_setting("highPriority", false)
+		var pid = OS.get_process_id()
+		
+		var priority_level = "High" if is_enabled else "Normal"
+		var command = "(Get-Process -Id %d).PriorityClass = '%s'" % [pid, priority_level]
+		var args = ["-Command", command]
+		
+		var output = []
+		var exit_code = OS.execute("powershell", args, output, false, true)
+		
+		if exit_code == 0:
+			print("Приоритет процесса успешно изменен на: ", priority_level)
+		else:
+			print("Не удалось изменить приоритет. Код ошибки: ", exit_code)
+
 
 
 func _set_world_machine() -> void:

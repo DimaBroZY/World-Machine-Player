@@ -336,9 +336,9 @@ theme_override_constants/separation = 3
 
 [node name="Spacer2" type="VSeparator" parent="MenuWindow/Layout/TopBar/TopBarHBox" unique_id=1568539051]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
 
@@ -350,9 +350,9 @@ stretch_mode = 0
 
 [node name="Spacer3" type="VSeparator" parent="MenuWindow/Layout/TopBar/TopBarHBox" unique_id=182435943]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
 
@@ -390,13 +390,13 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="CloseButton" type="TextureButton" parent="MenuWindow/Layout/TopBar/HBox" unique_id=1560081664]
-clip_contents = true
 custom_minimum_size = Vector2(35, 35)
-layout_direction = 4
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
+layout_direction = 4
 texture_normal = ExtResource("6_j8y1r")
 texture_hover = ExtResource("7_hc7j7")
 ignore_texture_size = true
