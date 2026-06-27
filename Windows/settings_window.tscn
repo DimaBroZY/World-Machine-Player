@@ -505,6 +505,7 @@ text = "Visual"
 
 [node name="SystemButton" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VBoxContainer" unique_id=1902605580]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_qm3jx")
@@ -518,7 +519,6 @@ text = "System"
 
 [node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2110584640]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ooibu")
@@ -763,6 +763,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
 [node name="SystemPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=700226324]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_logg6")
@@ -873,6 +874,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 [connection signal="gui_input" from="SettingsWindow/Handles/Right" to="SettingsWindow/Handles" method="_on_right_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Bottom" to="SettingsWindow/Handles" method="_on_bottom_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Corner" to="SettingsWindow/Handles" method="_on_corner_gui_input"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet" method="_on_previous_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet" method="_on_next_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes" method="_on_previous_pressed"]

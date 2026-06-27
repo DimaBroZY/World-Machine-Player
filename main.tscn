@@ -133,29 +133,17 @@ texture = ExtResource("10_074og")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1u8w0"]
 texture = ExtResource("10_074og")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_abqjc"]
-texture = ExtResource("12_getpj")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6iyjs"]
-texture = ExtResource("13_ryguw")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4w656"]
-texture = ExtResource("13_ryguw")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e71vb"]
-texture = ExtResource("13_ryguw")
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0cbny"]
 texture = ExtResource("4_lquwl")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hrvbo"]
-texture = ExtResource("11_82xsv")
+texture = ExtResource("12_getpj")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uypp3"]
 texture = ExtResource("11_82xsv")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_blkrb"]
-texture = ExtResource("11_82xsv")
+texture = ExtResource("13_ryguw")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0odxb"]
 texture = ExtResource("7_5vw27")
@@ -548,18 +536,6 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_ryguw")
 theme_override_styles/hover = SubResource("StyleBoxTexture_d13ii")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_1u8w0")
 
-[node name="PauseButton" type="Button" parent="MainWindow/Buttons" unique_id=1315758439]
-layout_mode = 0
-offset_left = 87.50001
-offset_top = 129.99998
-offset_right = 167.5
-offset_bottom = 209.99998
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_abqjc")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_6iyjs")
-theme_override_styles/hover = SubResource("StyleBoxTexture_4w656")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_e71vb")
-
 [node name="PlayButton" type="Button" parent="MainWindow/Buttons" unique_id=996472831]
 layout_mode = 0
 offset_left = 88.0
@@ -570,6 +546,8 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_0cbny")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_hrvbo")
 theme_override_styles/hover = SubResource("StyleBoxTexture_uypp3")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_blkrb")
+toggle_mode = true
+action_mode = 0
 
 [node name="PlaybackSpeedControlNode" parent="MainWindow" unique_id=1990996395 groups=["tintable"] instance=ExtResource("6_7mycd")]
 layout_mode = 0
@@ -925,8 +903,7 @@ click_sound_release = ExtResource("20_kq58d")
 [connection signal="finished" from="MainWindow/AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
 [connection signal="pressed" from="MainWindow/Buttons/StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="MainWindow/Buttons/ReverseButton" to="." method="_on_reverse_button_pressed"]
-[connection signal="pressed" from="MainWindow/Buttons/PauseButton" to="." method="_on_pause_button_pressed"]
-[connection signal="pressed" from="MainWindow/Buttons/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="toggled" from="MainWindow/Buttons/PlayButton" to="." method="_on_play_button_toggled"]
 [connection signal="value_changed" from="MainWindow/PlaybackSpeedControlNode/SpeedControlSlide" to="." method="_on_speed_control_slide_value_changed"]
 [connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedMinus" to="." method="_on_speed_minus_pressed"]
 [connection signal="pressed" from="MainWindow/PlaybackSpeedControlNode/SpeedPlus" to="." method="_on_speed_plus_pressed"]

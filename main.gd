@@ -826,8 +826,6 @@ func play_state() -> void:
 	music.stream_paused = false
 	if not music.is_playing():
 		music.play()
-	$MainWindow/Buttons/PlayButton.position = Vector2(87.5, 130)
-	$MainWindow/Buttons/PauseButton.position = Vector2(87.5, 0)
 	nicoAnim()
 	gramophone.animPlayer.play("Playing")
 	_enable_notes()
@@ -835,8 +833,6 @@ func play_state() -> void:
 
 func pause_state() -> void:
 	music.stream_paused = true
-	$MainWindow/Buttons/PlayButton.position = Vector2(87.5, 0)
-	$MainWindow/Buttons/PauseButton.position = Vector2(87.5, 130)
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
 	_enable_notes()
@@ -900,14 +896,14 @@ func _on_volume_plus_pressed() -> void:
 	set_volume(volume_percent + 5.0)
 
 
-func _on_play_button_pressed() -> void:
-	state = PLAY
-	update_state()
+func _on_play_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		state = PLAY
+		update_state()
+	else:
+		state = PAUSE
+		update_state()
 
-
-func _on_pause_button_pressed() -> void:
-	state = PAUSE
-	update_state()
 
 
 func _setup_mode_buttons() -> void:
