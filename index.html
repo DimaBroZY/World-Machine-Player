@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>World Machine Player - скачать Jukebox из OneShot WME</title>
+    <meta
+      name="description"
+      content="World Machine Player - фанатская реализация Jukebox из OneShot: World Machine Edition на Godot. Прямое скачивание, GitHub, баг-репорты и предложения."
+    >
+    <meta name="theme-color" content="#090a0d">
+    <meta property="og:title" content="World Machine Player">
+    <meta property="og:description" content="Фанатский Jukebox из OneShot: World Machine Edition. Windows release, исходники и GitHub Issues.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/player-screenshot.png">
+    <link rel="icon" href="assets/color-sun.png">
+    <link rel="preload" href="assets/player-screenshot.png" as="image">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="World Machine Player">
+        <img src="assets/color-sun.png" alt="" width="32" height="32">
+        <span>World Machine Player</span>
+      </a>
+      <nav class="site-nav" aria-label="Основная навигация">
+        <button id="lang-switch" class="lang-switch" aria-label="Switch language">RU</button>
+        <a href="#features" data-i18n="nav_features">Возможности</a>
+        <a href="#feedback" data-i18n="nav_issues">Issues</a>
+        <a class="nav-download" href="https://github.com/DimaBroZY/World-Machine-Player/releases/latest/download/World.Machine.Player.zip
+" data-i18n="nav_download">Скачать</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow" data-i18n="hero_eyebrow">Godot fan project для Windows</p>
+          <h1 id="hero-title" data-i18n="hero_title">World Machine Player</h1>
+          <p class="hero-lead" data-i18n="hero_lead">
+            Фанатская реализация Jukebox из OneShot: World Machine Edition. Запускай свою папку с музыкой,
+            переключай треки, меняй скорость, громкость и тему оформления.
+          </p>
+          <div class="hero-actions" aria-label="Главные действия">
+            <a class="button button-primary" href="https://github.com/DimaBroZY/World-Machine-Player/releases/latest/download/World.Machine.Player.zip
+">
+              <span class="button-icon" aria-hidden="true">↓</span>
+              <span data-i18n="btn_download">Скачать</span>
+            </a>
+            <a class="button button-ghost" href="https://github.com/DimaBroZY/World-Machine-Player/releases/latest/
+" target="_blank" rel="noreferrer" data-i18n="hero_github">
+              <span class="button-icon" aria-hidden="true">↗</span>
+              GitHub
+            </a>
+          </div>
+          <dl class="hero-facts" aria-label="Коротко о релизе">
+            <div>
+              <dt data-i18n="hero_formats_dt">Форматы</dt>
+              <dd>ogg, mp3, flac, opus</dd>
+            </div>
+            <div>
+              <dt data-i18n="hero_platform_dt">Платформа</dt>
+              <dd>Windows</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="release-band" id="download" aria-labelledby="download-title">
+        <div class="wrap release-layout">
+          <div>
+            <p class="section-kicker" data-i18n="download_kicker">Последний публичный релиз</p>
+            <h2 id="download-title" data-i18n="download_title">Скачать World Machine Player</h2>
+            <p data-i18n="download_desc">
+              Прямая ссылка ведет на <code>World.Machine.Player.zip</code> из GitHub Releases.
+              Распакуй архив и запусти <code>WorldMachinePlayer.exe</code>.
+            </p>
+          </div>
+          <div class="release-actions">
+            <a class="button button-primary" href="https://github.com/DimaBroZY/World-Machine-Player/releases/latest/download/World.Machine.Player.zip
+">
+              <span class="button-icon" aria-hidden="true">↓</span>
+              <span data-i18n="btn_download">Скачать</span>
+            </a>
+            <a class="button button-secondary" href="https://github.com/DimaBroZY/World-Machine-Player/releases/latest" target="_blank" rel="noreferrer">
+              Release
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="features-section" id="features" aria-labelledby="features-title">
+        <div class="wrap">
+          <p class="section-kicker" data-i18n="features_kicker">Возможности</p>
+          <h2 id="features-title" data-i18n="features_title">Плеер для своей папки с музыкой</h2>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <img src="assets/play.png" alt="" width="32" height="32">
+              <h3 data-i18n="feat_playback_title">Воспроизведение</h3>
+              <p data-i18n="feat_playback_desc">Поддержка <code>.ogg</code>, <code>.mp3</code>, <code>.flac</code> и <code>.opus</code>, переключение треков вперед/назад, play, pause, stop и restart.</p>
+            </article>
+            <article class="feature-card">
+              <img src="assets/pause.png" alt="" width="32" height="32">
+              <h3 data-i18n="feat_audio_title">Аудио контроль</h3>
+              <p data-i18n="feat_audio_desc">Точная громкость, изменение скорости от 50% до 150% и автоматическое зацикливание трека.</p>
+            </article>
+            <article class="feature-card">
+              <img src="assets/theme.png" alt="" width="32" height="32">
+              <h3 data-i18n="feat_theme_title">Кастомизация</h3>
+              <p data-i18n="feat_theme_desc">Несколько визуальных тем для внешнего вида плеера и настроения.</p>
+            </article>
+            <article class="feature-card">
+              <img src="assets/stop.png" alt="" width="32" height="32">
+              <h3 data-i18n="feat_settings_title">Настройки</h3>
+              <p data-i18n="feat_settings_desc">Можно указать свою папку с музыкой. Настройки сохраняются автоматически.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="how-section" aria-labelledby="how-title">
+        <div class="wrap two-column">
+          <div>
+            <p class="section-kicker" data-i18n="how_kicker">Быстрый старт</p>
+            <h2 id="how-title" data-i18n="how_title">Запуск в четыре шага</h2>
+          </div>
+          <ol class="steps-list">
+            <li data-i18n="step_1">Скачай последнюю версию из GitHub Releases.</li>
+            <li data-i18n="step_2">Запусти <code>WorldMachinePlayer.exe</code>.</li>
+            <li data-i18n="step_3">Через настройки укажи папку с музыкой.</li>
+            <li data-i18n="step_4">Положи туда аудиофайлы, плеер просканирует их сам.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="feedback-section" id="feedback" aria-labelledby="feedback-title">
+        <div class="wrap feedback-layout">
+          <div>
+            <p class="section-kicker" data-i18n="feedback_kicker">GitHub Issues</p>
+            <h2 id="feedback-title" data-i18n="feedback_title">Баги и идеи кидай прямо в репозиторий</h2>
+            <p data-i18n="feedback_desc">
+              Issues ведут в тот же проект, где лежит исходный код. Так репорт или предложение не потеряется.
+            </p>
+          </div>
+          <div class="feedback-actions">
+            <a class="issue-link issue-bug" href="https://github.com/DimaBroZY/World-Machine-Player/issues/new?labels=bug&amp;title=%5BBug%5D%20&amp;body=%D0%A7%D1%82%D0%BE%20%D1%81%D0%BB%D0%BE%D0%BC%D0%B0%D0%BB%D0%BE%D1%81%D1%8C%3A%0A%0A%D0%9A%D0%B0%D0%BA%20%D0%BF%D0%BE%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D1%82%D1%8C%3A%0A%0A%D0%9E%D0%B6%D0%B8%D0%B4%D0%B0%D0%BB%D0%BE%D1%81%D1%8C%3A%0A%0A%D0%92%D0%B5%D1%80%D1%81%D0%B8%D1%8F%20%D0%BF%D0%BB%D0%B5%D0%B5%D1%80%D0%B0%3A%201.1.0" target="_blank" rel="noreferrer">
+              <span data-i18n="bug_span">Баг</span>
+              <strong data-i18n="bug_strong">Сообщить о проблеме</strong>
+            </a>
+            <a class="issue-link issue-idea" href="https://github.com/DimaBroZY/World-Machine-Player/issues/new?labels=enhancement&amp;title=%5BIdea%5D%20&amp;body=%D0%98%D0%B4%D0%B5%D1%8F%3A%0A%0A%D0%97%D0%B0%D1%87%D0%B5%D0%BC%20%D1%8D%D1%82%D0%BE%20%D0%BD%D1%83%D0%B6%D0%BD%D0%BE%3A%0A%0A%D0%9A%D0%B0%D0%BA%20%D1%8D%D1%82%D0%BE%20%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C%3A" target="_blank" rel="noreferrer">
+              <span data-i18n="idea_span">Идея</span>
+              <strong data-i18n="idea_strong">Предложить фичу</strong>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="credits-section" aria-labelledby="credits-title">
+        <div class="wrap credits-layout">
+          <div>
+            <p class="section-kicker" data-i18n="credits_kicker">Фан-проект</p>
+            <h2 id="credits-title" data-i18n="credits_title">Сделано для сообщества OneShot</h2>
+          </div>
+          <div class="credits-copy">
+            <p data-i18n="credits_desc">
+              World Machine Player основан на OneShot: World Machine Edition. Права на персонажей, музыку
+              и материалы принадлежат Team OneShot и Future Cat LLC.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-layout">
+        <span>World Machine Player</span>
+        <div>
+          <a href="https://github.com/DimaBroZY/World-Machine-Player" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://github.com/DimaBroZY/World-Machine-Player/issues" target="_blank" rel="noreferrer">Issues</a>
+          <a href="https://github.com/DimaBroZY/World-Machine-Player/releases" target="_blank" rel="noreferrer">Releases</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
