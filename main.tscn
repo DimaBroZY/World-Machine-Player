@@ -693,6 +693,7 @@ theme_override_constants/separation = 0
 [node name="LocalButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer" unique_id=324981946]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -707,9 +708,10 @@ toggle_mode = true
 button_pressed = true
 text = "[LOCAL]"
 
-[node name="YouTubeButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer" unique_id=1508099524]
+[node name="LoFiButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer" unique_id=1508099524]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -721,9 +723,8 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_come4")
 theme_override_styles/hover = SubResource("StyleBoxFlat_h8e4i")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4lmeg")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_kq58d")
-disabled = true
 toggle_mode = true
-text = "[YOUTUBE]"
+text = "[LoFi]"
 
 [node name="PlaylistsTitleContainer" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=729568778]
 custom_minimum_size = Vector2(320, 50)

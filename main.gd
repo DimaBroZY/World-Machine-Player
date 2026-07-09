@@ -15,7 +15,7 @@ extends Control
 @onready var tracks_container = $MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer
 @onready var search_bar = $MainWindow/CurrentTrack/TrackListPanel/TrackList/LineEdit
 @onready var local_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/LocalButton
-@onready var youtube_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/YouTubeButton
+@onready var lo_fi_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/LoFiButton
 @onready var playlists_container: VBoxContainer = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer
 @onready var new_playlist_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/NewPlaylistButton
 
@@ -39,7 +39,7 @@ const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
 const PLAYLIST_ITEM = preload("res://scenes/playlist.tscn")
 
 static var mode_button_group: ButtonGroup
-var _showing_youtube_mode: bool = false
+var _showing_lofi_mode: bool = false
 var _local_track_list_cache: Array[Dictionary] = []
 var _local_track_list_cache_valid: bool = false
 var _rebuilding_playlist_ui: bool = false
@@ -910,12 +910,12 @@ func _setup_mode_buttons() -> void:
 	mode_button_group = ButtonGroup.new()
 	mode_button_group.allow_unpress = false
 	local_button.button_group = mode_button_group
-	youtube_button.button_group = mode_button_group
+	lo_fi_button.button_group = mode_button_group
 	local_button.toggle_mode = true
-	youtube_button.toggle_mode = true
+	lo_fi_button.toggle_mode = true
 	local_button.button_pressed = true
 	local_button.toggled.connect(_on_local_button_toggled)
-	youtube_button.toggled.connect(_on_youtube_button_toggled)
+	lo_fi_button.toggled.connect(_on_lo_fi_button_toggled)
 
 
 func _setup_playlist_ui() -> void:
@@ -1003,16 +1003,16 @@ func _on_active_playlist_changed(_playlist_id: String) -> void:
 func _on_local_button_toggled(is_pressed: bool) -> void:
 	if not is_pressed:
 		return
-	if _showing_youtube_mode:
-		_showing_youtube_mode = false
+	if _showing_lofi_mode:
+		_showing_lofi_mode = false
 		_apply_active_playlist_filter()
 
 
-func _on_youtube_button_toggled(is_pressed: bool) -> void:
+func _on_lo_fi_button_toggled(is_pressed: bool) -> void:
 	if not is_pressed:
 		return
-	if not _showing_youtube_mode:
-		_showing_youtube_mode = true
+	if not _showing_lofi_mode:
+		_showing_lofi_mode = true
 		_apply_active_playlist_filter()
 
 
@@ -1048,7 +1048,7 @@ func _playlists_have_same_tracks(left: Array, right: Array) -> bool:
 
 
 func _apply_active_playlist_filter(force_refresh: bool = false) -> void:
-	if _showing_youtube_mode:
+	if _showing_lofi_mode:
 		tracks_container.visible = false
 		return
 
@@ -1144,3 +1144,7 @@ func _on_line_edit_text_changed(text: String) -> void:
 func apply_search(query: String) -> void:
 	search_query = query.to_lower()
 	_apply_active_playlist_filter()
+
+
+
+	
