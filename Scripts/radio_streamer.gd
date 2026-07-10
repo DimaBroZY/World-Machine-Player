@@ -20,7 +20,7 @@ func setup(player: AudioStreamPlayer) -> void:
 	_player = player
 	_stream = player.stream as AudioStreamGenerator
 	if _stream == null:
-		push_error("RadioPlayer.stream должен быть AudioStreamGenerator — выставь в инспекторе")
+		push_error("RadioPlayer.stream должен быть AudioStreamGenerator")
 
 	_timer = Timer.new()
 	_timer.one_shot = false
@@ -61,8 +61,22 @@ func stop() -> void:
 		return
 	_active = false
 	_timer.stop()
+	if _decoder:
+		if _decoder.buffering_started.is_connected(_on_buffering_started):
+			_decoder.buffering_started.disconnect(_on_buffering_started)
+		if _decoder.buffering_finished.is_connected(_on_buffering_finished):
+			_decoder.buffering_finished.disconnect(_on_buffering_finished)
 	if _http:
-		_http.cancel_request()
+		_http.set_audio_decoder(null)
+		var http_ref = _http
+		_http = null
+		var cleanup_thread := Thread.new()
+		cleanup_thread.start(func():
+			if http_ref.has_method("cancel_request"):
+				http_ref.cancel_request()
+			# Даем объекту окончательно удалиться внутри этого потока
+			http_ref = null 
+		)
 	if _player:
 		_player.stop()
 	_decoder = null
@@ -70,6 +84,8 @@ func stop() -> void:
 
 func _connect() -> void:
 	print("CONNECT")
+	if _http:
+		_http.cancel_request()
 	_http = IcyHttpStream.new()
 	_http.connection_opened.connect(_on_connection_opened)
 	_http.connection_closed.connect(_on_connection_closed)
@@ -156,10 +172,10 @@ func _on_connection_closed(_result) -> void:
 		if _decoder.buffering_finished.is_connected(_on_buffering_finished):
 			_decoder.buffering_finished.disconnect(_on_buffering_finished)
 
-	if _active:
+	if _active and is_inside_tree():
 		push_warning("Radio: connection closed, reconnecting")
 		await get_tree().create_timer(1.5).timeout
-		if _active:
+		if _active and is_inside_tree():
 			_connect()
 
 
