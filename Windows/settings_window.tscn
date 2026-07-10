@@ -505,7 +505,6 @@ text = "Visual"
 
 [node name="SystemButton" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VBoxContainer" unique_id=1902605580]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_qm3jx")
@@ -519,6 +518,7 @@ text = "System"
 
 [node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2110584640]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ooibu")
@@ -763,7 +763,6 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
 [node name="SystemPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=700226324]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_logg6")
@@ -837,7 +836,9 @@ custom_text = "(Only Windows)
 Set high priority
 for player
 (in theory
-fix some problems)"
+fix some problems)
+The player takes longer to 
+start up"
 metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
 
 [node name="Previous" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/SystemPanel/VBoxContainer/Priority/ChangeSetting" unique_id=898365426]

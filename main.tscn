@@ -174,10 +174,6 @@ texture = ExtResource("15_2cqfq")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_htxhm"]
 texture = ExtResource("15_2cqfq")
 
-[sub_resource type="LabelSettings" id="LabelSettings_kek77"]
-font = ExtResource("9_kek77")
-font_size = 40
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jq2sk"]
 texture = ExtResource("7_5vw27")
 
@@ -201,6 +197,10 @@ texture = ExtResource("15_2cqfq")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h8e4i"]
 texture = ExtResource("15_2cqfq")
+
+[sub_resource type="LabelSettings" id="LabelSettings_kek77"]
+font = ExtResource("9_kek77")
+font_size = 40
 
 [sub_resource type="GDScript" id="GDScript_kq58d"]
 resource_name = "TrackListPanel"
@@ -433,6 +433,7 @@ layout_mode = 1
 offset_bottom = 0.0
 
 [node name="LoadingInfo" type="Label" parent="MainWindow" unique_id=1563508309 groups=["tintable"]]
+visible = false
 layout_mode = 0
 offset_left = 434.0
 offset_top = 448.0
@@ -507,12 +508,11 @@ grow_vertical = 1
 scale = Vector2(6, 6)
 
 [node name="Loading" parent="MainWindow/Objects" unique_id=388672868 instance=ExtResource("31_seu75")]
-visible = false
 layout_mode = 1
-offset_left = 550.0
-offset_top = 601.6667
-offset_right = 550.0
-offset_bottom = 601.6667
+offset_left = 536.6667
+offset_top = 601.6666
+offset_right = 536.66675
+offset_bottom = 601.6666
 
 [node name="Buttons" type="Control" parent="MainWindow" unique_id=1820426466 groups=["tintable"]]
 layout_mode = 1
@@ -573,11 +573,14 @@ offset_right = 186.0
 offset_bottom = 373.0
 scale = Vector2(1.82, 1.84)
 
+[node name="SpeedControlSlide" parent="MainWindow/PlaybackSpeedControlNode" index="0"]
+offset_left = 20.87912
+
 [node name="SpeedMinus" type="Button" parent="MainWindow/PlaybackSpeedControlNode" unique_id=1475133924]
 layout_mode = 0
-offset_top = 16.0
-offset_right = 20.0
-offset_bottom = 36.0
+offset_top = 15.760868
+offset_right = 20.54945
+offset_bottom = 35.760868
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_0odxb")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_lswn8")
@@ -597,16 +600,16 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_seu75")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_htxhm")
 
 [node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode" unique_id=224617813]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 2.717
-offset_right = 554.0
-offset_bottom = 72.717
+texture_filter = 1
+layout_mode = 1
+offset_left = 25.0
+offset_top = 4.0
+offset_right = 545.0
+offset_bottom = 74.0
 scale = Vector2(0.23, 0.23)
+theme_override_fonts/font = ExtResource("9_kek77")
+theme_override_font_sizes/font_size = 40
 text = "Playback Speed: 100%"
-label_settings = SubResource("LabelSettings_kek77")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="VolumeControl" parent="MainWindow" unique_id=525880026 groups=["tintable"] instance=ExtResource("10_4c57u")]
 layout_mode = 1
@@ -622,6 +625,7 @@ offset_bottom = 39.00003
 scale = Vector2(1.82, 1.84)
 
 [node name="VolumeControlSlide" parent="MainWindow/VolumeControl" index="0"]
+offset_right = 144.50546
 min_value = 0.0
 max_value = 100.0
 value = 100.0
@@ -639,10 +643,10 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_ok6jj")
 
 [node name="VolumePlus" type="Button" parent="MainWindow/VolumeControl" unique_id=821368649]
 layout_mode = 0
-offset_left = 144.505
-offset_top = 15.556
-offset_right = 164.505
-offset_bottom = 35.556
+offset_left = 143.505
+offset_top = 15.761
+offset_right = 164.2857
+offset_bottom = 35.761
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_facbu")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_b1qrp")
@@ -902,9 +906,9 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_rnkwl")
 [node name="NextTrack" type="Button" parent="MainWindow/CurrentTrack" unique_id=889046617]
 layout_mode = 0
 offset_left = 886.154
-offset_top = 45.444
+offset_top = 45.0
 offset_right = 943.154
-offset_bottom = 102.444
+offset_bottom = 102.0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_0n3wm")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_qnost")

@@ -7,6 +7,7 @@ extends Control
 @onready var loadingInfo: Label = $MainWindow/LoadingInfo
 @onready var niko = $MainWindow/Objects/Niko
 @onready var gramophone = $MainWindow/Objects/Gramophone
+@onready var loadingIcon = $MainWindow/Objects/Loading
 @onready var volumeControl = $MainWindow/VolumeControl
 @onready var speedControl = $MainWindow/PlaybackSpeedControlNode
 @onready var nextTrack =$MainWindow/CurrentTrack/NextTrack
@@ -20,6 +21,8 @@ extends Control
 @onready var new_playlist_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/NewPlaylistButton
 @onready var radio_player: AudioStreamPlayer = $MainWindow/RadioPlayer
 @onready var play_button: Button = $MainWindow/Buttons/PlayButton
+
+
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
 
@@ -797,12 +800,14 @@ func _show_loading_info(count: int) -> void:
 			files_count += 1
 	
 	loadingInfo.text = "Loading: " + str(count) + " / " + str(files_count)
-	loadingInfo.visible = true
+	#loadingInfo.visible = true
+	loadingIcon.visible = true
 
 
 func _hide_loading_info() -> void:
-	loadingInfo.visible = false
-
+	#loadingInfo.visible = false
+	loadingIcon.visible = false
+	
 func _await_track_skip()-> void:
 	nextTrack.disabled = true
 	previousTrack.disabled = true
