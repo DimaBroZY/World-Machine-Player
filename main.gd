@@ -18,7 +18,8 @@ extends Control
 @onready var lo_fi_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/LoFiButton
 @onready var playlists_container: VBoxContainer = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer
 @onready var new_playlist_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/NewPlaylistButton
-
+@onready var radio_player: AudioStreamPlayer = $MainWindow/RadioPlayer
+@onready var play_button: Button = $MainWindow/Buttons/PlayButton
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
 
@@ -65,6 +66,11 @@ var full_playlist: Array = []
 var search_query: String = ""
 var _checked_track_source_path: String = ""
 
+var current_source: PlaybackSource
+var _local_source: LocalPlaybackSource
+var _radio_source: RadioPlaybackSource
+var _radio: RadioStreamer
+
 		
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
@@ -86,6 +92,13 @@ func _ready() -> void:
 	PlaylistManager.playlist_tracks_changed.connect(_on_playlist_tracks_changed)
 	PlaylistManager.active_playlist_changed.connect(_on_active_playlist_changed)
 	new_playlist_button.pressed.connect(_on_new_playlist_button_pressed)
+
+	_radio = RadioStreamer.new()
+	add_child(_radio)
+	_radio.setup(radio_player)
+	_local_source = LocalPlaybackSource.new(self)
+	_radio_source = RadioPlaybackSource.new(_radio)
+	current_source = _local_source
 
 	_apply_active_playlist_filter()
 	
@@ -798,6 +811,8 @@ func _await_track_skip()-> void:
 	previousTrack.disabled = false
 	
 func _on_next_track_pressed() -> void:
+	if _showing_lofi_mode:
+		return
 	if playlist.size() > 0:
 		current_index = (current_index + 1) % playlist.size()
 		music.stop()
@@ -806,6 +821,8 @@ func _on_next_track_pressed() -> void:
 		_await_track_skip()
 
 func _on_previous_track_pressed() -> void:
+	if _showing_lofi_mode:
+		return
 	if playlist.size() > 0:
 		current_index = (current_index - 1 + playlist.size()) % playlist.size()
 		music.stop()
@@ -823,22 +840,21 @@ func update_state() -> void:
 
 
 func play_state() -> void:
-	music.stream_paused = false
-	if not music.is_playing():
-		music.play()
+	current_source.play()
 	nicoAnim()
 	gramophone.animPlayer.play("Playing")
 	_enable_notes()
 
 
 func pause_state() -> void:
-	music.stream_paused = true
+	current_source.pause()
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
+	play_button.button_pressed = false
 	_enable_notes()
 
 func _on_stop_button_pressed() -> void:
-	music.stop()
+	current_source.stop()
 	if state == PLAY:
 		state = PAUSE
 	niko.animPlayer.play("Sleeping")
@@ -857,7 +873,8 @@ func set_volume(percent: float) -> void:
 	volume_percent = clamp(percent, 0.0, 100.0)
 
 	music.volume_db = linear_to_db(volume_percent / 100.0)
-
+	radio_player.volume_db = linear_to_db(volume_percent / 100.0)
+	
 	# синхронизация UI
 	volumeControl.volumeControlSlide.value = volume_percent
 	$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(volume_percent)) + "%"
@@ -868,6 +885,8 @@ func _on_volume_control_slide_value_changed(value: float) -> void:
 	notes.amount = int(round(lerp(1.0, 6.0, volume_percent / 100.0)))
 
 func _on_reverse_button_pressed() -> void:
+	if _showing_lofi_mode:
+		return
 	if music.playing == true:
 		music.play(0.0)
 	else:
@@ -1004,16 +1023,26 @@ func _on_local_button_toggled(is_pressed: bool) -> void:
 	if not is_pressed:
 		return
 	if _showing_lofi_mode:
+		current_source.stop()
+		current_source = _local_source
 		_showing_lofi_mode = false
 		_apply_active_playlist_filter()
+		update_track_name()
+		if state == PLAY:
+			current_source.play()
 
 
 func _on_lo_fi_button_toggled(is_pressed: bool) -> void:
 	if not is_pressed:
 		return
 	if not _showing_lofi_mode:
+		current_source.stop()
+		current_source = _radio_source
 		_showing_lofi_mode = true
 		_apply_active_playlist_filter()
+		curTrack.set_track_name("LoFi Radio")
+		if state == PLAY:
+			current_source.play()
 
 
 func _compute_local_playlist() -> Array[Dictionary]:

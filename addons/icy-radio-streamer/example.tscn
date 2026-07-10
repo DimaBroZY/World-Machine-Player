@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh0oj81pufivs"]
+
+[ext_resource type="Script" uid="uid://bkwk40ybs8kgm" path="res://example.gd" id="1_jdh55"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_2jas5"]
+buffer_length = 2.0
+
+[node name="Node" type="Node" node_paths=PackedStringArray("radio_player")]
+script = ExtResource("1_jdh55")
+radio_player = NodePath("Radio")
+
+[node name="Radio" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamGenerator_2jas5")
+
+[node name="Timer" type="Timer" parent="."]

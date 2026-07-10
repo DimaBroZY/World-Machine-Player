@@ -35,6 +35,7 @@ buses/default_bus_layout=""
 driver/output_latency=100
 driver/output_latency.web=100
 driver/mix_rate=48000
+driver/certificate_bundle_override=""
 
 [autoload]
 

@@ -1,0 +1,13 @@
+[configuration]
+
+entry_symbol = "icy_radio_streamer_init"
+compatibility_minimum = 4.3
+
+[libraries]
+
+linux.debug.x86_64 = "bin/libicy_radio_streamer.linux.debug.x86_64.so"
+linux.release.x86_64 = "bin/libicy_radio_streamer.linux.release.x86_64.so"
+windows.debug.x86_64 = "bin/libicy_radio_streamer.windows.debug.x86_64.dll"
+windows.release.x86_64 = "bin/libicy_radio_streamer.windows.release.x86_64.dll"
+android.debug.arm64 = "bin/libicy_radio_streamer.android.debug.arm64.so"
+android.release.arm64 = "bin/libicy_radio_streamer.android.release.arm64.so"
