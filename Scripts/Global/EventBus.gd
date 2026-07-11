@@ -15,3 +15,9 @@ signal color_changed(color)
 # высокий приоритет
 @warning_ignore("unused_signal")
 signal highPriority
+
+@warning_ignore("unused_signal")
+signal setEndOfTrackAction
+
+@warning_ignore("unused_signal")
+signal setShuffle

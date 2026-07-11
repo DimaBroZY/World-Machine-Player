@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="2_lswn8"]
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="2_ticker"]
 [ext_resource type="PackedScene" uid="uid://c2nk7evw8monk" path="res://Objects/Gramophone.tscn" id="3_ycdy4"]
+[ext_resource type="Texture2D" uid="uid://lnxdkra4mcv6" path="res://Assets/Icons/info.png" id="4_htxhm"]
 [ext_resource type="Texture2D" uid="uid://bmirln57b5vca" path="res://Assets/Buttons/PlayButton.png" id="4_lquwl"]
 [ext_resource type="Texture2D" uid="uid://cs3idp5d1m3h3" path="res://Assets/Buttons/Stop_Button.png" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://dn24kgmibsw8h" path="res://Objects/Sun.tscn" id="5_w48qg"]
@@ -32,12 +33,17 @@
 [ext_resource type="Texture2D" uid="uid://ccnsv1qmv6r3f" path="res://Assets/Icons/Notes.png" id="27_kq58d"]
 [ext_resource type="PackedScene" uid="uid://d4fibf524tiey" path="res://Objects/Loading.tscn" id="31_seu75"]
 
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_seu75"]
+mix_rate = 48000.0
+buffer_length = 4.0
+
 [sub_resource type="LabelSettings" id="LabelSettings_xuqvo"]
 font = ExtResource("9_kek77")
 
-[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_seu75"]
-mix_rate = 48000.0
-buffer_length = 3.0
+[sub_resource type="LabelSettings" id="LabelSettings_s1fef"]
+line_spacing = -10.0
+font = ExtResource("9_kek77")
+font_size = 18
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_seu75"]
 particles_animation = true
@@ -432,6 +438,15 @@ script = ExtResource("1_1bvp3")
 layout_mode = 1
 offset_bottom = 0.0
 
+[node name="RadioPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=770886441]
+stream = SubResource("AudioStreamGenerator_seu75")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
+process_mode = 3
+process_thread_group = 2
+process_thread_group_order = 0
+process_thread_messages = 1
+
 [node name="LoadingInfo" type="Label" parent="MainWindow" unique_id=1563508309 groups=["tintable"]]
 visible = false
 layout_mode = 0
@@ -445,14 +460,25 @@ horizontal_alignment = 2
 vertical_alignment = 2
 clip_text = true
 
-[node name="RadioPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=770886441]
-stream = SubResource("AudioStreamGenerator_seu75")
+[node name="StationInfo" type="Label" parent="MainWindow" unique_id=1399512230 groups=["tintable"]]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 65.0
+offset_top = 420.0
+offset_right = 214.0
+offset_bottom = 474.0
+text = "This station 
+is unavailable"
+label_settings = SubResource("LabelSettings_s1fef")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
-process_mode = 3
-process_thread_group = 2
-process_thread_group_order = 0
-process_thread_messages = 1
+[node name="icon" type="TextureRect" parent="MainWindow/StationInfo" unique_id=1933163918]
+layout_mode = 0
+offset_left = -47.0
+offset_top = 4.0
+offset_right = -7.0
+offset_bottom = 44.0
+texture = ExtResource("4_htxhm")
 
 [node name="Objects" type="Control" parent="MainWindow" unique_id=793731524 groups=["party_tintable"]]
 texture_filter = 1
@@ -507,7 +533,7 @@ grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(6, 6)
 
-[node name="Loading" parent="MainWindow/Objects" unique_id=388672868 instance=ExtResource("31_seu75")]
+[node name="Loading" parent="MainWindow/Objects" unique_id=388672868 groups=["tintable"] instance=ExtResource("31_seu75")]
 layout_mode = 1
 offset_left = 536.6667
 offset_top = 601.6666
@@ -728,7 +754,7 @@ toggle_mode = true
 button_pressed = true
 text = "[LOCAL]"
 
-[node name="LoFiButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer" unique_id=1508099524]
+[node name="RadioButton" type="Button" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer" unique_id=1508099524]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -744,7 +770,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_h8e4i")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_4lmeg")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_kq58d")
 toggle_mode = true
-text = "[LoFi]"
+text = "[Radio]"
 
 [node name="PlaylistsTitleContainer" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=729568778]
 custom_minimum_size = Vector2(320, 50)
@@ -822,6 +848,43 @@ draw_focus_border = true
 horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer" unique_id=605642092]
+layout_mode = 2
+
+[node name="StationList" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel" unique_id=2047648997]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 259.9231
+offset_right = 60.61548
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_htxhm")
+
+[node name="LineEdit" type="LineEdit" parent="MainWindow/CurrentTrack/TrackListPanel/StationList" unique_id=1908837625]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("27_htxhm")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("9_kek77")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_seu75")
+placeholder_text = "Search here..."
+context_menu_enabled = false
+emoji_menu_enabled = false
+virtual_keyboard_enabled = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/StationList" unique_id=1079019942]
+custom_minimum_size = Vector2(0, 265)
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("27_htxhm")
+theme_override_styles/panel = SubResource("StyleBoxFlat_wnkbs")
+draw_focus_border = true
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainWindow/CurrentTrack/TrackListPanel/StationList/ScrollContainer" unique_id=786834324]
 layout_mode = 2
 
 [node name="CurrentTrackLabel" type="Label" parent="MainWindow/CurrentTrack" unique_id=1942783716]

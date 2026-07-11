@@ -110,6 +110,129 @@ texture = ExtResource("12_qm3jx")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mcsq1"]
 texture = ExtResource("12_qm3jx")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s1fef"]
+
+[sub_resource type="GDScript" id="GDScript_jnyio"]
+script/source = "extends PanelContainer
+# onready var
+@onready var label = $ChangeSetting/PanelContainer/Label
+@onready var labelText = label.text
+# var
+var EndOfTrackAction = Settings.get_setting(\"EndOfTrackAction\")
+
+
+
+func _ready() -> void:
+	if EndOfTrackAction == null:
+		Settings.save_setting(\"EndOfTrackAction\", false)
+		EndOfTrackAction = Settings.get_setting(\"EndOfTrackAction\")
+	else:	
+		EndOfTrackAction = Settings.get_setting(\"EndOfTrackAction\")
+		set_label_text()
+		
+func set_label_text():
+	if EndOfTrackAction == false:
+		label.text = \"Repeat\"
+	else:
+		label.text = \"Next\"	
+	Settings.save_setting(\"EndOfTrackAction\", EndOfTrackAction)
+	
+func _on_previous_pressed() -> void:
+	EndOfTrackAction = !EndOfTrackAction
+	set_label_text()
+	EventBus.setEndOfTrackAction.emit()
+	
+func _on_next_pressed() -> void:
+	EndOfTrackAction = !EndOfTrackAction
+	set_label_text()
+	EventBus.setEndOfTrackAction.emit()
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_8x2rp"]
+font_size = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnyio"]
+content_margin_left = 15.0
+content_margin_right = 15.0
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mcsq1"]
+font = ExtResource("4_qm3jx")
+font_size = 15
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wb4oo"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ooibu"]
+texture = ExtResource("16_mcsq1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jklcd"]
+texture = ExtResource("17_g5yv1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l8fi3"]
+texture = ExtResource("17_g5yv1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_logg6"]
+texture = ExtResource("17_g5yv1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6bdik"]
+texture = ExtResource("16_mcsq1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vhduf"]
+texture = ExtResource("18_sjhro")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tnr6a"]
+texture = ExtResource("19_owwqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xy3xa"]
+texture = ExtResource("19_owwqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jyvwr"]
+texture = ExtResource("19_owwqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q6p7f"]
+texture = ExtResource("18_sjhro")
+
+[sub_resource type="GDScript" id="GDScript_ooibu"]
+script/source = "extends PanelContainer
+# onready var
+@onready var label = $ChangeSetting/PanelContainer/Label
+@onready var labelText = label.text
+# var
+var shuffle = Settings.get_setting(\"shuffle\")
+
+
+
+func _ready() -> void:
+	if shuffle == null:
+		Settings.save_setting(\"shuffle\", false)
+		shuffle = Settings.get_setting(\"shuffle\")
+	else:	
+		shuffle = Settings.get_setting(\"shuffle\")
+		set_label_text()
+		
+func set_label_text():
+	if shuffle == false:
+		label.text = \"Off\"
+	else:
+		label.text = \"On\"	
+	Settings.save_setting(\"shuffle\", shuffle)
+	
+func _on_previous_pressed() -> void:
+	shuffle = !shuffle
+	set_label_text()
+	EventBus.setShuffle.emit()
+	
+func _on_next_pressed() -> void:
+	shuffle = !shuffle
+	set_label_text()
+	EventBus.setShuffle.emit()
+"
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khhxn"]
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
@@ -155,52 +278,7 @@ func _on_next_pressed() -> void:
 	EventBus.setWorldMachine.emit()
 "
 
-[sub_resource type="LabelSettings" id="LabelSettings_8x2rp"]
-font_size = 25
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnyio"]
-content_margin_left = 15.0
-content_margin_right = 15.0
-draw_center = false
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_mcsq1"]
-font = ExtResource("4_qm3jx")
-font_size = 15
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ooibu"]
-texture = ExtResource("16_mcsq1")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jklcd"]
-texture = ExtResource("17_g5yv1")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l8fi3"]
-texture = ExtResource("17_g5yv1")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_logg6"]
-texture = ExtResource("17_g5yv1")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6bdik"]
-texture = ExtResource("16_mcsq1")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vhduf"]
-texture = ExtResource("18_sjhro")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tnr6a"]
-texture = ExtResource("19_owwqo")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xy3xa"]
-texture = ExtResource("19_owwqo")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jyvwr"]
-texture = ExtResource("19_owwqo")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q6p7f"]
-texture = ExtResource("18_sjhro")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jnyio"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_khhxn"]
 
@@ -233,6 +311,8 @@ func _on_next_pressed() -> void:
 	set_label_text()
 	EventBus.noteEnabling.emit()
 "
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_owwqo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_logg6"]
 draw_center = false
@@ -283,7 +363,7 @@ func _on_next_pressed() -> void:
 [node name="Window" type="Window" unique_id=1166479097]
 oversampling_override = 1.0
 initial_position = 2
-size = Vector2i(600, 400)
+size = Vector2i(600, 450)
 borderless = true
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=101463129]
@@ -463,12 +543,12 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelManager" type="MarginContainer" parent="SettingsWindow/Content" unique_id=708095972]
+[node name="PanelManager" type="MarginContainer" parent="SettingsWindow/Content" unique_id=708095972 groups=["tintable"]]
 layout_mode = 2
 script = ExtResource("17_owwqo")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsWindow/Content/PanelManager" unique_id=1491756140]
-custom_minimum_size = Vector2(570, 320)
+custom_minimum_size = Vector2(570, 360)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -536,7 +616,10 @@ theme_override_font_sizes/font_size = 30
 text = "----- General -----"
 label_settings = SubResource("LabelSettings_sjhro")
 
-[node name="PathPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel" unique_id=33671686]
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel" unique_id=354164529]
+layout_mode = 2
+
+[node name="PathPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=33671686]
 custom_maximum_size = Vector2(410, 50)
 layout_mode = 2
 offset_transform_enabled = true
@@ -544,8 +627,8 @@ offset_transform_position = Vector2(10, 50)
 offset_transform_visual_only = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_s1fef")
 
-[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/PathPanel" unique_id=1350480334]
-custom_minimum_size = Vector2(370, 0)
+[node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel" unique_id=1350480334]
+custom_minimum_size = Vector2(360, 0)
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -565,7 +648,7 @@ emoji_menu_enabled = false
 flat = true
 virtual_keyboard_enabled = false
 
-[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/PathPanel/FolderPath" unique_id=978301876]
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FolderPath" unique_id=978301876 groups=["tintable"]]
 layout_mode = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_g5yv1")
 script = ExtResource("19_g5yv1")
@@ -573,7 +656,7 @@ custom_text = "Set path to folder
 with your music"
 metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
 
-[node name="FolderButton" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/PathPanel" unique_id=809547249]
+[node name="FolderButton" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel" unique_id=809547249]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -586,9 +669,164 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_pkqi5")
 theme_override_styles/hover = SubResource("StyleBoxTexture_mgkoj")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mcsq1")
 
+[node name="EndOfTrackActionPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=1470375712]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 40)
+offset_transform_visual_only = false
+theme_override_styles/panel = SubResource("StyleBoxEmpty_s1fef")
+script = SubResource("GDScript_jnyio")
+
+[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel" unique_id=1553968412]
+layout_mode = 2
+
+[node name="EndOfTrackAction" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting" unique_id=1655581253]
+layout_mode = 0
+offset_left = 63.0
+offset_top = 9.0
+offset_right = 372.0
+offset_bottom = 62.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("15_8x2rp")
+text = "End of Track Action"
+label_settings = SubResource("LabelSettings_8x2rp")
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting" unique_id=145917205]
+custom_maximum_size = Vector2(345, 35)
+layout_mode = 0
+offset_left = 42.0
+offset_top = 46.0
+offset_right = 387.0
+offset_bottom = 81.0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jnyio")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/PanelContainer" unique_id=552235387]
+layout_mode = 2
+text = "Repeat"
+label_settings = SubResource("LabelSettings_mcsq1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/PanelContainer" unique_id=2084185611 groups=["tintable"]]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wb4oo")
+script = ExtResource("19_g5yv1")
+custom_text = "What to do 
+after finishing 
+the track"
+metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
+
+[node name="Previous" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting" unique_id=723604662]
+custom_maximum_size = Vector2(35, 35)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 46.0
+offset_right = 43.0
+offset_bottom = 81.0
+pivot_offset = Vector2(342.43176, -54.590576)
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ooibu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jklcd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l8fi3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_logg6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
+
+[node name="Next" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting" unique_id=1778522764]
+custom_maximum_size = Vector2(35, 35)
+layout_mode = 0
+offset_left = 387.0
+offset_top = 46.0
+offset_right = 422.0
+offset_bottom = 81.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vhduf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tnr6a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
+
+[node name="ShufflePanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=919233641]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 110)
+offset_transform_visual_only = false
+theme_override_styles/panel = SubResource("StyleBoxEmpty_s1fef")
+script = SubResource("GDScript_ooibu")
+
+[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel" unique_id=570910225]
+layout_mode = 2
+
+[node name="Shuffle" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting" unique_id=2098608659]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 9.0
+offset_right = 372.0
+offset_bottom = 62.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("15_8x2rp")
+text = "Shuffle"
+label_settings = SubResource("LabelSettings_8x2rp")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting" unique_id=824954228]
+custom_maximum_size = Vector2(345, 35)
+layout_mode = 0
+offset_left = 42.0
+offset_top = 46.0
+offset_right = 387.0
+offset_bottom = 81.0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jnyio")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting/PanelContainer" unique_id=503182443]
+layout_mode = 2
+text = "off"
+label_settings = SubResource("LabelSettings_mcsq1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting/PanelContainer" unique_id=1566993656 groups=["tintable"]]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wb4oo")
+script = ExtResource("19_g5yv1")
+custom_text = "Shuffle tracks
+or not"
+metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
+
+[node name="Previous" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting" unique_id=1668977854]
+custom_maximum_size = Vector2(35, 35)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 46.0
+offset_right = 43.0
+offset_bottom = 81.0
+pivot_offset = Vector2(342.43176, -54.590576)
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ooibu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jklcd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l8fi3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_logg6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
+
+[node name="Next" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting" unique_id=1110670820]
+custom_maximum_size = Vector2(35, 35)
+layout_mode = 0
+offset_left = 387.0
+offset_top = 46.0
+offset_right = 422.0
+offset_bottom = 81.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vhduf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tnr6a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
+
 [node name="VisualPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2109862331]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_khhxn")
@@ -613,7 +851,7 @@ offset_transform_position = Vector2(0, 35)
 offset_transform_visual_only = false
 theme_override_constants/separation = 50
 
-[node name="WorldMachineThemeSet" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer" unique_id=271696449 groups=["tintable"]]
+[node name="WorldMachineThemeSet" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer" unique_id=271696449]
 layout_mode = 2
 script = SubResource("GDScript_owwqo")
 
@@ -649,8 +887,9 @@ label_settings = SubResource("LabelSettings_mcsq1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/PanelContainer" unique_id=218362549]
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/PanelContainer" unique_id=218362549 groups=["tintable"]]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jnyio")
 script = ExtResource("19_g5yv1")
 custom_text = "Enable World Machine
 Shader for Niko"
@@ -685,7 +924,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
-[node name="Notes" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer" unique_id=1674172119 groups=["tintable"]]
+[node name="Notes" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer" unique_id=1674172119]
 custom_maximum_size = Vector2(-1, 150)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_khhxn")
@@ -727,8 +966,9 @@ label_settings = SubResource("LabelSettings_mcsq1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes/ChangeSetting/PanelContainer" unique_id=1056841831]
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes/ChangeSetting/PanelContainer" unique_id=1056841831 groups=["tintable"]]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_owwqo")
 script = ExtResource("19_g5yv1")
 custom_text = "Enable notes"
 metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
@@ -763,6 +1003,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
 [node name="SystemPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=700226324]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_logg6")
@@ -787,7 +1028,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(320, 35)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 10)
+offset_transform_position = Vector2(0, 15)
 offset_transform_visual_only = false
 theme_override_styles/panel = SubResource("StyleBoxEmpty_qsuaf")
 script = SubResource("GDScript_s1fef")
@@ -828,7 +1069,7 @@ label_settings = SubResource("LabelSettings_mcsq1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/SystemPanel/VBoxContainer/Priority/ChangeSetting/PanelContainer" unique_id=1920573295]
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/SystemPanel/VBoxContainer/Priority/ChangeSetting/PanelContainer" unique_id=1920573295 groups=["tintable"]]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_g5yv1")
 script = ExtResource("19_g5yv1")
@@ -875,7 +1116,11 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 [connection signal="gui_input" from="SettingsWindow/Handles/Right" to="SettingsWindow/Handles" method="_on_right_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Bottom" to="SettingsWindow/Handles" method="_on_bottom_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Corner" to="SettingsWindow/Handles" method="_on_corner_gui_input"]
-[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel" method="_on_previous_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel" method="_on_next_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel" method="_on_previous_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel" method="_on_next_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet" method="_on_previous_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet" method="_on_next_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes" method="_on_previous_pressed"]

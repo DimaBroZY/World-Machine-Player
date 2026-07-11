@@ -16,16 +16,18 @@ extends Control
 @onready var tracks_container = $MainWindow/CurrentTrack/TrackListPanel/TrackList/ScrollContainer/VBoxContainer
 @onready var search_bar = $MainWindow/CurrentTrack/TrackListPanel/TrackList/LineEdit
 @onready var local_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/LocalButton
-@onready var lo_fi_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/LoFiButton
+@onready var radio_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/RadioButton
 @onready var playlists_container: VBoxContainer = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer
 @onready var new_playlist_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/NewPlaylistButton
 @onready var radio_player: AudioStreamPlayer = $MainWindow/RadioPlayer
 @onready var play_button: Button = $MainWindow/Buttons/PlayButton
-
-
+@onready var track_list_root = $MainWindow/CurrentTrack/TrackListPanel/TrackList
+@onready var station_list_root = $MainWindow/CurrentTrack/TrackListPanel/StationList
+@onready var stations_container = $MainWindow/CurrentTrack/TrackListPanel/StationList/ScrollContainer/VBoxContainer
+@onready var stationInfo = $MainWindow/StationInfo
+@onready var station_search_bar = $MainWindow/CurrentTrack/TrackListPanel/StationList/LineEdit
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
-
 const PLAY: int = 0
 const PAUSE: int = 1
 const MUSIC_CACHE_VERSION: int = 2
@@ -41,9 +43,20 @@ const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
 const LOCK_TIME: float = 0.0
 const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
 const PLAYLIST_ITEM = preload("res://scenes/playlist.tscn")
+const RADIO_STATIONS: Array[Dictionary] = [
+	{"name": "MoE LoFi (ZenoFM)", "url": "http://stream.zeno.fm/3u1qndyk8rhvv"},
+	{"name": "LoFi (Lofi 24/7)", "url": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1"},
+	{"name": "Vaporwaves (SomaFM)", "url": "https://ice3.somafm.com/vaporwaves-128-mp3"},
+	{"name": "Phonk (badradio)", "url": "https://s2.radio.co/s2b2b68744/listen"},
+	{"name": "Classic (walmradio)", "url": "https://icecast.walmradio.com:8443/classic"},
+	{"name": "Radio «GamePlay»", "url": "https://c22.radioboss.fm:8144/GamePlay"},
+	{"name": "Vocaloids (Mikupa)", "url": "http://aska.ru-hoster.com:8093/mikuparu"},
+	{"name": "Vocaloids (Vocaloid Radio)", "url": "http://curiosity.shoutca.st:8019/stream"},
+]
+
 
 static var mode_button_group: ButtonGroup
-var _showing_lofi_mode: bool = false
+var _showing_radio_mode: bool = false
 var _local_track_list_cache: Array[Dictionary] = []
 var _local_track_list_cache_valid: bool = false
 var _rebuilding_playlist_ui: bool = false
@@ -55,6 +68,8 @@ var MUSIC_FILE: AudioStream = preload("res://music/Prelude.mp3")
 var state: int = PAUSE
 var playlist: Array[Dictionary] = []
 var current_index: int = 0
+var _shuffle_history: Array[int] = []
+var _shuffle_pos: int = -1
 var FOLDER_PATH: String
 var _music_cache: Dictionary = {}
 var _stream_cache: Dictionary = {}
@@ -73,8 +88,11 @@ var current_source: PlaybackSource
 var _local_source: LocalPlaybackSource
 var _radio_source: RadioPlaybackSource
 var _radio: RadioStreamer
+var _current_station_index: int = 0
+var _radio_buffering: bool = false
+var _radio_unavailable: bool = false
+var _station_search_query: String = ""
 
-		
 func _ready() -> void:
 	EventBus.setWorldMachine.connect(_set_world_machine)
 	EventBus.noteEnabling.connect(_enable_notes)
@@ -85,7 +103,6 @@ func _ready() -> void:
 
 	volume_percent = volumeControl.volumeControlSlide.value
 	set_volume(volume_percent)
-
 	
 	await load_tracks_from_folder(true)
 
@@ -99,9 +116,32 @@ func _ready() -> void:
 	_radio = RadioStreamer.new()
 	add_child(_radio)
 	_radio.setup(radio_player)
+	_radio.buffering_changed.connect(func(is_buffering: bool):
+		_radio_buffering = is_buffering
+		if _showing_radio_mode:
+			loadingIcon.visible = is_buffering
+			if not is_buffering:
+				_refresh_station_list()
+		_enable_notes()
+		_update_niko_state()
+		_update_gramaphone_state()
+	)
+
+	_radio.station_unavailable.connect(func(is_unavailable: bool):
+		_radio_unavailable = is_unavailable
+		if _showing_radio_mode:
+			stationInfo.visible = is_unavailable
+		_enable_notes()
+		_update_niko_state()
+		_update_gramaphone_state()
+	)
+	stationInfo.visible = false
+	station_search_bar.text_changed.connect(_on_station_search_text_changed)
+	
 	_local_source = LocalPlaybackSource.new(self)
 	_radio_source = RadioPlaybackSource.new(_radio)
 	current_source = _local_source
+	_radio.set_station(str(RADIO_STATIONS[_current_station_index]["url"]))
 
 	_apply_active_playlist_filter()
 	
@@ -143,14 +183,29 @@ func _set_world_machine() -> void:
 
 func _enable_notes() -> void:
 	var enabled = Settings.get_setting("noteEnabled")
-	
-
-
 	if enabled == null:
 		enabled = true
 		Settings.save_setting("noteEnabled", enabled)
-
-	notes.emitting = enabled and (state == PLAY)
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
+	notes.emitting = enabled and (state == PLAY) and not radio_blocked
+	
+func _update_gramaphone_state() -> void:
+	if state != PLAY:
+		return
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
+	if radio_blocked:
+		gramophone.animPlayer.pause()
+	else:
+		gramophone.animPlayer.play("Playing")
+	
+func _update_niko_state() -> void:
+	if state != PLAY:
+		return
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
+	if radio_blocked:
+		niko.animPlayer.play("Sleeping")
+	else:
+		nicoAnim()
 	
 func nicoAnim() -> void:
 	if randi_range(1, 2) == 1:
@@ -160,7 +215,10 @@ func nicoAnim() -> void:
 
 
 func _on_audio_stream_player_finished() -> void:
-	music.play(0.0)
+	if Settings.get_setting("EndOfTrackAction") == false:
+		music.play(0.0)
+	else:
+		_on_next_track_pressed()
 
 
 func _on_setting_changed(key: String, value: Variant) -> void:
@@ -814,28 +872,50 @@ func _await_track_skip()-> void:
 	await get_tree().create_timer(LOCK_TIME).timeout
 	nextTrack.disabled = false
 	previousTrack.disabled = false
-	
+
+
 func _on_next_track_pressed() -> void:
-	if _showing_lofi_mode:
+	if _showing_radio_mode:
 		return
 	if playlist.size() > 0:
-		current_index = (current_index + 1) % playlist.size()
+		if Settings.get_setting("shuffle"):
+			if _shuffle_history.is_empty():
+				_shuffle_history.append(current_index)
+				_shuffle_pos = 0
+			if _shuffle_pos < _shuffle_history.size() - 1:
+				_shuffle_pos += 1
+				current_index = _shuffle_history[_shuffle_pos]
+			else:
+				var next_index := randi() % playlist.size()
+				if playlist.size() > 1:
+					while next_index == current_index:
+						next_index = randi() % playlist.size()
+				current_index = next_index
+				_shuffle_history.append(current_index)
+				_shuffle_pos = _shuffle_history.size() - 1
+		else:
+			current_index = (current_index + 1) % playlist.size()
 		music.stop()
 		_load_current_track()
 		update_state()
 		_await_track_skip()
 
+
 func _on_previous_track_pressed() -> void:
-	if _showing_lofi_mode:
+	if _showing_radio_mode:
 		return
 	if playlist.size() > 0:
-		current_index = (current_index - 1 + playlist.size()) % playlist.size()
+		if Settings.get_setting("shuffle") and _shuffle_pos > 0:
+			_shuffle_pos -= 1
+			current_index = _shuffle_history[_shuffle_pos]
+		elif not Settings.get_setting("shuffle"):
+			current_index = (current_index - 1 + playlist.size()) % playlist.size()
 		music.stop()
 		_load_current_track()
 		update_state()
 		nextTrack.disabled = true
 		_await_track_skip()
-		
+
 
 func update_state() -> void:
 	if state == PLAY:
@@ -846,10 +926,10 @@ func update_state() -> void:
 
 func play_state() -> void:
 	current_source.play()
-	nicoAnim()
 	gramophone.animPlayer.play("Playing")
 	_enable_notes()
-
+	_update_niko_state()
+	_update_gramaphone_state()
 
 func pause_state() -> void:
 	current_source.pause()
@@ -890,7 +970,7 @@ func _on_volume_control_slide_value_changed(value: float) -> void:
 	notes.amount = int(round(lerp(1.0, 6.0, volume_percent / 100.0)))
 
 func _on_reverse_button_pressed() -> void:
-	if _showing_lofi_mode:
+	if _showing_radio_mode:
 		return
 	if music.playing == true:
 		music.play(0.0)
@@ -934,12 +1014,12 @@ func _setup_mode_buttons() -> void:
 	mode_button_group = ButtonGroup.new()
 	mode_button_group.allow_unpress = false
 	local_button.button_group = mode_button_group
-	lo_fi_button.button_group = mode_button_group
+	radio_button.button_group = mode_button_group
 	local_button.toggle_mode = true
-	lo_fi_button.toggle_mode = true
+	radio_button.toggle_mode = true
 	local_button.button_pressed = true
 	local_button.toggled.connect(_on_local_button_toggled)
-	lo_fi_button.toggled.connect(_on_lo_fi_button_toggled)
+	radio_button.toggled.connect(_on_radio_button_toggled)
 
 
 func _setup_playlist_ui() -> void:
@@ -1027,25 +1107,31 @@ func _on_active_playlist_changed(_playlist_id: String) -> void:
 func _on_local_button_toggled(is_pressed: bool) -> void:
 	if not is_pressed:
 		return
-	if _showing_lofi_mode:
+	if _showing_radio_mode:
 		current_source.stop()
 		current_source = _local_source
-		_showing_lofi_mode = false
+		_showing_radio_mode = false
+		loadingIcon.visible = false
+		stationInfo.visible = false
 		_apply_active_playlist_filter()
 		update_track_name()
 		if state == PLAY:
 			current_source.play()
 
-
-func _on_lo_fi_button_toggled(is_pressed: bool) -> void:
+func _on_radio_button_toggled(is_pressed: bool) -> void:
 	if not is_pressed:
 		return
-	if not _showing_lofi_mode:
+	if not _showing_radio_mode:
 		current_source.stop()
 		current_source = _radio_source
-		_showing_lofi_mode = true
+		_showing_radio_mode = true
 		_apply_active_playlist_filter()
-		curTrack.set_track_name("LoFi Radio")
+		_refresh_station_list()
+
+		var station: Dictionary = RADIO_STATIONS[_current_station_index]
+		_radio.set_station(str(station["url"]))
+		curTrack.set_track_name(str(station["name"]))
+
 		if state == PLAY:
 			current_source.play()
 
@@ -1082,11 +1168,13 @@ func _playlists_have_same_tracks(left: Array, right: Array) -> bool:
 
 
 func _apply_active_playlist_filter(force_refresh: bool = false) -> void:
-	if _showing_lofi_mode:
-		tracks_container.visible = false
+	if _showing_radio_mode:
+		track_list_root.visible = false
+		station_list_root.visible = true
 		return
 
-	tracks_container.visible = true
+	track_list_root.visible = true
+	station_list_root.visible = false
 
 	if not playlist.is_empty() and current_index >= 0 and current_index < playlist.size():
 		_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
@@ -1101,6 +1189,8 @@ func _apply_active_playlist_filter(force_refresh: bool = false) -> void:
 	playlist = next_playlist
 	_local_track_list_cache = next_playlist.duplicate()
 	_local_track_list_cache_valid = true
+	_shuffle_history.clear()
+	_shuffle_pos = -1
 
 	var found_index := _find_track_index_by_source(_checked_track_source_path)
 	if found_index >= 0:
@@ -1160,6 +1250,8 @@ func play_track_by_index(index: int) -> void:
 		return
 
 	current_index = index
+	_shuffle_history.clear()
+	_shuffle_pos = -1
 	_checked_track_source_path = str(playlist[index].get("source_path", ""))
 	_sync_track_checkboxes(_checked_track_source_path)
 
@@ -1179,6 +1271,48 @@ func apply_search(query: String) -> void:
 	search_query = query.to_lower()
 	_apply_active_playlist_filter()
 
+func _refresh_station_list() -> void:
+	for child in stations_container.get_children():
+		child.queue_free()
 
+	for i in range(RADIO_STATIONS.size()):
+		var station: Dictionary = RADIO_STATIONS[i]
+		var station_name := str(station["name"])
 
-	
+		if not _station_search_query.is_empty() and not station_name.to_lower().contains(_station_search_query):
+			continue
+
+		var item: Button = TRACK_ITEM.instantiate()
+		stations_container.add_child(item)
+
+		item.setup({"name": station_name, "source_path": ""}, i)
+
+		item.check_box.visible = false
+		item.add_to_playlist_button.visible = false
+		item.disabled = _radio.is_switching()
+
+		item.pressed.disconnect(Callable(item, "_on_track_pressed"))
+
+		var idx := i
+		item.pressed.connect(func():
+			_select_station(idx)
+		)
+		
+func _select_station(index: int) -> void:
+	if index < 0 or index >= RADIO_STATIONS.size():
+		return
+	if _radio.is_switching():
+		return
+
+	_current_station_index = index
+	var station: Dictionary = RADIO_STATIONS[index]
+	_radio.set_station(str(station["url"]))
+	curTrack.set_track_name(str(station["name"]))
+	_refresh_station_list()
+
+	if _showing_radio_mode and state == PLAY and not _radio.is_active():
+		_radio.start()
+
+func _on_station_search_text_changed(text: String) -> void:
+	_station_search_query = text.to_lower()
+	_refresh_station_list()
