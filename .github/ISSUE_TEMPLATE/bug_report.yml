@@ -1,0 +1,52 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior.
+title: "[Bug]: "
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out all required fields.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      placeholder: Describe the bug.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open...
+        2. Click...
+        3. Crash.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: World Machine Player version
+      placeholder: v1.1.0
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Windows
+        - Linux
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      render: shell
