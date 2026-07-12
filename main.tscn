@@ -327,6 +327,7 @@ content_margin_bottom = 4.0
 draw_center = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0cp0l"]
+bg_color = Color(0, 0, 0, 1)
 draw_center = false
 border_width_left = 3
 border_width_top = 3
@@ -908,9 +909,12 @@ emoji_menu_enabled = false
 virtual_keyboard_enabled = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/StationList" unique_id=1079019942]
-custom_minimum_size = Vector2(0, 265)
+custom_minimum_size = Vector2(0, 226)
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 70)
+offset_transform_visual_only = false
 theme = ExtResource("27_htxhm")
 theme_override_styles/panel = SubResource("StyleBoxFlat_wnkbs")
 draw_focus_border = true
