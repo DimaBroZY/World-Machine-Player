@@ -28,6 +28,8 @@ extends Control
 @onready var station_search_bar = $MainWindow/CurrentTrack/TrackListPanel/StationList/LineEdit
 @onready var unsupportInfo: Label = $MainWindow/unsupportInfo
 @onready var playlistsBlock: Panel = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/Block
+@onready var add_radio_button: Button = $MainWindow/CurrentTrack/TrackListPanel/StationList/AddRadioButton
+
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
 const PLAY: int = 0
@@ -45,19 +47,8 @@ const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
 const LOCK_TIME: float = 0.0
 const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
 const PLAYLIST_ITEM = preload("res://scenes/playlist.tscn")
-const RADIO_STATIONS: Array[Dictionary] = [
-	{"name": "MoE LoFi (ZenoFM)", "url": "http://stream.zeno.fm/3u1qndyk8rhvv"},
-	{"name": "LoFi (Lofi 24/7)", "url": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1"},
-	{"name": "Vaporwaves (SomaFM)", "url": "https://ice3.somafm.com/vaporwaves-128-mp3"},
-	{"name": "Vocaloids (Mikupa)", "url": "http://aska.ru-hoster.com:8093/mikuparu"},
-	{"name": "Opening Radio (ZenoFM)", "url": "http://stream.zeno.fm/tza2ayy47qruv"},
-	{"name": "Gensokyo Radio", "url": "https://stream.gensokyoradio.net/3/"},
-	{"name": "Radio «GamePlay»", "url": "https://c22.radioboss.fm:8144/GamePlay"},
-	{"name": "Phonk (badradio)", "url": "https://s2.radio.co/s2b2b68744/listen"},
-	{"name": "Classic (walmradio)", "url": "https://icecast.walmradio.com:8443/classic"},
-]
-
-
+const DELETE_ICON = preload("res://Assets/Icons/RecycleBin.png")
+const DELETE_ICON_HOVER = preload("res://Assets/Icons/RecycleBin_Hover.png")
 static var mode_button_group: ButtonGroup
 var _showing_radio_mode: bool = false
 var _local_track_list_cache: Array[Dictionary] = []
@@ -162,8 +153,12 @@ func _ready() -> void:
 	_local_source = LocalPlaybackSource.new(self)
 	_radio_source = RadioPlaybackSource.new(_radio)
 	current_source = _local_source
-	_radio.set_station(str(RADIO_STATIONS[_current_station_index]["url"]))
+	var initial_stations := RadioStationManager.get_stations()
+	if not initial_stations.is_empty():
+		_radio.set_station(str(initial_stations[_current_station_index]["url"]))
 
+	add_radio_button.pressed.connect(_on_add_radio_button_pressed)
+	
 	_apply_active_playlist_filter()
 	
 	_create_music_folder_watcher()
@@ -1150,14 +1145,17 @@ func _on_radio_button_toggled(is_pressed: bool) -> void:
 		_apply_active_playlist_filter()
 		_refresh_station_list()
 		_update_playlists_block_state()
-		
-		var station: Dictionary = RADIO_STATIONS[_current_station_index]
+
+		var stations := RadioStationManager.get_stations()
+		if stations.is_empty():
+			return
+		_current_station_index = clamp(_current_station_index, 0, stations.size() - 1)
+		var station: Dictionary = stations[_current_station_index]
 		_radio.set_station(str(station["url"]))
 		curTrack.set_track_name(str(station["name"]))
 
 		if state == PLAY:
 			current_source.play()
-
 
 func _compute_local_playlist() -> Array[Dictionary]:
 	var base_playlist: Array[Dictionary] = []
@@ -1298,8 +1296,9 @@ func _refresh_station_list() -> void:
 	for child in stations_container.get_children():
 		child.queue_free()
 
-	for i in range(RADIO_STATIONS.size()):
-		var station: Dictionary = RADIO_STATIONS[i]
+	var stations := RadioStationManager.get_stations()
+	for i in range(stations.size()):
+		var station: Dictionary = stations[i]
 		var station_name := str(station["name"])
 
 		if not _station_search_query.is_empty() and not station_name.to_lower().contains(_station_search_query):
@@ -1311,12 +1310,14 @@ func _refresh_station_list() -> void:
 		item.setup({"name": station_name, "source_path": ""}, i)
 
 		item.check_box.visible = false
-		item.add_to_playlist_button.visible = false
 
 		var is_current := i == _current_station_index
 		item.disabled = _radio.is_switching() or is_current
 		item.set_selected(is_current)
-
+		item.add_to_playlist_button.texture_normal = DELETE_ICON
+		item.add_to_playlist_button.texture_hover = DELETE_ICON_HOVER
+		item.add_to_playlist_button.modulate = Color.BLACK if is_current else Color.WHITE
+	
 		item.pressed.disconnect(Callable(item, "_on_track_pressed"))
 
 		var idx := i
@@ -1324,14 +1325,21 @@ func _refresh_station_list() -> void:
 			_select_station(idx)
 		)
 		
+		item.add_to_playlist_button.texture_normal = DELETE_ICON
+		item.add_to_playlist_button.texture_hover = DELETE_ICON_HOVER
+		item.add_to_playlist_button.visible = true
+		item.add_to_playlist_button.pressed.connect(func():
+			_delete_station(idx)
+		)
+		
 func _select_station(index: int) -> void:
-	if index < 0 or index >= RADIO_STATIONS.size():
+	if index < 0 or index >= RadioStationManager.get_stations().size():
 		return
 	if _radio.is_switching():
 		return
 
 	_current_station_index = index
-	var station: Dictionary = RADIO_STATIONS[index]
+	var station: Dictionary = RadioStationManager.get_stations()[index]
 	_radio.set_station(str(station["url"]))
 	curTrack.set_track_name(str(station["name"]))
 	_refresh_station_list()
@@ -1344,7 +1352,44 @@ func _on_station_search_text_changed(text: String) -> void:
 	_refresh_station_list()
 
 func _update_playlists_block_state():
-	if _showing_radio_mode:
-		playlistsBlock.show()
-	else:
-		playlistsBlock.hide()
+	#if _showing_radio_mode:
+		#playlistsBlock.show()
+	#else:
+		#playlistsBlock.hide()
+	pass
+func _delete_station(index: int) -> void:
+	var stations := RadioStationManager.get_stations()
+	if index < 0 or index >= stations.size():
+		return
+
+	var deleting_current := index == _current_station_index
+	RadioStationManager.remove_station(index)
+
+	var new_stations := RadioStationManager.get_stations()
+	if new_stations.is_empty():
+		_current_station_index = 0
+		_radio.stop()
+		_refresh_station_list()
+		return
+
+	if index < _current_station_index:
+		_current_station_index -= 1
+	elif deleting_current:
+		_current_station_index = clamp(_current_station_index, 0, new_stations.size() - 1)
+		var station: Dictionary = new_stations[_current_station_index]
+		_radio.set_station(str(station["url"]))
+		curTrack.set_track_name(str(station["name"]))
+		if _showing_radio_mode and state == PLAY and not _radio.is_active():
+			_radio.start()
+
+	_refresh_station_list()
+	
+func _on_add_radio_button_pressed() -> void:
+	WindowManager.open_add_radio_window()
+	if not WindowManager.add_radio_window.station_confirmed.is_connected(_on_station_confirmed):
+		WindowManager.add_radio_window.station_confirmed.connect(_on_station_confirmed)
+
+func _on_station_confirmed(station_name: String, station_url: String) -> void:
+	RadioStationManager.add_station(station_name, station_url)
+	_refresh_station_list()
+	

@@ -1,0 +1,364 @@
+[gd_scene format=3 uid="uid://bxes3y1ikb3nw"]
+
+[ext_resource type="Script" uid="uid://c2rvl1p040ep7" path="res://Windows/Scripts/add_radio_window.gd" id="1_f5bhk"]
+[ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="2_iur50"]
+[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="3_b8ljk"]
+[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="4_25e5l"]
+[ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="5_jnvmy"]
+[ext_resource type="Texture2D" uid="uid://ccnsv1qmv6r3f" path="res://Assets/Icons/Notes.png" id="6_a6cjm"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="7_wqir2"]
+[ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="8_1d120"]
+[ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="9_y40ll"]
+[ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="10_ajcjk"]
+[ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="11_ml6bv"]
+[ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="12_mixbd"]
+[ext_resource type="Script" uid="uid://c5kjbrfihtusl" path="res://Windows/Scripts/button_label.gd" id="13_3ip0w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b38yw"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06wjn"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+draw_center = false
+border_width_top = 5
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r7xj3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s1fef"]
+atlas = ExtResource("6_a6cjm")
+region = Rect2(63.863506, -0.081557274, 32.296192, 31.890804)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1oj2p"]
+texture = ExtResource("10_ajcjk")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ytk5j"]
+texture = ExtResource("11_ml6bv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oxaws"]
+texture = ExtResource("11_ml6bv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mm3wy"]
+texture = ExtResource("11_ml6bv")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tilkb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4v468"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ig7ow"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khhxn"]
+content_margin_left = 10.0
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_myu8i"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cp482"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctxh1"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.654902, 0.654902, 0.654902, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhrpk"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ypa1"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.654902, 0.654902, 0.654902, 1)
+
+[node name="Window" type="Window" unique_id=732612012 groups=["party_tintable"]]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(450, 300)
+borderless = true
+always_on_top = true
+script = ExtResource("1_f5bhk")
+
+[node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1011553714]
+script = ExtResource("2_iur50")
+click_sound_press = ExtResource("3_b8ljk")
+click_sound_release = ExtResource("4_25e5l")
+
+[node name="AddRadioWindow" type="Control" parent="." unique_id=1307466660]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="AddRadioWindow" unique_id=1935039411 groups=["tintable"]]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b38yw")
+
+[node name="Layout" type="VBoxContainer" parent="AddRadioWindow" unique_id=581855042]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="AddRadioWindow/Layout" unique_id=218743043 groups=["tintable"]]
+custom_minimum_size = Vector2(20, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_06wjn")
+script = ExtResource("5_jnvmy")
+
+[node name="TopBarHBox" type="HBoxContainer" parent="AddRadioWindow/Layout/TopBar" unique_id=1664881567]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 3
+
+[node name="Spacer2" type="VSeparator" parent="AddRadioWindow/Layout/TopBar/TopBarHBox" unique_id=1338062683]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 0
+layout_direction = 4
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_r7xj3")
+
+[node name="SettingsIcon" type="TextureButton" parent="AddRadioWindow/Layout/TopBar/TopBarHBox" unique_id=1552506229]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_s1fef")
+stretch_mode = 0
+
+[node name="Spacer3" type="VSeparator" parent="AddRadioWindow/Layout/TopBar/TopBarHBox" unique_id=305534339]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 0
+layout_direction = 4
+theme_override_constants/separation = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_r7xj3")
+
+[node name="Title" type="Label" parent="AddRadioWindow/Layout/TopBar/TopBarHBox" unique_id=276982704]
+custom_minimum_size = Vector2(0, -100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("7_wqir2")
+theme_override_font_sizes/font_size = 20
+text = "Add Radio"
+
+[node name="HBox" type="HBoxContainer" parent="AddRadioWindow/Layout/TopBar" unique_id=1416240031]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Content" type="Control" parent="AddRadioWindow/Layout/TopBar/HBox" unique_id=206033206]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="MinimizeButton" type="TextureButton" parent="AddRadioWindow/Layout/TopBar/HBox" unique_id=992738069]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+size_flags_stretch_ratio = 3.0
+disabled = true
+texture_normal = ExtResource("8_1d120")
+texture_pressed = ExtResource("9_y40ll")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CloseButton" type="Button" parent="AddRadioWindow/Layout/TopBar/HBox" unique_id=736765692]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+layout_direction = 1
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_1oj2p")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ytk5j")
+theme_override_styles/hover = SubResource("StyleBoxTexture_oxaws")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mm3wy")
+
+[node name="Spacer" type="VSeparator" parent="AddRadioWindow/Layout/TopBar/HBox" unique_id=499037601]
+layout_mode = 2
+theme_override_constants/separation = 8
+theme_override_styles/separator = SubResource("StyleBoxEmpty_tilkb")
+
+[node name="Separator" type="HSeparator" parent="AddRadioWindow/Layout" unique_id=893194414]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_4v468")
+
+[node name="Main" type="PanelContainer" parent="AddRadioWindow/Layout" unique_id=1907677936]
+custom_minimum_size = Vector2(0, 215)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ig7ow")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="AddRadioWindow/Layout/Main" unique_id=1357663078]
+custom_minimum_size = Vector2(0, 175)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("12_mixbd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AddRadioWindow/Layout/Main/ScrollContainer" unique_id=89606074]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="NameText" type="TextEdit" parent="AddRadioWindow/Layout/Main/ScrollContainer/VBoxContainer" unique_id=1889845034]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("12_mixbd")
+theme_override_constants/caret_width = -1
+theme_override_constants/line_spacing = 10
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_khhxn")
+placeholder_text = "Name here"
+context_menu_enabled = false
+emoji_menu_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+empty_selection_clipboard_enabled = false
+tab_input_mode = false
+
+[node name="Url" type="TextEdit" parent="AddRadioWindow/Layout/Main/ScrollContainer/VBoxContainer" unique_id=1971629165]
+custom_minimum_size = Vector2(400, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("12_mixbd")
+theme_override_constants/caret_width = -1
+theme_override_constants/line_spacing = 10
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_khhxn")
+placeholder_text = "Url here"
+context_menu_enabled = false
+emoji_menu_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+empty_selection_clipboard_enabled = false
+tab_input_mode = false
+
+[node name="ButtonsContainer" type="PanelContainer" parent="AddRadioWindow/Layout/Main" unique_id=475251911]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_myu8i")
+
+[node name="Buttons" type="HBoxContainer" parent="AddRadioWindow/Layout/Main/ButtonsContainer" unique_id=536451404 groups=["tintable"]]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 20
+
+[node name="OkButton" type="Button" parent="AddRadioWindow/Layout/Main/ButtonsContainer/Buttons" unique_id=1475527623]
+custom_minimum_size = Vector2(125, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_cp482")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ctxh1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ctxh1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_ctxh1")
+script = ExtResource("13_3ip0w")
+
+[node name="OkLabel" type="Label" parent="AddRadioWindow/Layout/Main/ButtonsContainer/Buttons/OkButton" unique_id=1276085952]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -14.0
+offset_right = 20.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_wqir2")
+text = "Ok"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CancelButton" type="Button" parent="AddRadioWindow/Layout/Main/ButtonsContainer/Buttons" unique_id=170391941]
+custom_minimum_size = Vector2(125, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_hhrpk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2ypa1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2ypa1")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_2ypa1")
+script = ExtResource("13_3ip0w")
+
+[node name="CancelLabel" type="Label" parent="AddRadioWindow/Layout/Main/ButtonsContainer/Buttons/CancelButton" unique_id=1099957518]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -14.0
+offset_right = 12.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_wqir2")
+text = "Cancel"
+horizontal_alignment = 1
+
+[connection signal="gui_input" from="AddRadioWindow/Layout/TopBar" to="AddRadioWindow/Layout/TopBar" method="_on_gui_input"]
+[connection signal="pressed" from="AddRadioWindow/Layout/TopBar/HBox/MinimizeButton" to="AddRadioWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
+[connection signal="pressed" from="AddRadioWindow/Layout/TopBar/HBox/CloseButton" to="AddRadioWindow/Layout/TopBar" method="_on_close_button_pressed"]

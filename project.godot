@@ -44,6 +44,7 @@ TintManager="*res://Windows/Scripts/TintManager.gd"
 EventBus="*uid://y57mki3he356"
 WindowManager="*uid://jq3xrh6vnfjp"
 PlaylistManager="*res://Scripts/Global/PlaylistManager.gd"
+RadioStationManager="*uid://bpsnea15mld13"
 
 [debug]
 

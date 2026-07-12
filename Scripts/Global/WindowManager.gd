@@ -4,8 +4,10 @@ var settings_window = null
 var theme_window = null
 var secret_settings_window = null
 var select_playlist_window = null
+var add_radio_window = null
 
 const SELECT_PLAYLIST_WINDOW_SCENE := preload("res://Windows/SelectPlaylistWindow.tscn")
+const ADD_RADIO_WINDOW_SCENE := preload("res://Windows/AddRadioWindow.tscn")
 
 var _input_blockers: Array[Control] = []
 var _modal_open: bool = false
@@ -54,3 +56,9 @@ func _create_blocker(parent: Control) -> Control:
 	parent.add_child(blocker)
 	blocker.move_to_front()
 	return blocker
+
+func open_add_radio_window() -> void:
+	if add_radio_window == null or not is_instance_valid(add_radio_window):
+		add_radio_window = ADD_RADIO_WINDOW_SCENE.instantiate()
+		get_tree().root.add_child(add_radio_window)
+	add_radio_window.open_dialog()
