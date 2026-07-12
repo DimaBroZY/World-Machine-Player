@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dtoy8qu18yplx"]
 
-[ext_resource type="Script" path="res://scenes/trackitem.gd" id="1_trackitem"]
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="1_obhcq"]
+[ext_resource type="Script" uid="uid://d4ec7o25xbm8f" path="res://scenes/trackitem.gd" id="1_trackitem"]
 [ext_resource type="Texture2D" uid="uid://dbuan0n1gm2dd" path="res://Assets/Icons/Star.png" id="2_lax10"]
 [ext_resource type="Texture2D" uid="uid://ckmylm2cp28r3" path="res://Assets/Icons/Star_Hover.png" id="3_f5fjr"]
-[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="5_font"]
 [ext_resource type="Theme" uid="uid://coyfkert1wq05" path="res://Themes/OneShotDefault.tres" id="4_f5fjr"]
+[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="5_font"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
 draw_center = false
@@ -21,7 +21,7 @@ border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
+border_color = Color(0.66656864, 0.6665687, 0.66656864, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4s2h"]
 bg_color = Color(1, 1, 1, 0.17254902)
@@ -30,6 +30,14 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8mm8v"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lax10"]
 content_margin_left = 20.0
@@ -64,10 +72,12 @@ size_flags_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
 theme_override_constants/align_to_largest_stylebox = 150
 theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_obhcq")
 theme_override_styles/hover = SubResource("StyleBoxFlat_h4s2h")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_8mm8v")
 script = ExtResource("1_trackitem")
 
 [node name="ScrollText" type="Control" parent="." unique_id=836347480]

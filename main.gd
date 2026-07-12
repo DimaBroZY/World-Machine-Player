@@ -26,6 +26,8 @@ extends Control
 @onready var stations_container = $MainWindow/CurrentTrack/TrackListPanel/StationList/ScrollContainer/VBoxContainer
 @onready var stationInfo = $MainWindow/StationInfo
 @onready var station_search_bar = $MainWindow/CurrentTrack/TrackListPanel/StationList/LineEdit
+@onready var unsupportInfo: Label = $MainWindow/unsupportInfo
+@onready var playlistsBlock: Panel = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/Block
 
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
 const PLAY: int = 0
@@ -47,11 +49,12 @@ const RADIO_STATIONS: Array[Dictionary] = [
 	{"name": "MoE LoFi (ZenoFM)", "url": "http://stream.zeno.fm/3u1qndyk8rhvv"},
 	{"name": "LoFi (Lofi 24/7)", "url": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1"},
 	{"name": "Vaporwaves (SomaFM)", "url": "https://ice3.somafm.com/vaporwaves-128-mp3"},
+	{"name": "Vocaloids (Mikupa)", "url": "http://aska.ru-hoster.com:8093/mikuparu"},
+	{"name": "Opening Radio (ZenoFM)", "url": "http://stream.zeno.fm/tza2ayy47qruv"},
+	{"name": "Gensokyo Radio", "url": "https://stream.gensokyoradio.net/3/"},
+	{"name": "Radio «GamePlay»", "url": "https://c22.radioboss.fm:8144/GamePlay"},
 	{"name": "Phonk (badradio)", "url": "https://s2.radio.co/s2b2b68744/listen"},
 	{"name": "Classic (walmradio)", "url": "https://icecast.walmradio.com:8443/classic"},
-	{"name": "Radio «GamePlay»", "url": "https://c22.radioboss.fm:8144/GamePlay"},
-	{"name": "Vocaloids (Mikupa)", "url": "http://aska.ru-hoster.com:8093/mikuparu"},
-	{"name": "Vocaloids (Vocaloid Radio)", "url": "http://curiosity.shoutca.st:8019/stream"},
 ]
 
 
@@ -91,6 +94,7 @@ var _radio: RadioStreamer
 var _current_station_index: int = 0
 var _radio_buffering: bool = false
 var _radio_unavailable: bool = false
+var _radio_unsupported: bool = false
 var _station_search_query: String = ""
 
 func _ready() -> void:
@@ -127,6 +131,23 @@ func _ready() -> void:
 		_update_gramaphone_state()
 	)
 
+	_radio.track_changed.connect(func(title: String):
+		if _showing_radio_mode:
+			curTrack.set_track_name(title)
+	)	
+
+	_radio.station_unsupported.connect(func(is_unsupported: bool):
+		_radio_unsupported = is_unsupported
+		if _showing_radio_mode:
+			unsupportInfo.visible = is_unsupported
+			if _showing_radio_mode:
+				unsupportInfo.visible = is_unsupported
+			_enable_notes()
+			_update_niko_state()
+			_update_gramaphone_state()			
+		)
+	unsupportInfo.visible = false
+	
 	_radio.station_unavailable.connect(func(is_unavailable: bool):
 		_radio_unavailable = is_unavailable
 		if _showing_radio_mode:
@@ -186,13 +207,13 @@ func _enable_notes() -> void:
 	if enabled == null:
 		enabled = true
 		Settings.save_setting("noteEnabled", enabled)
-	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable or _radio_unsupported)
 	notes.emitting = enabled and (state == PLAY) and not radio_blocked
 	
 func _update_gramaphone_state() -> void:
 	if state != PLAY:
 		return
-	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable or _radio_unsupported)
 	if radio_blocked:
 		gramophone.animPlayer.pause()
 	else:
@@ -201,7 +222,7 @@ func _update_gramaphone_state() -> void:
 func _update_niko_state() -> void:
 	if state != PLAY:
 		return
-	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable or _radio_unsupported)
 	if radio_blocked:
 		niko.animPlayer.play("Sleeping")
 	else:
@@ -1115,6 +1136,7 @@ func _on_local_button_toggled(is_pressed: bool) -> void:
 		stationInfo.visible = false
 		_apply_active_playlist_filter()
 		update_track_name()
+		_update_playlists_block_state()
 		if state == PLAY:
 			current_source.play()
 
@@ -1127,7 +1149,8 @@ func _on_radio_button_toggled(is_pressed: bool) -> void:
 		_showing_radio_mode = true
 		_apply_active_playlist_filter()
 		_refresh_station_list()
-
+		_update_playlists_block_state()
+		
 		var station: Dictionary = RADIO_STATIONS[_current_station_index]
 		_radio.set_station(str(station["url"]))
 		curTrack.set_track_name(str(station["name"]))
@@ -1289,7 +1312,10 @@ func _refresh_station_list() -> void:
 
 		item.check_box.visible = false
 		item.add_to_playlist_button.visible = false
-		item.disabled = _radio.is_switching()
+
+		var is_current := i == _current_station_index
+		item.disabled = _radio.is_switching() or is_current
+		item.set_selected(is_current)
 
 		item.pressed.disconnect(Callable(item, "_on_track_pressed"))
 
@@ -1316,3 +1342,9 @@ func _select_station(index: int) -> void:
 func _on_station_search_text_changed(text: String) -> void:
 	_station_search_query = text.to_lower()
 	_refresh_station_list()
+
+func _update_playlists_block_state():
+	if _showing_radio_mode:
+		playlistsBlock.show()
+	else:
+		playlistsBlock.hide()

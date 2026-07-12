@@ -123,3 +123,9 @@ func is_track_checked() -> bool:
 
 func get_track_source_path() -> String:
 	return track_source_path
+
+func set_selected(is_selected: bool) -> void:
+	if is_selected:
+		scroll_label.add_theme_color_override("font_color", Color.BLACK)
+	else:
+		scroll_label.remove_theme_color_override("font_color")

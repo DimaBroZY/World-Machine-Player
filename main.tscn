@@ -35,7 +35,7 @@
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_seu75"]
 mix_rate = 48000.0
-buffer_length = 4.0
+buffer_length = 10.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_xuqvo"]
 font = ExtResource("9_kek77")
@@ -350,6 +350,9 @@ border_width_right = 3
 border_color = Color(1, 1, 1, 1)
 expand_margin_left = 3.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1fef"]
+bg_color = Color(1, 1, 1, 0.24100001)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_htxhm"]
 bg_color = Color(0, 0, 0, 1)
 border_width_left = 3
@@ -460,6 +463,26 @@ horizontal_alignment = 2
 vertical_alignment = 2
 clip_text = true
 
+[node name="unsupportInfo" type="Label" parent="MainWindow" unique_id=1336061863 groups=["tintable"]]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_left = 58.0
+offset_top = 420.0
+offset_right = 214.0
+offset_bottom = 474.0
+text = "unsupported 
+stream format"
+label_settings = SubResource("LabelSettings_s1fef")
+
+[node name="icon" type="TextureRect" parent="MainWindow/unsupportInfo" unique_id=1414043937]
+layout_mode = 0
+offset_left = -47.0
+offset_top = 4.0
+offset_right = -7.0
+offset_bottom = 44.0
+texture = ExtResource("4_htxhm")
+
 [node name="StationInfo" type="Label" parent="MainWindow" unique_id=1399512230 groups=["tintable"]]
 visible = false
 texture_filter = 1
@@ -534,6 +557,7 @@ grow_vertical = 1
 scale = Vector2(6, 6)
 
 [node name="Loading" parent="MainWindow/Objects" unique_id=388672868 groups=["tintable"] instance=ExtResource("31_seu75")]
+visible = false
 layout_mode = 1
 offset_left = 536.6667
 offset_top = 601.6666
@@ -600,12 +624,13 @@ offset_bottom = 373.0
 scale = Vector2(1.82, 1.84)
 
 [node name="SpeedControlSlide" parent="MainWindow/PlaybackSpeedControlNode" index="0"]
-offset_left = 20.87912
+offset_left = 20.4
+offset_right = 147.52087
 
 [node name="SpeedMinus" type="Button" parent="MainWindow/PlaybackSpeedControlNode" unique_id=1475133924]
 layout_mode = 0
 offset_top = 15.760868
-offset_right = 20.54945
+offset_right = 20.87912
 offset_bottom = 35.760868
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_0odxb")
@@ -812,6 +837,13 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_d2t1y")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gngh3")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_d2t1y")
 text = "[+NEW]"
+
+[node name="Block" type="Panel" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes" unique_id=1658412147]
+visible = false
+custom_minimum_size = Vector2(0, 265)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_s1fef")
 
 [node name="TrackList" type="PanelContainer" parent="MainWindow/CurrentTrack/TrackListPanel" unique_id=1561185524]
 layout_mode = 1

@@ -4,8 +4,9 @@ extends Node
 signal track_changed(title: String)
 signal buffering_changed(is_buffering: bool)
 signal station_unavailable(is_unavailable: bool)
+signal station_unsupported(is_unsupported: bool)
 
-const DEFAULT_STREAM_URL := "http://stream.zeno.fm/3u1qndyk8rhvv"
+const DEFAULT_STREAM_URL := "https://icecast.walmradio.com:8443/classic"
 const CONNECT_TIMEOUT := 10.0
 
 var _stream_url: String = DEFAULT_STREAM_URL
@@ -15,6 +16,7 @@ var _teardown_generation := 0
 var _connect_generation := 0
 var _orphaned_streams: Array[IcyHttpStream] = []
 var _unavailable := false
+var _unsupported := false
 
 var _http: IcyHttpStream
 var _decoder: IcyAudioDecoder
@@ -194,12 +196,13 @@ func _ensure_http() -> IcyHttpStream:
 
 
 func _connect() -> void:
+	_set_unsupported(false)
 	_set_unavailable(false)
 	_connect_generation += 1
 	var generation := _connect_generation
 	var http := _ensure_http()
-	var headers: PackedStringArray = ["User-Agent: WorldMachinePlayer"]
-	http.request(_stream_url, 5.0, false, headers)
+	var headers: PackedStringArray = ["User-Agent: WorldMachinePlayer", "Icy-MetaData: 1"]
+	http.request(_stream_url, 5.0, true, headers)
 	_watch_connect_timeout(generation)
 
 
@@ -211,7 +214,12 @@ func _watch_connect_timeout(generation: int) -> void:
 	buffering_changed.emit(false)
 	_set_unavailable(true)
 
-
+func _set_unsupported(value: bool) -> void:
+	if _unsupported == value:
+		return
+	_unsupported = value
+	station_unsupported.emit(value)
+	
 func _set_unavailable(value: bool) -> void:
 	if _unavailable == value:
 		return
@@ -224,12 +232,14 @@ func _abort_connection() -> void:
 
 
 func _on_connection_opened() -> void:
+	_set_unsupported(false)
 	_set_unavailable(false)
 	_connect_generation += 1
 	var headers := _http.get_response_headers_as_dictionary()
 	var mime := _http.get_content_mime_type()
 
 	if mime != "audio/mpeg":
+		_set_unsupported(true)
 		push_error("Radio: unsupported stream format: " + mime)
 		_http.cancel_request()
 		_active = false
@@ -299,7 +309,23 @@ func _on_connection_closed(_result) -> void:
 
 
 func _on_metadata_received(metadata: String) -> void:
-	track_changed.emit(metadata)
+	var title := metadata
+
+	var regex := RegEx.new()
+	regex.compile("StreamTitle='(.*?)';")
+	var result := regex.search(metadata)
+	if result:
+		title = result.get_string(1)
+	else:
+		title = title.strip_edges()
+		if title.ends_with(";"):
+			title = title.substr(0, title.length() - 1)
+		if title.begins_with("'") and title.ends_with("'"):
+			title = title.substr(1, title.length() - 2)
+
+	print("Radio metadata (raw): ", metadata)
+	print("Radio metadata (parsed): ", title)
+	track_changed.emit(title)
 
 
 func _on_buffering_started() -> void:
