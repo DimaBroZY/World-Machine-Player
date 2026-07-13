@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>World Machine Player — радио</title>
+    <meta
+      name="description"
+      content="Как добавить интернет-радио в World Machine Player: поиск станций на radio-browser.info и добавление MP3-потоков."
+    >
+    <meta name="theme-color" content="#090a0d">
+    <meta property="og:title" content="World Machine Player — радио">
+    <meta property="og:description" content="Пошаговая инструкция по добавлению радиостанций в World Machine Player.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="../assets/player-screenshot.png">
+    <link rel="icon" href="../assets/color-sun.png">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body data-page="radio">
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="World Machine Player">
+        <img src="../assets/color-sun.png" alt="" width="32" height="32">
+        <span>World Machine Player</span>
+      </a>
+      <nav class="site-nav" aria-label="Основная навигация">
+        <button id="lang-switch" class="lang-switch" aria-label="Switch language">RU</button>
+        <a href="../index.html#features" data-i18n="nav_features">Возможности</a>
+        <a href="index.html" data-i18n="nav_help">Помощь</a>
+        <a href="radio.html" aria-current="page" data-i18n="nav_radio">Радио</a>
+        <a href="../index.html#feedback" data-i18n="nav_issues">Issues</a>
+        <a class="nav-download" href="https://github.com/DimaBroZY/World-Machine-Player/releases/latest/download/World.Machine.Player.zip" data-i18n="nav_download">Скачать</a>
+      </nav>
+    </header>
+
+    <main class="docs-main">
+      <section class="docs-hero" aria-labelledby="docs-title">
+        <div class="wrap">
+          <p class="section-kicker" data-i18n="radio_kicker">Помощь</p>
+          <h1 id="docs-title" data-i18n="radio_page_title">Как добавить радиостанции</h1>
+          <p class="docs-lead" data-i18n="radio_lead">
+            World Machine Player умеет воспроизводить интернет-радио. Добавь станцию по имени и URL потока —
+            ниже пошаговая инструкция для плеера и для поиска ссылок на
+            <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.
+          </p>
+        </div>
+      </section>
+
+      <section class="docs-section" aria-labelledby="player-title">
+        <div class="wrap">
+          <p class="section-kicker" data-i18n="radio_player_kicker">World Machine Player</p>
+          <h2 id="player-title" data-i18n="radio_player_title">Добавление станции в плеере</h2>
+          <ol class="docs-steps">
+            <li data-i18n="radio_player_step1">Открой вкладку <strong>Radio</strong> в плеере.</li>
+            <li data-i18n="radio_player_step2">Нажми кнопку <strong>[+ADD RADIO]</strong>.</li>
+            <li data-i18n="radio_player_step3">В диалоге заполни поля <strong>Name</strong> (название) и <strong>URL</strong> (ссылка на поток).</li>
+            <li data-i18n="radio_player_step4">Подтверди добавление — станция появится в списке, её можно выбрать и слушать.</li>
+          </ol>
+
+          <div class="docs-figures">
+            <figure class="docs-figure">
+              <img src="../assets/radio/radio-tab.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_tab_alt">
+              <figcaption data-i18n="radio_fig_tab">Вкладка Radio и кнопка [+ADD RADIO]</figcaption>
+            </figure>
+            <figure class="docs-figure">
+              <img src="../assets/radio/add-radio-dialog.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_dialog_alt">
+              <figcaption data-i18n="radio_fig_dialog">Диалог Add Radio: поля Name и URL</figcaption>
+            </figure>
+            <figure class="docs-figure">
+              <img src="../assets/radio/station-in-list.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_list_alt">
+              <figcaption data-i18n="radio_fig_list">Станция в списке после добавления</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section docs-section-accent" aria-labelledby="browser-title">
+        <div class="wrap">
+          <p class="section-kicker" data-i18n="radio_browser_kicker">radio-browser.info</p>
+          <h2 id="browser-title" data-i18n="radio_browser_title">Где взять URL радиостанции</h2>
+          <p data-i18n="radio_browser_intro">
+            <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a> —
+            открытый каталог интернет-радио. Найди станцию с потоком в формате <strong>MP3</strong> и скопируй прямую ссылку.
+          </p>
+
+          <aside class="docs-callout" role="note">
+            <strong data-i18n="radio_mp3_label">Важно: только MP3</strong>
+            <p data-i18n="radio_mp3_desc">
+              World Machine Player поддерживает радиопотоки в формате MP3. При выборе станции ищи тег
+              <code>MP3</code> в списке — потоки AAC, OGG и других форматов могут не воспроизводиться.
+            </p>
+          </aside>
+
+          <ol class="docs-steps">
+            <li data-i18n="radio_browser_step1">Открой <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.</li>
+            <li data-i18n="radio_browser_step2">Перейди в раздел <strong>By category</strong> → <strong>By tag</strong> или воспользуйся поиском.</li>
+            <li data-i18n="radio_browser_step3">Найди интересующий тег, например <code>lofi</code>, и открой список станций.</li>
+            <li data-i18n="radio_browser_step4">Выбери станцию с тегом <strong>MP3</strong> в строке списка.</li>
+            <li data-i18n="radio_browser_step5">Нажми кнопку <strong>Save</strong> в строке станции.</li>
+            <li data-i18n="radio_browser_step6">Браузер откроет страницу потока — скопируй URL из адресной строки (например, <code>https://usa9.fastcast4u.com/proxy/jamz?mp=/1</code>).</li>
+            <li data-i18n="radio_browser_step7">Вставь скопированный URL в поле <strong>URL</strong> при добавлении радио в World Machine Player.</li>
+          </ol>
+
+          <div class="docs-figures">
+            <figure class="docs-figure">
+              <img src="../assets/radio/radio-browser-home.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_home_alt">
+              <figcaption data-i18n="radio_fig_home">Главная страница radio-browser.info</figcaption>
+            </figure>
+            <figure class="docs-figure docs-figure-pair">
+              <img src="../assets/radio/browse-by-tag.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_browse_alt">
+              <figcaption data-i18n="radio_fig_browse">By category → By tag</figcaption>
+            </figure>
+            <figure class="docs-figure docs-figure-pair">
+              <img src="../assets/radio/search-tags-lofi.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_search_alt">
+              <figcaption data-i18n="radio_fig_search">Поиск тега, например lofi</figcaption>
+            </figure>
+            <figure class="docs-figure">
+              <img src="../assets/radio/station-list-mp3.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_mp3_alt">
+              <figcaption data-i18n="radio_fig_mp3">Список станций — обрати внимание на тег MP3</figcaption>
+            </figure>
+            <figure class="docs-figure docs-figure-pair">
+              <img src="../assets/radio/click-save.png" alt="" width="1310" height="190" loading="lazy" data-i18n-alt="radio_fig_save_alt">
+              <figcaption data-i18n="radio_fig_save">Кнопка Save в строке станции</figcaption>
+            </figure>
+            <figure class="docs-figure docs-figure-pair">
+              <img src="../assets/radio/stream-url-page.png" alt="" width="960" height="540" loading="lazy" data-i18n-alt="radio_fig_url_alt">
+              <figcaption data-i18n="radio_fig_url">Страница потока — копируй URL из адресной строки</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="docs-section docs-section-end">
+        <div class="wrap docs-end">
+          <p data-i18n="radio_end_note">Если станция не играет, проверь формат (MP3) и что ссылка скопирована полностью из адресной строки после нажатия Save.</p>
+          <a class="button button-primary" href="../index.html" data-i18n="radio_back_home">На главную</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-layout">
+        <span>World Machine Player</span>
+        <div>
+          <a href="../index.html" data-i18n="nav_home">Главная</a>
+          <a href="index.html" data-i18n="nav_help">Помощь</a>
+          <a href="radio.html" data-i18n="nav_radio">Радио</a>
+          <a href="https://github.com/DimaBroZY/World-Machine-Player" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://github.com/DimaBroZY/World-Machine-Player/issues" target="_blank" rel="noreferrer">Issues</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+  </body>
+</html>
