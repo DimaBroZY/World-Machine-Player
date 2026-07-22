@@ -13,15 +13,15 @@ dest_files=["res://.godot/imported/Minecraftia-Regular.ttf-7c18c0ae4262b5095b680
 [params]
 
 Rendering=null
-antialiasing=1
+antialiasing=0
 generate_mipmaps=false
-disable_embedded_bitmaps=true
+disable_embedded_bitmaps=false
 multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
-force_autohinter=false
-modulate_color_glyphs=false
+force_autohinter=true
+modulate_color_glyphs=true
 hinting=1
 subpixel_positioning=4
 keep_rounding_remainders=true
@@ -30,7 +30,13 @@ Fallbacks=null
 fallbacks=[]
 Compress=null
 compress=true
-preload=[]
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "Новая конфигурация",
+"size": Vector2i(16, 0),
+&"variation_embolden": 0.0
+}]
 language_support={}
 script_support={}
 opentype_features={}

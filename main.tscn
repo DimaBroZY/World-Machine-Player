@@ -180,6 +180,9 @@ texture = ExtResource("15_2cqfq")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_htxhm"]
 texture = ExtResource("15_2cqfq")
 
+[sub_resource type="LabelSettings" id="LabelSettings_htxhm"]
+font = ExtResource("9_kek77")
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jq2sk"]
 texture = ExtResource("7_5vw27")
 
@@ -206,7 +209,6 @@ texture = ExtResource("15_2cqfq")
 
 [sub_resource type="LabelSettings" id="LabelSettings_kek77"]
 font = ExtResource("9_kek77")
-font_size = 40
 
 [sub_resource type="GDScript" id="GDScript_kq58d"]
 resource_name = "TrackListPanel"
@@ -387,7 +389,8 @@ border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qsp4k"]
 font = ExtResource("9_kek77")
-font_size = 26
+font_size = 25
+shadow_size = 0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kq58d"]
 
@@ -654,14 +657,24 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_htxhm")
 [node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode" unique_id=224617813]
 texture_filter = 1
 layout_mode = 1
-offset_left = 25.0
-offset_top = 4.0
-offset_right = 545.0
-offset_bottom = 74.0
-scale = Vector2(0.23, 0.23)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -63.12088
+offset_top = -14.195656
+offset_right = 168.64732
+offset_bottom = 17.424889
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.55, 0.55)
 theme_override_fonts/font = ExtResource("9_kek77")
 theme_override_font_sizes/font_size = 40
 text = "Playback Speed: 100%"
+label_settings = SubResource("LabelSettings_htxhm")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VolumeControl" parent="MainWindow" unique_id=525880026 groups=["tintable"] instance=ExtResource("10_4c57u")]
 layout_mode = 1
@@ -707,12 +720,17 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_h8e4i")
 
 [node name="VolumeValue" type="Label" parent="MainWindow/VolumeControl" unique_id=1702364383]
 texture_filter = 1
-layout_mode = 0
-offset_left = 19.780218
-offset_top = 2.7173915
-offset_right = 549.7802
-offset_bottom = 72.71739
-scale = Vector2(0.23, 0.23)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.32965
+offset_top = 3.804349
+offset_right = 78.07265
+offset_bottom = -0.5746498
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.56, 0.56)
 text = "Volume: 100%"
 label_settings = SubResource("LabelSettings_kek77")
 horizontal_alignment = 1

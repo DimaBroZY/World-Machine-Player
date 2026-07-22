@@ -99,10 +99,10 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.654902, 0.654902, 0.654902, 1)
 
-[node name="Window" type="Window" unique_id=732612012 groups=["party_tintable"]]
+[node name="Window" type="Window" unique_id=732612012]
 oversampling_override = 1.0
 initial_position = 1
-size = Vector2i(450, 300)
+size = Vector2i(450, 275)
 borderless = true
 always_on_top = true
 script = ExtResource("1_f5bhk")
@@ -141,6 +141,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = 4.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -232,17 +235,18 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxEmpty_4v468")
 
 [node name="Main" type="PanelContainer" parent="AddRadioWindow/Layout" unique_id=1907677936]
-custom_minimum_size = Vector2(0, 215)
+custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ig7ow")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="AddRadioWindow/Layout/Main" unique_id=1357663078]
-custom_minimum_size = Vector2(0, 175)
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 size_flags_vertical = 0
 theme = ExtResource("12_mixbd")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AddRadioWindow/Layout/Main/ScrollContainer" unique_id=89606074]
+[node name="VBoxContainer" type="VBoxContainer" parent="AddRadioWindow/Layout/Main/ScrollContainer" unique_id=89606074 groups=["tintable"]]
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -257,7 +261,7 @@ size_flags_vertical = 4
 theme = ExtResource("12_mixbd")
 theme_override_constants/caret_width = -1
 theme_override_constants/line_spacing = 10
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_khhxn")
 placeholder_text = "Name here"
 context_menu_enabled = false
@@ -276,9 +280,9 @@ size_flags_vertical = 4
 theme = ExtResource("12_mixbd")
 theme_override_constants/caret_width = -1
 theme_override_constants/line_spacing = 10
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_khhxn")
-placeholder_text = "Url here"
+placeholder_text = "URL here"
 context_menu_enabled = false
 emoji_menu_enabled = false
 deselect_on_focus_loss_enabled = false

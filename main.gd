@@ -1388,7 +1388,7 @@ func _on_add_radio_button_pressed() -> void:
 	WindowManager.open_add_radio_window()
 	if not WindowManager.add_radio_window.station_confirmed.is_connected(_on_station_confirmed):
 		WindowManager.add_radio_window.station_confirmed.connect(_on_station_confirmed)
-
+	TintManager.apply_tint_to_scene()
 func _on_station_confirmed(station_name: String, station_url: String) -> void:
 	RadioStationManager.add_station(station_name, station_url)
 	_refresh_station_list()
