@@ -1001,6 +1001,51 @@ body.docs-lightbox-open {
   }
 }
 
+.faq-group {
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.faq-group h2 {
+  color: var(--cyan);
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+
+.faq-list {
+  display: grid;
+  gap: 20px;
+  margin: 0;
+  width: 100%;
+}
+
+.faq-list div {
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(246, 240, 222, 0.03);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.faq-list dt {
+  color: var(--ink);
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+.faq-list dd {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.faq-list dd a {
+  color: var(--cyan);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
 @media (max-width: 560px) {
   .docs-hero,
   .docs-section {
