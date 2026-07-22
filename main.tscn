@@ -389,7 +389,7 @@ border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qsp4k"]
 font = ExtResource("9_kek77")
-font_size = 25
+font_size = 24
 shadow_size = 0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kq58d"]
