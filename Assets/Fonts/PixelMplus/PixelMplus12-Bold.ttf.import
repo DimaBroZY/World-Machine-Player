@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cxyventv7bi0q"
-path="res://.godot/imported/Terminus.ttf-6b189292b443880d813f7c3cbc0dfebd.fontdata"
+uid="uid://b815hgm6vthom"
+path="res://.godot/imported/PixelMplus12-Bold.ttf-cf0f20ae9b0f0eed46def92d9f6001af.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/Terminus.ttf"
-dest_files=["res://.godot/imported/Terminus.ttf-6b189292b443880d813f7c3cbc0dfebd.fontdata"]
+source_file="res://Assets/Fonts/PixelMplus/PixelMplus12-Bold.ttf"
+dest_files=["res://.godot/imported/PixelMplus12-Bold.ttf-cf0f20ae9b0f0eed46def92d9f6001af.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=1
+hinting=3
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

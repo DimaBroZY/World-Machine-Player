@@ -27,7 +27,8 @@ subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
-fallbacks=[]
+fallbacks=[Object(FontVariation,"resource_local_to_scene":false,"resource_name":"","fallbacks":Array[Font]([]),"base_font":Resource("uid://djelgtcvkjr7t", "res://Assets/Fonts/PixelMplus/PixelMplus10-Regular.ttf"),"variation_opentype":{},"variation_face_index":0,"variation_embolden":0.0,"variation_transform":Transform2D(1, 0, 0, 1, 0, 0),"opentype_features":{},"spacing_glyph":0,"spacing_space":0,"spacing_top":0,"spacing_bottom":0,"baseline_offset":-0.5,"palette_index":0,"palette_custom_colors":PackedColorArray(),"script":null)
+]
 Compress=null
 compress=true
 preload=[{

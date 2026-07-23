@@ -227,7 +227,7 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mm3wy")
 
 [node name="Spacer" type="VSeparator" parent="AddRadioWindow/Layout/TopBar/HBox" unique_id=499037601]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 12
 theme_override_styles/separator = SubResource("StyleBoxEmpty_tilkb")
 
 [node name="Separator" type="HSeparator" parent="AddRadioWindow/Layout" unique_id=893194414]
