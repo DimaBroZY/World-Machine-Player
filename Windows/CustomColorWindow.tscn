@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_6won7"]
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="4_ncq2b"]
 [ext_resource type="Texture2D" uid="uid://dkbfxho4ys7g4" path="res://Assets/Icons/theme.png" id="5_n0v7l"]
-[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="6_isspj"]
+[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="6_isspj"]
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="7_gvfb7"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="8_kwekw"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="9_q2f55"]
@@ -106,9 +106,9 @@ theme_override_constants/separation = 3
 
 [node name="Spacer2" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox" unique_id=40109539]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
 
@@ -120,9 +120,9 @@ stretch_mode = 0
 
 [node name="Spacer3" type="VSeparator" parent="CustomColorWindow/Layout/TopBar/TopBarHBox" unique_id=905631054]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
 
@@ -160,13 +160,13 @@ stretch_mode = 0
 
 [node name="CloseButton" type="TextureButton" parent="CustomColorWindow/Layout/TopBar/HBox" unique_id=833198323]
 visible = false
-clip_contents = true
 custom_minimum_size = Vector2(35, 35)
-layout_direction = 4
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
+layout_direction = 4
 texture_normal = ExtResource("9_q2f55")
 texture_hover = ExtResource("10_fdw21")
 ignore_texture_size = true

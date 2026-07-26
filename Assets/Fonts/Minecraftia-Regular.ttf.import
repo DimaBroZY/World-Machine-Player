@@ -2,7 +2,7 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://7u74d0a8okk2"
+uid="uid://b58beaxdcoie"
 path="res://.godot/imported/Minecraftia-Regular.ttf-7c18c0ae4262b5095b6806ba24d8dbd7.fontdata"
 
 [deps]
@@ -15,22 +15,22 @@ dest_files=["res://.godot/imported/Minecraftia-Regular.ttf-7c18c0ae4262b5095b680
 Rendering=null
 antialiasing=0
 generate_mipmaps=false
-disable_embedded_bitmaps=false
+disable_embedded_bitmaps=true
 multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
-force_autohinter=true
-modulate_color_glyphs=true
-hinting=1
-subpixel_positioning=4
+force_autohinter=false
+modulate_color_glyphs=false
+hinting=0
+subpixel_positioning=0
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
-fallbacks=[Object(FontVariation,"resource_local_to_scene":false,"resource_name":"","fallbacks":Array[Font]([]),"base_font":Resource("uid://djelgtcvkjr7t", "res://Assets/Fonts/PixelMplus/PixelMplus10-Regular.ttf"),"variation_opentype":{},"variation_face_index":0,"variation_embolden":0.0,"variation_transform":Transform2D(1, 0, 0, 1, 0, 0),"opentype_features":{},"spacing_glyph":0,"spacing_space":0,"spacing_top":0,"spacing_bottom":0,"baseline_offset":-0.5,"palette_index":0,"palette_custom_colors":PackedColorArray(),"script":null)
+fallbacks=[Object(FontVariation,"resource_local_to_scene":false,"resource_name":"","fallbacks":Array[Font]([]),"base_font":Resource("uid://byjx6w2m7j7at", "res://Assets/Fonts/PixelMplus/PixelMplus12-Regular.ttf"),"variation_opentype":{},"variation_face_index":0,"variation_embolden":0.0,"variation_transform":Transform2D(1, 0, 0, 1, 0, 0),"opentype_features":{},"spacing_glyph":0,"spacing_space":0,"spacing_top":0,"spacing_bottom":0,"baseline_offset":-0.5,"palette_index":0,"palette_custom_colors":PackedColorArray(),"script":null)
 ]
 Compress=null
-compress=true
+compress=false
 preload=[{
 "chars": [],
 "glyphs": [],

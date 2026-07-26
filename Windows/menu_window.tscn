@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_n2ajn"]
 [ext_resource type="Texture2D" uid="uid://b14ax6lfe347f" path="res://Assets/Icons/Sun.png" id="2_rqold"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_7j3af"]
-[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_in5gq"]
+[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_in5gq"]
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="4_ive5f"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="5_kdstt"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="6_j8y1r"]
@@ -284,6 +284,8 @@ oversampling_override = 1.0
 initial_position = 2
 size = Vector2i(600, 450)
 borderless = true
+content_scale_mode = 2
+content_scale_aspect = 1
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1051549805]
 script = ExtResource("1_hc7j7")
@@ -539,7 +541,7 @@ grow_vertical = 0
 scale = Vector2(1.01367, 0.952266)
 
 [node name="Corner" type="Control" parent="MenuWindow/Handles" unique_id=1222455188]
-custom_minimum_size = Vector2(5, 5)
+custom_minimum_size = Vector2(10, 10)
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

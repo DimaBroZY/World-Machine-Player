@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://dnfma8apjp42n" path="res://Assets/Icons/Slider_End.png" id="8_kek77"]
 [ext_resource type="Texture2D" uid="uid://cip88ds7isegc" path="res://Assets/Buttons/Stop_Button_Hover.png" id="8_yaehf"]
 [ext_resource type="Texture2D" uid="uid://dtyeqrs665mm4" path="res://Assets/Theme/Slider_Grabber_Hover.png" id="9_0odxb"]
-[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="9_kek77"]
+[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="9_kek77"]
 [ext_resource type="PackedScene" uid="uid://3y1aikb7e21v" path="res://volume_control.tscn" id="10_4c57u"]
 [ext_resource type="Texture2D" uid="uid://c1yqamoe4bv6s" path="res://Assets/Buttons/ReverseButton_Hover.png" id="10_074og"]
 [ext_resource type="Texture2D" uid="uid://bf7wlnmlydwic" path="res://Assets/Theme/Grabber_Tick.png" id="10_lswn8"]
@@ -179,9 +179,6 @@ texture = ExtResource("15_2cqfq")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_htxhm"]
 texture = ExtResource("15_2cqfq")
-
-[sub_resource type="LabelSettings" id="LabelSettings_htxhm"]
-font = ExtResource("9_kek77")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jq2sk"]
 texture = ExtResource("7_5vw27")
@@ -384,12 +381,12 @@ draw_center = false
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
-border_width_bottom = 4
+border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qsp4k"]
 font = ExtResource("9_kek77")
-font_size = 24
+font_size = 8
 shadow_size = 0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kq58d"]
@@ -657,24 +654,16 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_htxhm")
 [node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode" unique_id=224617813]
 texture_filter = 1
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -63.12088
-offset_top = -14.195656
-offset_right = 168.64732
-offset_bottom = 17.424889
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.55, 0.55)
+offset_left = 25.274723
+offset_top = 3.8043473
+offset_right = 133.16682
+offset_bottom = 19.61462
+scale = Vector2(1.1, 1.1)
 theme_override_fonts/font = ExtResource("9_kek77")
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 8
 text = "Playback Speed: 100%"
-label_settings = SubResource("LabelSettings_htxhm")
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="VolumeControl" parent="MainWindow" unique_id=525880026 groups=["tintable"] instance=ExtResource("10_4c57u")]
 layout_mode = 1
@@ -972,7 +961,7 @@ theme_override_font_sizes/font_size = 23
 text = "Current Track"
 
 [node name="PanelContainer" type="PanelContainer" parent="MainWindow/CurrentTrack" unique_id=1850967088]
-custom_minimum_size = Vector2(500, 40)
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -981,10 +970,11 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -414.07693
 offset_top = -5.3846207
-offset_right = 415.15405
-offset_bottom = 51.61538
+offset_right = -137.57693
+offset_bottom = 13.615379
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(3, 3)
 size_flags_vertical = 0
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_0d6xb")
@@ -993,25 +983,28 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_0d6xb")
 clip_contents = true
 layout_mode = 2
 script = ExtResource("2_ticker")
-speed = 101.0
 start_delay = 1.5
 restart_delay = 1.5
 gap = 101.0
 
 [node name="CurrentTrackName" type="Label" parent="MainWindow/CurrentTrack/PanelContainer/ScrollerControl" unique_id=323239814]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -2.5
+offset_bottom = 2.5
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(971.15393, 23.576965)
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme = ExtResource("27_htxhm")
 text = "Current Track..."
 label_settings = SubResource("LabelSettings_qsp4k")
 horizontal_alignment = 1
-vertical_alignment = 2
+vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 3
 max_lines_visible = 1

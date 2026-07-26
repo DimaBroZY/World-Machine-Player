@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_cp482"]
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="4_ctxh1"]
 [ext_resource type="Texture2D" uid="uid://dbuan0n1gm2dd" path="res://Assets/Icons/Star.png" id="5_hhrpk"]
-[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="6_2ypa1"]
+[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="6_2ypa1"]
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="7_myu8i"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="8_5yhuv"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="9_bjl83"]
@@ -145,9 +145,9 @@ theme_override_constants/separation = 3
 
 [node name="Spacer2" type="VSeparator" parent="SelectPlaylistWindow/Layout/TopBar/TopBarHBox" unique_id=1338062683]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_r7xj3")
 
@@ -159,9 +159,9 @@ stretch_mode = 0
 
 [node name="Spacer3" type="VSeparator" parent="SelectPlaylistWindow/Layout/TopBar/TopBarHBox" unique_id=305534339]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_r7xj3")
 
@@ -199,10 +199,10 @@ stretch_mode = 0
 
 [node name="CloseButton" type="Button" parent="SelectPlaylistWindow/Layout/TopBar/HBox" unique_id=736765692]
 custom_minimum_size = Vector2(35, 35)
-layout_direction = 1
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+layout_direction = 1
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_1oj2p")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_ytk5j")
@@ -253,6 +253,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 focus_mode = 0
+theme_override_fonts/font = ExtResource("6_2ypa1")
 theme_override_styles/normal = SubResource("StyleBoxFlat_cp482")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ctxh1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ctxh1")
@@ -283,6 +284,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 focus_mode = 0
+theme_override_fonts/font = ExtResource("6_2ypa1")
 theme_override_styles/normal = SubResource("StyleBoxFlat_hhrpk")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_2ypa1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_2ypa1")

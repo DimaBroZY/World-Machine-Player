@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="1_2yewj"]
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_edy1e"]
-[ext_resource type="FontFile" uid="uid://7u74d0a8okk2" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="2_mwwci"]
+[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="2_mwwci"]
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_xrgv3"]
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="3_edy1e"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_xmig2"]
@@ -263,9 +263,9 @@ theme_override_constants/separation = 3
 
 [node name="Spacer2" type="VSeparator" parent="ThemeWindow/Layout/TopBar/TopBarHBox" unique_id=644255448]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
 
@@ -277,9 +277,9 @@ stretch_mode = 0
 
 [node name="Spacer3" type="VSeparator" parent="ThemeWindow/Layout/TopBar/TopBarHBox" unique_id=711074427]
 clip_contents = true
-layout_direction = 4
 layout_mode = 2
 size_flags_horizontal = 0
+layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_xmig2")
 
@@ -316,13 +316,13 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="CloseButton" type="TextureButton" parent="ThemeWindow/Layout/TopBar/HBox" unique_id=1383706187]
-clip_contents = true
 custom_minimum_size = Vector2(35, 35)
-layout_direction = 4
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
 size_flags_stretch_ratio = 0.0
+layout_direction = 4
 texture_normal = ExtResource("5_xmig2")
 texture_hover = ExtResource("6_10kri")
 ignore_texture_size = true

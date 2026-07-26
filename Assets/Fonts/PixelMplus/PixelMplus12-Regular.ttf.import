@@ -15,21 +15,21 @@ dest_files=["res://.godot/imported/PixelMplus12-Regular.ttf-3d0367d1d81eda83003d
 Rendering=null
 antialiasing=0
 generate_mipmaps=false
-disable_embedded_bitmaps=true
-multichannel_signed_distance_field=false
-msdf_pixel_range=8
-msdf_size=48
+disable_embedded_bitmaps=false
+multichannel_signed_distance_field=true
+msdf_pixel_range=100
+msdf_size=250
 allow_system_fallback=true
-force_autohinter=true
-modulate_color_glyphs=false
+force_autohinter=false
+modulate_color_glyphs=true
 hinting=0
-subpixel_positioning=3
+subpixel_positioning=0
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
 fallbacks=[]
 Compress=null
-compress=true
+compress=false
 preload=[{
 "chars": [],
 "glyphs": [],
@@ -38,6 +38,11 @@ preload=[{
 &"variation_embolden": 0.0,
 &"variation_transform": Transform2D(0, 0, 0, 0, 0, 0)
 }]
-language_support={}
-script_support={}
+language_support={
+"ja": true
+}
+script_support={
+"Hira": true,
+"Kana": true
+}
 opentype_features={}
