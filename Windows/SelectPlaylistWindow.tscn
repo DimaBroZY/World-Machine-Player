@@ -223,7 +223,7 @@ custom_minimum_size = Vector2(0, 215)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ig7ow")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="SelectPlaylistWindow/Layout/Main" unique_id=1357663078]
+[node name="ScrollContainer" type="ScrollContainer" parent="SelectPlaylistWindow/Layout/Main" unique_id=1357663078 groups=["tintable"]]
 custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
 size_flags_vertical = 0
