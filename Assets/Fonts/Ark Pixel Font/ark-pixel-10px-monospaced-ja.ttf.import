@@ -2,21 +2,21 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://u5l75rr2n2ag"
-path="res://.godot/imported/misaki_mincho.ttf-31e06b1f9c8cdda69f55d3af1f1511d3.fontdata"
+uid="uid://bronen7u58nyc"
+path="res://.godot/imported/ark-pixel-10px-monospaced-ja.ttf-3aabfa06e0548617ba8de18d956be777.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/Misaki Gothic/misaki_mincho.ttf"
-dest_files=["res://.godot/imported/misaki_mincho.ttf-31e06b1f9c8cdda69f55d3af1f1511d3.fontdata"]
+source_file="res://Assets/Fonts/Ark Pixel Font/ark-pixel-10px-monospaced-ja.ttf"
+dest_files=["res://.godot/imported/ark-pixel-10px-monospaced-ja.ttf-3aabfa06e0548617ba8de18d956be777.fontdata"]
 
 [params]
 
 Rendering=null
-antialiasing=1
+antialiasing=0
 generate_mipmaps=false
-disable_embedded_bitmaps=true
-multichannel_signed_distance_field=true
+disable_embedded_bitmaps=false
+multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=false
@@ -29,7 +29,7 @@ oversampling=0.0
 Fallbacks=null
 fallbacks=[]
 Compress=null
-compress=false
+compress=true
 preload=[{
 "chars": [],
 "glyphs": [],

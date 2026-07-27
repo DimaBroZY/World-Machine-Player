@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="2_w5pex"]
 [ext_resource type="Texture2D" uid="uid://cseb2kw154ng7" path="res://Assets/Icons/Settings.png" id="3_qm3jx"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_qsxsv"]
-[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="4_qm3jx"]
+[ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="4_qm3jx"]
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="5_dfjad"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="6_0m26i"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="7_8x2rp"]
@@ -79,18 +79,20 @@ border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_sjhro"]
 font = ExtResource("4_qm3jx")
-font_size = 30
+font_size = 32
 shadow_size = 0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1fef"]
-draw_center = false
+bg_color = Color(0, 0, 0, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sd6ct"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ooibu"]
+content_margin_left = 10.0
+content_margin_top = 5.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w5pex"]
 
@@ -149,7 +151,6 @@ func _on_next_pressed() -> void:
 "
 
 [sub_resource type="LabelSettings" id="LabelSettings_8x2rp"]
-font_size = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnyio"]
 content_margin_left = 15.0
@@ -373,6 +374,7 @@ click_sound_release = ExtResource("3_qsxsv")
 
 [node name="SettingsWindow" type="Control" parent="." unique_id=2042153467]
 texture_filter = 1
+texture_repeat = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -384,6 +386,7 @@ size_flags_vertical = 3
 script = ExtResource("1_6k48w")
 
 [node name="Panel" type="Panel" parent="SettingsWindow" unique_id=793811266 groups=["tintable"]]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -396,6 +399,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q8n62")
 
 [node name="Layout" type="VBoxContainer" parent="SettingsWindow" unique_id=1517495138]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -404,6 +408,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopBar" type="PanelContainer" parent="SettingsWindow/Layout" unique_id=948265809 groups=["tintable"]]
+texture_filter = 1
 custom_minimum_size = Vector2(20, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5yrt8")
@@ -532,6 +537,7 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="Content" type="MarginContainer" parent="SettingsWindow" unique_id=1280167273]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -544,16 +550,19 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelManager" type="MarginContainer" parent="SettingsWindow/Content" unique_id=708095972 groups=["tintable"]]
+texture_filter = 1
 layout_mode = 2
 script = ExtResource("17_owwqo")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsWindow/Content/PanelManager" unique_id=1491756140]
+texture_filter = 1
 custom_minimum_size = Vector2(570, 360)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=1073753364]
+texture_filter = 1
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 
@@ -598,6 +607,7 @@ text = "System"
 
 [node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2110584640]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ooibu")
@@ -627,18 +637,17 @@ offset_transform_visual_only = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_s1fef")
 
 [node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel" unique_id=1350480334]
-custom_minimum_size = Vector2(360, 0)
+texture_filter = 1
+custom_minimum_size = Vector2(355, 0)
 clip_contents = true
 layout_mode = 2
-size_flags_horizontal = 0
 offset_transform_enabled = true
-offset_transform_position = Vector2(5, 0)
 theme = ExtResource("15_8x2rp")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/caret_width = -1
 theme_override_fonts/font = ExtResource("4_qm3jx")
-theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("StyleBoxEmpty_sd6ct")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ooibu")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_w5pex")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6k48w")
 placeholder_text = "Your Folder Path..."
@@ -649,6 +658,8 @@ virtual_keyboard_enabled = false
 
 [node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FolderPath" unique_id=978301876 groups=["tintable"]]
 layout_mode = 0
+offset_right = 404.0
+offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_g5yv1")
 script = ExtResource("19_g5yv1")
 custom_text = "Set path to folder
@@ -681,13 +692,15 @@ layout_mode = 2
 
 [node name="EndOfTrackAction" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting" unique_id=1655581253]
 layout_mode = 0
-offset_left = 63.0
-offset_top = 9.0
-offset_right = 372.0
-offset_bottom = 62.0
+offset_left = 79.0
+offset_top = 7.0
+offset_right = 267.0
+offset_bottom = 35.0
+scale = Vector2(1.5, 1.5)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = ExtResource("15_8x2rp")
+theme_override_font_sizes/font_size = 32
 text = "End of Track Action"
 label_settings = SubResource("LabelSettings_8x2rp")
 
@@ -759,10 +772,11 @@ layout_mode = 2
 
 [node name="Shuffle" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting" unique_id=2098608659]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 9.0
-offset_right = 372.0
-offset_bottom = 62.0
+offset_left = 159.0
+offset_top = 7.0
+offset_right = 233.0
+offset_bottom = 35.0
+scale = Vector2(1.5, 1.5)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = ExtResource("15_8x2rp")
@@ -827,11 +841,12 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 [node name="VisualPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2109862331]
 unique_name_in_owner = true
 visible = false
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_khhxn")
 
-[node name="GeneralLabel" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel" unique_id=523073013]
+[node name="VisualLabel" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel" unique_id=523073013]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
@@ -862,8 +877,9 @@ layout_mode = 2
 layout_mode = 0
 offset_left = 63.0
 offset_top = 9.0
-offset_right = 372.0
-offset_bottom = 62.0
+offset_right = 261.0
+offset_bottom = 37.0
+scale = Vector2(1.5, 1.5)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = ExtResource("15_8x2rp")
@@ -937,10 +953,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes/ChangeSetting" unique_id=2012557413]
 layout_mode = 0
-offset_left = 167.0
+offset_left = 159.0
 offset_top = 32.0
-offset_right = 255.0
-offset_bottom = 76.0
+offset_right = 231.0
+offset_bottom = 60.0
+scale = Vector2(1.5, 1.5)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = ExtResource("15_8x2rp")
@@ -1003,12 +1020,12 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
 [node name="SystemPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=700226324]
 unique_name_in_owner = true
-visible = false
+texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_logg6")
 
-[node name="GeneralLabel" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/SystemPanel" unique_id=1812822290]
+[node name="SystemLabel" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/SystemPanel" unique_id=1812822290]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1041,9 +1058,10 @@ layout_mode = 2
 [node name="Label" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/SystemPanel/VBoxContainer/Priority/ChangeSetting" unique_id=785992867]
 layout_mode = 0
 offset_left = 95.0
-offset_top = 33.0
-offset_right = 339.0
-offset_bottom = 77.0
+offset_top = 30.0
+offset_right = 251.0
+offset_bottom = 58.0
+scale = Vector2(1.5, 1.5)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme = ExtResource("15_8x2rp")

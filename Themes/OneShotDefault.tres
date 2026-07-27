@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://t6piefk2l1r" path="res://Assets/Theme/Slider_Grabber.png" id="1_5j3x3"]
 [ext_resource type="Texture2D" uid="uid://bf7wlnmlydwic" path="res://Assets/Theme/Grabber_Tick.png" id="2_5rteq"]
 [ext_resource type="Texture2D" uid="uid://dtyeqrs665mm4" path="res://Assets/Theme/Slider_Grabber_Hover.png" id="2_v3jyk"]
-[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_ipw7k"]
+[ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_ipw7k"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="4_v3jyk"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v3jyk"]

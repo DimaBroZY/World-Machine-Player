@@ -2,7 +2,7 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b58beaxdcoie"
+uid="uid://k4rk7mduy1an"
 path="res://.godot/imported/Minecraftia-Regular.ttf-7c18c0ae4262b5095b6806ba24d8dbd7.fontdata"
 
 [deps]
@@ -15,11 +15,11 @@ dest_files=["res://.godot/imported/Minecraftia-Regular.ttf-7c18c0ae4262b5095b680
 Rendering=null
 antialiasing=0
 generate_mipmaps=false
-disable_embedded_bitmaps=true
+disable_embedded_bitmaps=false
 multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
-allow_system_fallback=true
+allow_system_fallback=false
 force_autohinter=false
 modulate_color_glyphs=false
 hinting=0
@@ -27,7 +27,7 @@ subpixel_positioning=0
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
-fallbacks=[Object(FontVariation,"resource_local_to_scene":false,"resource_name":"","fallbacks":Array[Font]([]),"base_font":Resource("uid://b6gsne8e3tb1w", "res://Assets/Fonts/Misaki Gothic/misaki_mincho.ttf"),"variation_opentype":{},"variation_face_index":0,"variation_embolden":0.0,"variation_transform":Transform2D(1, 0, 0, 1, 0, 0),"opentype_features":{},"spacing_glyph":0,"spacing_space":0,"spacing_top":0,"spacing_bottom":0,"baseline_offset":-0.5,"palette_index":0,"palette_custom_colors":PackedColorArray(),"script":null)
+fallbacks=[Object(FontVariation,"resource_local_to_scene":false,"resource_name":"","fallbacks":Array[Font]([]),"base_font":Resource("uid://u5l75rr2n2ag", "res://Assets/Fonts/Misaki Gothic/misaki_mincho.ttf"),"variation_opentype":{},"variation_face_index":0,"variation_embolden":0.0,"variation_transform":Transform2D(1, 0, 0, 1, 0, 0),"opentype_features":{},"spacing_glyph":0,"spacing_space":0,"spacing_top":0,"spacing_bottom":0,"baseline_offset":-0.5,"palette_index":0,"palette_custom_colors":PackedColorArray(),"script":null)
 ]
 Compress=null
 compress=false

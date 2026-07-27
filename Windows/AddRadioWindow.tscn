@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="4_25e5l"]
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="5_jnvmy"]
 [ext_resource type="Texture2D" uid="uid://ccnsv1qmv6r3f" path="res://Assets/Icons/Notes.png" id="6_a6cjm"]
-[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="7_wqir2"]
+[ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="7_wqir2"]
 [ext_resource type="Texture2D" uid="uid://cnl0hak8wpkk6" path="res://Assets/Buttons/MinimizeButton.png" id="8_1d120"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="9_y40ll"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="10_ajcjk"]

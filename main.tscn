@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://dnfma8apjp42n" path="res://Assets/Icons/Slider_End.png" id="8_kek77"]
 [ext_resource type="Texture2D" uid="uid://cip88ds7isegc" path="res://Assets/Buttons/Stop_Button_Hover.png" id="8_yaehf"]
 [ext_resource type="Texture2D" uid="uid://dtyeqrs665mm4" path="res://Assets/Theme/Slider_Grabber_Hover.png" id="9_0odxb"]
-[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="9_kek77"]
+[ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="9_kek77"]
 [ext_resource type="PackedScene" uid="uid://3y1aikb7e21v" path="res://volume_control.tscn" id="10_4c57u"]
 [ext_resource type="Texture2D" uid="uid://c1yqamoe4bv6s" path="res://Assets/Buttons/ReverseButton_Hover.png" id="10_074og"]
 [ext_resource type="Texture2D" uid="uid://bf7wlnmlydwic" path="res://Assets/Theme/Grabber_Tick.png" id="10_lswn8"]
@@ -430,6 +430,7 @@ texture = ExtResource("15_2cqfq")
 texture = ExtResource("8_kek77")
 
 [node name="Main" type="Control" unique_id=1447891132 groups=["party_tintable"]]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

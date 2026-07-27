@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_8wc6h"]
 [ext_resource type="Script" uid="uid://dkkydk8vrjxms" path="res://handles.gd" id="1_q8n62"]
 [ext_resource type="Script" uid="uid://b8x883mm43um6" path="res://top_bar.gd" id="1_ss1ka"]
-[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_t4ovt"]
+[ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_t4ovt"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="2_hel25"]
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_ws54r"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_2cuvu"]

@@ -102,6 +102,7 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 occlusion_culling/bvh_build_quality=0
 rendering_device/staging_buffer/block_size_kb=512
 rendering_device/staging_buffer/max_size_mb=256
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 rendering_device/fallback_to_d3d12=false
 renderer/rendering_method="gl_compatibility"

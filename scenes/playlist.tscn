@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cthigskjg6cwo"]
 
-[ext_resource type="FontFile" uid="uid://b58beaxdcoie" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_6qq0t"]
+[ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="1_6qq0t"]
 [ext_resource type="Script" uid="uid://cu6eekq0hj26b" path="res://scenes/playlist.gd" id="1_playlist_gd"]
 [ext_resource type="Texture2D" uid="uid://iswjjlpabe1n" path="res://Assets/Icons/RecycleBin.png" id="2_5oyxb"]
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="2_fjyi4"]
