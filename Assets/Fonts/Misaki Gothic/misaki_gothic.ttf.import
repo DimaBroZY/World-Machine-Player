@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://djelgtcvkjr7t"
-path="res://.godot/imported/PixelMplus10-Regular.ttf-b8a5b75aaadf379ea74033fb32c2143c.fontdata"
+uid="uid://bxsq282gn1rla"
+path="res://.godot/imported/misaki_gothic.ttf-98962ffb48d4c38eb454263154d0800d.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/PixelMplus/PixelMplus10-Regular.ttf"
-dest_files=["res://.godot/imported/PixelMplus10-Regular.ttf-b8a5b75aaadf379ea74033fb32c2143c.fontdata"]
+source_file="res://Assets/Fonts/Misaki Gothic/misaki_gothic.ttf"
+dest_files=["res://.godot/imported/misaki_gothic.ttf-98962ffb48d4c38eb454263154d0800d.fontdata"]
 
 [params]
 

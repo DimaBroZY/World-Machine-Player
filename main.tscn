@@ -316,7 +316,7 @@ expand_margin_top = 3.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_b1qrp"]
 font = ExtResource("9_kek77")
-font_size = 24
+font_size = 32
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qnost"]
 content_margin_left = 4.0
@@ -654,13 +654,13 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_htxhm")
 [node name="SpeedValue" type="Label" parent="MainWindow/PlaybackSpeedControlNode" unique_id=224617813]
 texture_filter = 1
 layout_mode = 1
-offset_left = 25.274723
-offset_top = 3.8043473
-offset_right = 133.16682
-offset_bottom = 19.61462
-scale = Vector2(1.1, 1.1)
+offset_left = 34.066
+offset_top = 6.0
+offset_right = 450.06607
+offset_bottom = 62.0
+scale = Vector2(0.25, 0.25)
 theme_override_fonts/font = ExtResource("9_kek77")
-theme_override_font_sizes/font_size = 8
+theme_override_font_sizes/font_size = 32
 text = "Playback Speed: 100%"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -811,12 +811,24 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_facbu")
 
-[node name="Label" type="Label" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsTitleContainer" unique_id=1139939118]
+[node name="Control" type="Control" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsTitleContainer" unique_id=1317572831]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsTitleContainer/Control" unique_id=1139939118]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.6922989
+offset_right = 104.66669
+offset_bottom = 20.948723
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
 text = "*PLAYLISTS*"
 label_settings = SubResource("LabelSettings_b1qrp")
 horizontal_alignment = 1
-vertical_alignment = 2
+vertical_alignment = 1
 
 [node name="PlaylistsScrollContainer" type="ScrollContainer" parent="MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer" unique_id=632820976]
 texture_filter = 1
@@ -952,13 +964,16 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -102.0
-offset_right = 102.0
-offset_bottom = 41.0
+offset_left = -117.15381
+offset_top = -6.1538467
+offset_right = 178.23077
+offset_bottom = 49.846153
 grow_horizontal = 2
+scale = Vector2(0.75, 0.75)
 theme_override_fonts/font = ExtResource("9_kek77")
-theme_override_font_sizes/font_size = 23
+theme_override_font_sizes/font_size = 32
 text = "Current Track"
+horizontal_alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="MainWindow/CurrentTrack" unique_id=1850967088]
 texture_filter = 1
@@ -993,7 +1008,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -10.384613
 offset_top = -2.5
+offset_right = 9.782043
 offset_bottom = 2.5
 grow_horizontal = 2
 grow_vertical = 2

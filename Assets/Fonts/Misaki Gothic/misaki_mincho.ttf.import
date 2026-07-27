@@ -2,29 +2,29 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://whdw8c4nqmjb"
-path="res://.godot/imported/PixelMplus10-Bold.ttf-a08a7f417d35110695f2b831c4ec6f6b.fontdata"
+uid="uid://b6gsne8e3tb1w"
+path="res://.godot/imported/misaki_mincho.ttf-31e06b1f9c8cdda69f55d3af1f1511d3.fontdata"
 
 [deps]
 
-source_file="res://Assets/Fonts/PixelMplus/PixelMplus10-Bold.ttf"
-dest_files=["res://.godot/imported/PixelMplus10-Bold.ttf-a08a7f417d35110695f2b831c4ec6f6b.fontdata"]
+source_file="res://Assets/Fonts/Misaki Gothic/misaki_mincho.ttf"
+dest_files=["res://.godot/imported/misaki_mincho.ttf-31e06b1f9c8cdda69f55d3af1f1511d3.fontdata"]
 
 [params]
 
 Rendering=null
 antialiasing=0
 generate_mipmaps=false
-disable_embedded_bitmaps=true
-multichannel_signed_distance_field=true
+disable_embedded_bitmaps=false
+multichannel_signed_distance_field=false
 msdf_pixel_range=8
-msdf_size=128
+msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
 hinting=0
 subpixel_positioning=0
-keep_rounding_remainders=true
+keep_rounding_remainders=false
 oversampling=0.0
 Fallbacks=null
 fallbacks=[]

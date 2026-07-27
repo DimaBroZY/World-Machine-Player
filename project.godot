@@ -69,6 +69,10 @@ movie_writer/movie_file="D:/Desktop/World Machine Player/test"
 
 enabled=PackedStringArray("res://addons/AS2P/plugin.cfg")
 
+[gui]
+
+theme/default_font_antialiasing=0
+
 [input]
 
 dance={
@@ -98,7 +102,6 @@ ai_assistant_hub/preferences/always_scroll_to_bottom=false
 occlusion_culling/bvh_build_quality=0
 rendering_device/staging_buffer/block_size_kb=512
 rendering_device/staging_buffer/max_size_mb=256
-textures/canvas_textures/default_texture_filter=3
 rendering_device/driver.windows="d3d12"
 rendering_device/fallback_to_d3d12=false
 renderer/rendering_method="gl_compatibility"
@@ -106,6 +109,7 @@ renderer/rendering_method.mobile="gl_compatibility"
 textures/lossless_compression/force_png=true
 textures/default_filters/use_nearest_mipmap_filter=true
 textures/default_filters/anisotropic_filtering_level=0
+anti_aliasing/quality/smaa_edge_detection_threshold=0.01
 textures/decals/filter=2
 textures/light_projectors/filter=2
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)

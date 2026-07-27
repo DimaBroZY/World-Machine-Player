@@ -24,14 +24,13 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6qq0t"]
-content_margin_left = 10.0
-bg_color = Color(1, 1, 1, 0.17)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4s2h"]
+bg_color = Color(1, 1, 1, 0.17254902)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
+border_color = Color(1, 1, 1, 0.4862745)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8votw"]
 content_margin_left = 10.0
@@ -70,7 +69,7 @@ theme_override_fonts/font = ExtResource("1_6qq0t")
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_6k8do")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_32t18")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6qq0t")
+theme_override_styles/hover = SubResource("StyleBoxFlat_h4s2h")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_32t18")
 toggle_mode = true
 text_overrun_behavior = 3
@@ -82,9 +81,11 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 48.0
-offset_right = -74.0
+offset_right = 16.666687
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.75, 0.75)
 mouse_filter = 1
 script = ExtResource("2_fjyi4")
 label_path = NodePath("label")
@@ -104,7 +105,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_6qq0t")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxEmpty_8votw")
 
 [node name="CheckBox" type="CheckBox" parent="." unique_id=556261976]

@@ -145,22 +145,26 @@ func _start_rename() -> void:
 	_rename_edit = LineEdit.new()
 	_rename_edit.text = _pending_name
 	_rename_edit.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_rename_edit.offset_left = scroll_text.offset_left
-	_rename_edit.offset_top = scroll_text.offset_top
+	_rename_edit.offset_left = scroll_text.offset_left - 78
+	_rename_edit.offset_top = scroll_text.offset_top - 12
 	_rename_edit.offset_right = scroll_text.offset_right
 	_rename_edit.offset_bottom = scroll_text.offset_bottom
 	_rename_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_rename_edit.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_rename_edit.add_theme_font_override("font", MINECRAFTIA_FONT)
-	_rename_edit.add_theme_font_size_override("font_size", 24)
+	_rename_edit.add_theme_font_size_override("font_size", 32)
 	_rename_edit.add_theme_color_override("font_color", Color.WHITE)
 	_rename_edit.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_rename_edit.text_submitted.connect(_finish_rename)
 	_rename_edit.focus_exited.connect(_finish_rename)
 	add_child(_rename_edit)
+	await get_tree().process_frame
+	_rename_edit.size /= 0.75
+	_rename_edit.pivot_offset = _rename_edit.size / 30
+	_rename_edit.scale = Vector2(0.75, 0.75)
 	_rename_edit.grab_focus()
 	_rename_edit.select_all()
-
+	
 
 func _finish_rename(_new_text: String = "") -> void:
 	if _rename_edit == null:
