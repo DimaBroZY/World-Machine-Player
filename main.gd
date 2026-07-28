@@ -892,7 +892,14 @@ func _await_track_skip()-> void:
 
 func _on_next_track_pressed() -> void:
 	if _showing_radio_mode:
+		var stations := RadioStationManager.get_stations()
+		if stations.is_empty():
+			return
+
+		_current_station_index = (_current_station_index + 1) % stations.size()
+		_select_station(_current_station_index)
 		return
+		
 	if playlist.size() > 0:
 		if Settings.get_setting("shuffle"):
 			if _shuffle_history.is_empty():
@@ -919,7 +926,14 @@ func _on_next_track_pressed() -> void:
 
 func _on_previous_track_pressed() -> void:
 	if _showing_radio_mode:
+		var stations := RadioStationManager.get_stations()
+		if stations.is_empty():
+			return
+
+		_current_station_index = (_current_station_index - 1 + stations.size()) % stations.size()
+		_select_station(_current_station_index)
 		return
+
 	if playlist.size() > 0:
 		if Settings.get_setting("shuffle") and _shuffle_pos > 0:
 			_shuffle_pos -= 1

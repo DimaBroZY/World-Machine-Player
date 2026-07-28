@@ -93,7 +93,7 @@ oversampling_override = 1.0
 initial_position = 2
 size = Vector2i(650, 470)
 borderless = true
-popup_window = true
+always_on_top = true
 
 [node name="ExplorerWindow" type="Control" parent="." unique_id=1022058783 groups=["tintable"]]
 texture_filter = 1
@@ -325,13 +325,14 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 158.0
-offset_top = -58.0
-offset_right = 202.0
-offset_bottom = -30.0
+offset_left = 160.0
+offset_top = -57.0
+offset_right = 248.0
+offset_bottom = -1.0
 grow_vertical = 0
-scale = Vector2(1.25, 1.25)
+scale = Vector2(0.6, 0.6)
 theme_override_fonts/font = ExtResource("1_atjxo")
+theme_override_font_sizes/font_size = 32
 text = "Path"
 
 [node name="path" type="LineEdit" parent="ExplorerWindow/Content/file_explorer" unique_id=1716949936]
@@ -346,6 +347,7 @@ offset_right = -113.0
 offset_bottom = -22.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_atjxo")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vyex5")
 placeholder_text = "Path to folder..."
@@ -365,6 +367,7 @@ grow_vertical = 0
 
 [node name="open" type="Button" parent="ExplorerWindow/Content/file_explorer/actions" unique_id=343961247]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_atjxo")
 theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_obhcq")
@@ -374,6 +377,7 @@ text = "Open"
 
 [node name="cancel" type="Button" parent="ExplorerWindow/Content/file_explorer/actions" unique_id=1992539786]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_atjxo")
 theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_obhcq")

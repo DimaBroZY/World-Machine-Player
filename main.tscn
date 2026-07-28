@@ -431,6 +431,9 @@ texture = ExtResource("15_2cqfq")
 texture = ExtResource("8_kek77")
 
 [node name="Main" type="Control" unique_id=1447891132 groups=["party_tintable"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -441,6 +444,9 @@ grow_vertical = 2
 script = ExtResource("1_1bvp3")
 
 [node name="MainWindow" parent="." unique_id=1040742551 instance=ExtResource("2_1bvp3")]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 layout_mode = 1
 offset_bottom = 0.0
 title_text = "World Machine Player"
@@ -450,15 +456,21 @@ icon_pressed = ExtResource("3_jq2sk")
 icon_disabled = ExtResource("3_jq2sk")
 
 [node name="RadioPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=770886441]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 stream = SubResource("AudioStreamGenerator_seu75")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
 process_mode = 3
-process_thread_group = 2
+process_thread_group = 1
 process_thread_group_order = 0
 process_thread_messages = 1
 
 [node name="LoadingInfo" type="Label" parent="MainWindow" unique_id=1563508309 groups=["tintable"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 visible = false
 layout_mode = 0
 offset_left = 434.0
@@ -472,6 +484,9 @@ vertical_alignment = 2
 clip_text = true
 
 [node name="unsupportInfo" type="Label" parent="MainWindow" unique_id=1336061863 groups=["tintable"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 visible = false
 texture_filter = 1
 layout_mode = 0
@@ -492,6 +507,9 @@ offset_bottom = 44.0
 texture = ExtResource("4_htxhm")
 
 [node name="StationInfo" type="Label" parent="MainWindow" unique_id=1399512230 groups=["tintable"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 visible = false
 texture_filter = 1
 layout_mode = 0
@@ -512,6 +530,9 @@ offset_bottom = 44.0
 texture = ExtResource("4_htxhm")
 
 [node name="Objects" type="Control" parent="MainWindow" unique_id=793731524 groups=["party_tintable"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 texture_filter = 1
 anchors_preset = 0
 offset_left = 150.0
@@ -573,6 +594,9 @@ offset_right = 536.66675
 offset_bottom = 601.6666
 
 [node name="Buttons" type="Control" parent="MainWindow" unique_id=1820426466 groups=["tintable"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -624,6 +648,9 @@ toggle_mode = true
 action_mode = 0
 
 [node name="PlaybackSpeedControlNode" parent="MainWindow" unique_id=1990996395 groups=["tintable"] instance=ExtResource("6_7mycd")]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 layout_mode = 0
 offset_left = 18.0
 offset_top = 337.0
@@ -673,6 +700,9 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="VolumeControl" parent="MainWindow" unique_id=525880026 groups=["tintable"] instance=ExtResource("10_4c57u")]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.03333332
@@ -733,6 +763,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CurrentTrack" type="Control" parent="MainWindow" unique_id=1444113556 groups=["tintable"]]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 anchors_preset = 0
 offset_left = 18.000002
 offset_top = 268.0
@@ -1067,6 +1100,9 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_f6a44")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_vke2r")
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=2098957084]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 script = ExtResource("2_lswn8")
 click_sound_press = ExtResource("19_qsp4k")
 click_sound_release = ExtResource("20_kq58d")
