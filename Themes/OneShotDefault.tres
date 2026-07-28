@@ -6,6 +6,31 @@
 [ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="3_ipw7k"]
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="4_v3jyk"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4s2h"]
+bg_color = Color(1, 1, 1, 0.17254902)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32t18"]
+content_margin_left = 6.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obhcq"]
+bg_color = Color(1, 1, 1, 0.22352941)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.66656864, 0.6665687, 0.66656864, 1)
+
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_v3jyk"]
 size = Vector2(0, 0)
 
@@ -47,9 +72,21 @@ expand_margin_bottom = 1.0
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqj2l"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0g7y"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.14767182, 0.14767182, 0.1476717, 1)
+
 [resource]
 default_font = ExtResource("3_ipw7k")
-default_font_size = 35
+default_font_size = 16
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/hover = SubResource("StyleBoxFlat_h4s2h")
+Button/styles/normal = SubResource("StyleBoxFlat_32t18")
+Button/styles/pressed = SubResource("StyleBoxFlat_obhcq")
 CheckBox/icons/checked = SubResource("PlaceholderTexture2D_v3jyk")
 CheckBox/icons/unchecked = SubResource("PlaceholderTexture2D_alvq2")
 ColorPicker/colors/focused_not_editing_cursor_color = Color(1, 1, 1, 0.3764706)
@@ -81,3 +118,4 @@ LineEdit/styles/read_only = SubResource("StyleBoxEmpty_nqj2l")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_nqj2l")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_nqj2l")
 VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_nqj2l")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_d0g7y")

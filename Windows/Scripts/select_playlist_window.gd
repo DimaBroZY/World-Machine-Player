@@ -76,17 +76,45 @@ func _on_ok_pressed() -> void:
 			PlaylistManager.add_tracks_to_playlist(playlist_id, pending_track_paths)
 		else:
 			PlaylistManager.remove_tracks_from_playlist(playlist_id, pending_track_paths)
-	_close()
+	close_animation()
 
 
 func _on_cancel_pressed() -> void:
-	_close()
+	close_animation()
 
 
 func _on_cancel() -> void:
-	_close()
+	close_animation()
 
 
 func _close() -> void:
 	hide()
 	WindowManager.set_modal_open(false)
+
+func close_animation():
+	var win := get_window()
+
+	var start_pos := win.position
+	var screen_size := DisplayServer.screen_get_size()
+	var offscreen_y := screen_size.y + 150
+
+	var tween := create_tween()
+
+	tween.tween_property(
+		win,
+		"position",
+		start_pos + Vector2i(0, -100),
+		0.25
+	).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(
+		win,
+		"position",
+		Vector2i(start_pos.x, offscreen_y),
+		0.3
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+
+	await tween.finished
+
+	_close()

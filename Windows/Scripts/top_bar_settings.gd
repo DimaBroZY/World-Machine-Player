@@ -32,6 +32,7 @@ func _on_gui_input(event: InputEvent) -> void:
 			get_window().start_drag()
 
 func close_animation():
+	
 	var win := get_window()
 
 	var start_pos := win.position

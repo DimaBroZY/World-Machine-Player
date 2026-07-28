@@ -607,7 +607,6 @@ text = "System"
 
 [node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2110584640]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ooibu")
@@ -639,6 +638,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_s1fef")
 [node name="FolderPath" type="LineEdit" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel" unique_id=1350480334]
 texture_filter = 1
 custom_minimum_size = Vector2(355, 0)
+custom_maximum_size = Vector2(360, -1)
 clip_contents = true
 layout_mode = 2
 offset_transform_enabled = true
@@ -678,6 +678,17 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_qsxsv")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_pkqi5")
 theme_override_styles/hover = SubResource("StyleBoxTexture_mgkoj")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_mcsq1")
+
+[node name="FileDialog" type="FileDialog" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel" unique_id=994328459]
+oversampling_override = 1.0
+title = "Open a Directory"
+size = Vector2i(364, 167)
+theme_override_icons/folder = ExtResource("10_p4q5k")
+ok_button_text = "Select"
+file_mode = 2
+access = 2
+favorites_enabled = false
+recent_list_enabled = false
 
 [node name="EndOfTrackActionPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=1470375712]
 layout_mode = 2
@@ -1020,6 +1031,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
 [node name="SystemPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=700226324]
 unique_name_in_owner = true
+visible = false
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1135,6 +1147,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 [connection signal="gui_input" from="SettingsWindow/Handles/Bottom" to="SettingsWindow/Handles" method="_on_bottom_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Corner" to="SettingsWindow/Handles" method="_on_corner_gui_input"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
+[connection signal="dir_selected" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FileDialog" to="SettingsWindow" method="_on_file_dialog_dir_selected"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel" method="_on_previous_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel" method="_on_next_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel" method="_on_previous_pressed"]

@@ -145,7 +145,7 @@ func _start_rename() -> void:
 	_rename_edit = LineEdit.new()
 	_rename_edit.text = _pending_name
 	_rename_edit.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_rename_edit.offset_left = scroll_text.offset_left - 78
+	_rename_edit.offset_left = scroll_text.offset_left - 3
 	_rename_edit.offset_top = scroll_text.offset_top - 12
 	_rename_edit.offset_right = scroll_text.offset_right
 	_rename_edit.offset_bottom = scroll_text.offset_bottom
@@ -160,8 +160,10 @@ func _start_rename() -> void:
 	add_child(_rename_edit)
 	await get_tree().process_frame
 	_rename_edit.size /= 0.75
-	_rename_edit.pivot_offset = _rename_edit.size / 30
+	_rename_edit.custom_maximum_size = Vector2(310, 100)
+	_rename_edit.pivot_offset = _rename_edit.size / 30	
 	_rename_edit.scale = Vector2(0.75, 0.75)
+
 	_rename_edit.grab_focus()
 	_rename_edit.select_all()
 	
