@@ -17,7 +17,7 @@ func _on_text_submitted(text: String):
 
 func _on_folder_button_pressed() -> void:
 	var win := preload("res://Windows/file_explorer.tscn").instantiate()
-	var explorer := win.get_node("ExplorerWindow/Content/file_explorer")  # проверь актуальный путь у себя в дереве сцены — там где висит иконка скрипта
+	var explorer := win.get_node("ExplorerWindow/Content/file_explorer") 
 	explorer.folder_only = true
 	get_tree().root.add_child(win)
 	explorer.done.connect(func(path: String) -> void:

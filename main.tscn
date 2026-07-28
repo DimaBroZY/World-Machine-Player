@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dnkli7cvqq5qe" path="res://main_windows.tscn" id="2_1bvp3"]
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="2_lswn8"]
 [ext_resource type="Script" uid="uid://b8sghqja4vkma" path="res://radio_ticker.gd" id="2_ticker"]
+[ext_resource type="Texture2D" uid="uid://b14ax6lfe347f" path="res://Assets/Icons/Sun.png" id="3_jq2sk"]
 [ext_resource type="PackedScene" uid="uid://c2nk7evw8monk" path="res://Objects/Gramophone.tscn" id="3_ycdy4"]
 [ext_resource type="Texture2D" uid="uid://lnxdkra4mcv6" path="res://Assets/Icons/info.png" id="4_htxhm"]
 [ext_resource type="Texture2D" uid="uid://bmirln57b5vca" path="res://Assets/Buttons/PlayButton.png" id="4_lquwl"]
@@ -442,6 +443,11 @@ script = ExtResource("1_1bvp3")
 [node name="MainWindow" parent="." unique_id=1040742551 instance=ExtResource("2_1bvp3")]
 layout_mode = 1
 offset_bottom = 0.0
+title_text = "World Machine Player"
+icon_normal = ExtResource("3_jq2sk")
+icon_hover = ExtResource("3_jq2sk")
+icon_pressed = ExtResource("3_jq2sk")
+icon_disabled = ExtResource("3_jq2sk")
 
 [node name="RadioPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=770886441]
 stream = SubResource("AudioStreamGenerator_seu75")

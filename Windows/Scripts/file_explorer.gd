@@ -1,4 +1,4 @@
-extends Node
+extends ColorRect
 
 @export var folder_only := false
 

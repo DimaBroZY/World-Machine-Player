@@ -8,9 +8,81 @@
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="2_hel25"]
 [ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_ws54r"]
 [ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_2cuvu"]
-[ext_resource type="Texture2D" uid="uid://b14ax6lfe347f" path="res://Assets/Icons/Sun.png" id="3_j46xl"]
 [ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="5_ss1ka"]
 [ext_resource type="Texture2D" uid="uid://d0nbrt6nr3uqs" path="res://Assets/Buttons/MinimizeButton_Hover.png" id="6_j46xl"]
+
+[sub_resource type="GDScript" id="GDScript_lsqa8"]
+script/source = "@tool
+extends Control
+
+@onready var title_label = $Layout/TopBar/TopBarHBox/Title
+@onready var icon_button = $Layout/TopBar/TopBarHBox/icon
+
+@export_group(\"Text\")
+@export var title_text: String:
+	set(value):
+		title_text = value
+		if title_label:
+			title_label.text = value
+
+@export_group(\"Icon Styles\")
+@export var icon_normal: Texture2D:
+	set(value):
+		icon_normal = value
+		if icon_button:
+			icon_button.texture_normal = value
+			
+# текстура при наведении
+@export var icon_hover: Texture2D:
+	set(value):
+		icon_hover = value
+		if icon_button:
+			icon_button.texture_hover = value
+			
+# текстура для нажатого состояния
+@export var icon_pressed: Texture2D:
+	set(value):
+		icon_pressed = value
+		if icon_button:
+			icon_button.texture_pressed = value
+
+# текстура для отключенного состояния
+@export var icon_disabled: Texture2D:
+	set(value):
+		icon_disabled = value
+		if icon_button:
+			icon_button.texture_disabled = value
+
+@export var icon_color: Color = Color.WHITE:
+	set(value):
+		icon_color = value
+		if icon_button:
+			icon_button.modulate = value
+
+@export_group(\"Button State\")
+
+# Переключатель активности кнопки в инспекторе
+@export var is_disabled: bool = false:
+	set(value):
+		is_disabled = value
+		if icon_button:
+			icon_button.disabled = value
+
+
+func _ready() -> void:
+	# Синхронизация текста
+	if title_text != \"\" and title_label:
+		title_label.text = title_text
+		
+	# Синхронизация кнопки
+	if icon_button:
+		if icon_normal: icon_button.texture_normal = icon_normal
+		if icon_hover: icon_button.texture_hover = icon_hover
+		if icon_pressed: icon_button.texture_pressed = icon_pressed
+		if icon_disabled: icon_button.texture_disabled = icon_disabled
+		icon_button.modulate = icon_color
+		icon_button.disabled = is_disabled
+"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8n62"]
 bg_color = Color(0, 0, 0, 1)
@@ -27,18 +99,6 @@ border_width_bottom = 8
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iuydb"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fcdbk"]
-texture = ExtResource("3_j46xl")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_veqeo"]
-texture = ExtResource("3_j46xl")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_korhc"]
-texture = ExtResource("3_j46xl")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p2f17"]
-texture = ExtResource("3_j46xl")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e4k5n"]
 texture = ExtResource("1_5yrt8")
@@ -77,6 +137,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = SubResource("GDScript_lsqa8")
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=673338916]
 script = ExtResource("1_8wc6h")
@@ -119,17 +180,14 @@ clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 0
 layout_direction = 4
-theme_override_constants/separation = 3
+theme_override_constants/separation = 6
 theme_override_styles/separator = SubResource("StyleBoxEmpty_iuydb")
 
-[node name="OneShotMenuButton" type="Button" parent="Layout/TopBar/TopBarHBox" unique_id=1167255150]
+[node name="icon" type="TextureButton" parent="Layout/TopBar/TopBarHBox" unique_id=1076837750]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxTexture_fcdbk")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_veqeo")
-theme_override_styles/hover = SubResource("StyleBoxTexture_korhc")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_p2f17")
+stretch_mode = 0
 
 [node name="Spacer3" type="VSeparator" parent="Layout/TopBar/TopBarHBox" unique_id=781070482]
 clip_contents = true
@@ -146,7 +204,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("1_t4ovt")
 theme_override_font_sizes/font_size = 20
-text = "World Machine Player"
 
 [node name="HBox" type="HBoxContainer" parent="Layout/TopBar" unique_id=1044850701]
 layout_mode = 2
@@ -170,6 +227,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_iuydb")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_8wc6h")
 
 [node name="CloseButton" type="Button" parent="Layout/TopBar/HBox" unique_id=792748015]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -233,7 +291,7 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [connection signal="gui_input" from="Layout/TopBar" to="Layout/TopBar" method="_on_gui_input"]
-[connection signal="pressed" from="Layout/TopBar/TopBarHBox/OneShotMenuButton" to="Layout/TopBar" method="_on_one_shot_menu_button_pressed"]
+[connection signal="pressed" from="Layout/TopBar/TopBarHBox/icon" to="Layout/TopBar" method="_on_one_shot_menu_button_pressed"]
 [connection signal="pressed" from="Layout/TopBar/HBox/MinimizeButton" to="Layout/TopBar" method="_on_minimize_button_pressed"]
 [connection signal="pressed" from="Layout/TopBar/HBox/CloseButton" to="Layout/TopBar" method="_on_close_button_pressed"]
 [connection signal="gui_input" from="Handles/Right" to="Handles" method="_on_right_gui_input"]

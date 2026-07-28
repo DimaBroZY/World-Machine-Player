@@ -2,11 +2,11 @@ extends Window
 
 signal station_confirmed(station_name: String, url: String)
 
-@onready var name_field: TextEdit = $AddRadioWindow/Layout/Main/ScrollContainer/VBoxContainer/NameText
-@onready var url_field: TextEdit = $AddRadioWindow/Layout/Main/ScrollContainer/VBoxContainer/Url
-@onready var ok_button: Button = $AddRadioWindow/Layout/Main/ButtonsContainer/Buttons/OkButton
-@onready var cancel_button: Button = $AddRadioWindow/Layout/Main/ButtonsContainer/Buttons/CancelButton
-@onready var close_button: Button = $AddRadioWindow/Layout/TopBar/HBox/CloseButton
+@onready var name_field: TextEdit = $AddRadioWindow/Main/ScrollContainer/VBoxContainer/NameText
+@onready var url_field: TextEdit = $AddRadioWindow/Main/ScrollContainer/VBoxContainer/Url
+@onready var ok_button: Button = $AddRadioWindow/Main/ButtonsContainer/Buttons/OkButton
+@onready var cancel_button: Button = $AddRadioWindow/Main/ButtonsContainer/Buttons/CancelButton
+@onready var close_button: Button = $AddRadioWindow.get_node("%CloseButton")
 
 
 func _ready() -> void:
