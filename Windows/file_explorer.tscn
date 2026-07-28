@@ -73,7 +73,6 @@ border_width_bottom = 3
 border_color = Color(0.66656864, 0.6665687, 0.66656864, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4s2h"]
-content_margin_left = 6.0
 bg_color = Color(1, 1, 1, 0.17254902)
 border_width_left = 3
 border_width_top = 3
@@ -93,7 +92,9 @@ border_color = Color(1, 1, 1, 1)
 oversampling_override = 1.0
 initial_position = 2
 size = Vector2i(650, 470)
+visible = false
 borderless = true
+popup_window = true
 
 [node name="ExplorerWindow" type="Control" parent="." unique_id=1022058783 groups=["tintable"]]
 texture_filter = 1
