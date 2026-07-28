@@ -89,7 +89,13 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
 
-[node name="ExplorerWindow" type="Control" unique_id=1022058783 groups=["tintable"]]
+[node name="Window" type="Window" unique_id=140787150]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(650, 470)
+borderless = true
+
+[node name="ExplorerWindow" type="Control" parent="." unique_id=1022058783 groups=["tintable"]]
 texture_filter = 1
 texture_repeat = 1
 layout_mode = 3
@@ -101,7 +107,7 @@ grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="." unique_id=471672387]
+[node name="Panel" type="Panel" parent="ExplorerWindow" unique_id=471672387]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -114,7 +120,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_5na3o")
 
-[node name="Layout" type="VBoxContainer" parent="." unique_id=1498692697]
+[node name="Layout" type="VBoxContainer" parent="ExplorerWindow" unique_id=1498692697]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -123,20 +129,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopBar" type="PanelContainer" parent="Layout" unique_id=1611869526 groups=["tintable"]]
+[node name="TopBar" type="PanelContainer" parent="ExplorerWindow/Layout" unique_id=1611869526]
 texture_filter = 1
 custom_minimum_size = Vector2(20, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q0msv")
 script = ExtResource("2_ce4s8")
 
-[node name="TopBarHBox" type="HBoxContainer" parent="Layout/TopBar" unique_id=574211688]
+[node name="TopBarHBox" type="HBoxContainer" parent="ExplorerWindow/Layout/TopBar" unique_id=574211688]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 3
 
-[node name="Spacer2" type="VSeparator" parent="Layout/TopBar/TopBarHBox" unique_id=372450490]
+[node name="Spacer2" type="VSeparator" parent="ExplorerWindow/Layout/TopBar/TopBarHBox" unique_id=372450490]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -144,13 +150,13 @@ layout_direction = 4
 theme_override_constants/separation = 7
 theme_override_styles/separator = SubResource("StyleBoxEmpty_h2fk1")
 
-[node name="SettingsIcon" type="TextureButton" parent="Layout/TopBar/TopBarHBox" unique_id=501115990]
+[node name="SettingsIcon" type="TextureButton" parent="ExplorerWindow/Layout/TopBar/TopBarHBox" unique_id=501115990]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture_normal = ExtResource("3_8721a")
 stretch_mode = 0
 
-[node name="Spacer3" type="VSeparator" parent="Layout/TopBar/TopBarHBox" unique_id=1511456519]
+[node name="Spacer3" type="VSeparator" parent="ExplorerWindow/Layout/TopBar/TopBarHBox" unique_id=1511456519]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -158,7 +164,7 @@ layout_direction = 4
 theme_override_constants/separation = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_h2fk1")
 
-[node name="Title" type="Label" parent="Layout/TopBar/TopBarHBox" unique_id=2134744257]
+[node name="Title" type="Label" parent="ExplorerWindow/Layout/TopBar/TopBarHBox" unique_id=2134744257]
 custom_minimum_size = Vector2(0, -100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -167,17 +173,17 @@ theme_override_fonts/font = ExtResource("1_atjxo")
 theme_override_font_sizes/font_size = 20
 text = "File Explorer"
 
-[node name="HBox" type="HBoxContainer" parent="Layout/TopBar" unique_id=1262661159]
+[node name="HBox" type="HBoxContainer" parent="ExplorerWindow/Layout/TopBar" unique_id=1262661159]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Content" type="Control" parent="Layout/TopBar/HBox" unique_id=1019731731]
+[node name="Content" type="Control" parent="ExplorerWindow/Layout/TopBar/HBox" unique_id=1019731731]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 
-[node name="MinimizeButton" type="TextureButton" parent="Layout/TopBar/HBox" unique_id=179033274]
+[node name="MinimizeButton" type="TextureButton" parent="ExplorerWindow/Layout/TopBar/HBox" unique_id=179033274]
 visible = false
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
@@ -189,7 +195,7 @@ texture_pressed = ExtResource("6_yd3c6")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="CloseButton" type="Button" parent="Layout/TopBar/HBox" unique_id=1109570024]
+[node name="CloseButton" type="Button" parent="ExplorerWindow/Layout/TopBar/HBox" unique_id=1109570024]
 custom_minimum_size = Vector2(35, 35)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -201,12 +207,12 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_1eyuv")
 theme_override_styles/hover = SubResource("StyleBoxTexture_al6dl")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_h6jgp")
 
-[node name="Spacer" type="VSeparator" parent="Layout/TopBar/HBox" unique_id=1679181678]
+[node name="Spacer" type="VSeparator" parent="ExplorerWindow/Layout/TopBar/HBox" unique_id=1679181678]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = SubResource("StyleBoxEmpty_l71ox")
 
-[node name="Content" type="MarginContainer" parent="." unique_id=1497014751]
+[node name="Content" type="MarginContainer" parent="ExplorerWindow" unique_id=1497014751]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -219,12 +225,12 @@ offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="file_explorer" type="ColorRect" parent="Content" unique_id=313805517]
+[node name="file_explorer" type="ColorRect" parent="ExplorerWindow/Content" unique_id=313805517]
 layout_mode = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_m2tn8")
 
-[node name="Control" type="Control" parent="Content/file_explorer" unique_id=1947610465]
+[node name="Control" type="Control" parent="ExplorerWindow/Content/file_explorer" unique_id=1947610465]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -233,7 +239,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Content/file_explorer/Control" unique_id=1071704419]
+[node name="ColorRect" type="ColorRect" parent="ExplorerWindow/Content/file_explorer/Control" unique_id=1071704419]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -243,7 +249,7 @@ offset_right = 149.0
 offset_bottom = 6.0
 grow_vertical = 2
 
-[node name="ColorRect2" type="ColorRect" parent="Content/file_explorer/Control" unique_id=224116496]
+[node name="ColorRect2" type="ColorRect" parent="ExplorerWindow/Content/file_explorer/Control" unique_id=224116496]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -256,7 +262,7 @@ offset_bottom = -85.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Content/file_explorer" unique_id=155800825]
+[node name="ScrollContainer" type="ScrollContainer" parent="ExplorerWindow/Content/file_explorer" unique_id=155800825]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -264,56 +270,57 @@ anchor_right = 1.0
 offset_left = -465.0
 offset_top = 10.0
 offset_right = -9.0
-offset_bottom = 330.0
+offset_bottom = 299.0
 grow_horizontal = 0
 theme = ExtResource("2_el7c5")
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Content/file_explorer/ScrollContainer" unique_id=1399938078]
+[node name="VBoxContainer" type="VBoxContainer" parent="ExplorerWindow/Content/file_explorer/ScrollContainer" unique_id=1399938078]
 layout_mode = 2
 
-[node name="up" type="Button" parent="Content/file_explorer/ScrollContainer/VBoxContainer" unique_id=655644960]
+[node name="up" type="Button" parent="ExplorerWindow/Content/file_explorer/ScrollContainer/VBoxContainer" unique_id=655644960]
 custom_minimum_size = Vector2(445, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("2_el7c5")
 text = "       .."
 
-[node name="container" type="GridContainer" parent="Content/file_explorer/ScrollContainer/VBoxContainer" unique_id=2116673594]
+[node name="container" type="GridContainer" parent="ExplorerWindow/Content/file_explorer/ScrollContainer/VBoxContainer" unique_id=2116673594]
 layout_mode = 2
 
-[node name="pinned" type="ScrollContainer" parent="Content/file_explorer" unique_id=1093068186]
+[node name="pinned" type="ScrollContainer" parent="ExplorerWindow/Content/file_explorer" unique_id=1093068186]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_top = 10.0
+offset_top = 3.0
 offset_right = 144.0
 grow_vertical = 2
 theme = ExtResource("2_el7c5")
 
-[node name="pinned_container" type="VBoxContainer" parent="Content/file_explorer/pinned" unique_id=1344531809]
+[node name="pinned_container" type="VBoxContainer" parent="ExplorerWindow/Content/file_explorer/pinned" unique_id=1344531809]
 layout_mode = 2
 theme = ExtResource("2_el7c5")
 
-[node name="special" type="HBoxContainer" parent="Content/file_explorer" unique_id=385122757]
+[node name="special" type="HBoxContainer" parent="ExplorerWindow/Content/file_explorer" unique_id=385122757]
+visible = false
 custom_maximum_size = Vector2(140, -1)
 layout_mode = 0
 offset_right = 142.0
 offset_bottom = 40.0
 
-[node name="pin" type="Button" parent="Content/file_explorer/special" unique_id=623962326]
+[node name="pin" type="Button" parent="ExplorerWindow/Content/file_explorer/special" unique_id=623962326]
 visible = false
 layout_mode = 2
 theme = ExtResource("2_el7c5")
 text = "pin"
 
-[node name="new_folder" type="Button" parent="Content/file_explorer/special" unique_id=1771877459]
+[node name="new_folder" type="Button" parent="ExplorerWindow/Content/file_explorer/special" unique_id=1771877459]
 visible = false
 layout_mode = 2
 theme = ExtResource("2_el7c5")
 text = "new folder"
 
-[node name="name" type="Label" parent="Content/file_explorer" unique_id=1861458530]
+[node name="name" type="Label" parent="ExplorerWindow/Content/file_explorer" unique_id=1861458530]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -327,7 +334,7 @@ scale = Vector2(1.25, 1.25)
 theme_override_fonts/font = ExtResource("1_atjxo")
 text = "Path"
 
-[node name="path" type="LineEdit" parent="Content/file_explorer" unique_id=1716949936]
+[node name="path" type="LineEdit" parent="ExplorerWindow/Content/file_explorer" unique_id=1716949936]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -343,7 +350,7 @@ theme_override_fonts/font = ExtResource("1_atjxo")
 theme_override_styles/normal = SubResource("StyleBoxFlat_vyex5")
 placeholder_text = "Path to folder..."
 
-[node name="actions" type="VBoxContainer" parent="Content/file_explorer" unique_id=821795592]
+[node name="actions" type="VBoxContainer" parent="ExplorerWindow/Content/file_explorer" unique_id=821795592]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -356,7 +363,7 @@ offset_right = -7.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="open" type="Button" parent="Content/file_explorer/actions" unique_id=343961247]
+[node name="open" type="Button" parent="ExplorerWindow/Content/file_explorer/actions" unique_id=343961247]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_atjxo")
 theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
@@ -365,7 +372,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_h4s2h")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_8mm8v")
 text = "Open"
 
-[node name="cancel" type="Button" parent="Content/file_explorer/actions" unique_id=1992539786]
+[node name="cancel" type="Button" parent="ExplorerWindow/Content/file_explorer/actions" unique_id=1992539786]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_atjxo")
 theme_override_styles/normal = SubResource("StyleBoxFlat_32t18")
@@ -374,12 +381,12 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_h4s2h")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_8mm8v")
 text = "Cancel"
 
-[node name="ClickSoundHandler" type="Node2D" parent="Content/file_explorer" unique_id=1277447876]
+[node name="ClickSoundHandler" type="Node2D" parent="ExplorerWindow/Content/file_explorer" unique_id=1277447876]
 script = ExtResource("11_v1hi3")
 click_sound_press = ExtResource("12_630s8")
 click_sound_release = ExtResource("13_tr43r")
 
-[node name="Handles" type="Control" parent="." unique_id=1070545844]
+[node name="Handles" type="Control" parent="ExplorerWindow" unique_id=1070545844]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -390,7 +397,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("14_1rebu")
 
-[node name="Right" type="Control" parent="Handles" unique_id=1725333431]
+[node name="Right" type="Control" parent="ExplorerWindow/Handles" unique_id=1725333431]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 11
@@ -401,7 +408,7 @@ grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.953109, 1.00146)
 
-[node name="Bottom" type="Control" parent="Handles" unique_id=1106065328]
+[node name="Bottom" type="Control" parent="ExplorerWindow/Handles" unique_id=1106065328]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 12
@@ -412,7 +419,7 @@ grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(1.01367, 0.952266)
 
-[node name="Corner" type="Control" parent="Handles" unique_id=1398985224]
+[node name="Corner" type="Control" parent="ExplorerWindow/Handles" unique_id=1398985224]
 custom_minimum_size = Vector2(5, 5)
 layout_mode = 1
 anchors_preset = 3
@@ -425,14 +432,14 @@ offset_top = -5.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[connection signal="gui_input" from="Layout/TopBar" to="Layout/TopBar" method="_on_gui_input"]
-[connection signal="pressed" from="Layout/TopBar/HBox/MinimizeButton" to="Layout/TopBar" method="_on_minimize_button_pressed"]
-[connection signal="pressed" from="Layout/TopBar/HBox/CloseButton" to="Layout/TopBar" method="_on_close_button_pressed"]
-[connection signal="pressed" from="Content/file_explorer/ScrollContainer/VBoxContainer/up" to="Content/file_explorer" method="_on_up_pressed"]
-[connection signal="pressed" from="Content/file_explorer/special/pin" to="Content/file_explorer" method="_on_pin_pressed"]
-[connection signal="text_submitted" from="Content/file_explorer/path" to="Content/file_explorer" method="_on_path_text_submitted"]
-[connection signal="pressed" from="Content/file_explorer/actions/open" to="Content/file_explorer" method="_on_open_pressed"]
-[connection signal="pressed" from="Content/file_explorer/actions/cancel" to="Content/file_explorer" method="_on_cancel_pressed"]
-[connection signal="gui_input" from="Handles/Right" to="Handles" method="_on_right_gui_input"]
-[connection signal="gui_input" from="Handles/Bottom" to="Handles" method="_on_bottom_gui_input"]
-[connection signal="gui_input" from="Handles/Corner" to="Handles" method="_on_corner_gui_input"]
+[connection signal="gui_input" from="ExplorerWindow/Layout/TopBar" to="ExplorerWindow/Layout/TopBar" method="_on_gui_input"]
+[connection signal="pressed" from="ExplorerWindow/Layout/TopBar/HBox/MinimizeButton" to="ExplorerWindow/Layout/TopBar" method="_on_minimize_button_pressed"]
+[connection signal="pressed" from="ExplorerWindow/Layout/TopBar/HBox/CloseButton" to="ExplorerWindow/Layout/TopBar" method="_on_close_button_pressed"]
+[connection signal="pressed" from="ExplorerWindow/Content/file_explorer/ScrollContainer/VBoxContainer/up" to="ExplorerWindow/Content/file_explorer" method="_on_up_pressed"]
+[connection signal="pressed" from="ExplorerWindow/Content/file_explorer/special/pin" to="ExplorerWindow/Content/file_explorer" method="_on_pin_pressed"]
+[connection signal="text_submitted" from="ExplorerWindow/Content/file_explorer/path" to="ExplorerWindow/Content/file_explorer" method="_on_path_text_submitted"]
+[connection signal="pressed" from="ExplorerWindow/Content/file_explorer/actions/open" to="ExplorerWindow/Content/file_explorer" method="_on_open_pressed"]
+[connection signal="pressed" from="ExplorerWindow/Content/file_explorer/actions/cancel" to="ExplorerWindow/Content/file_explorer" method="_on_cancel_pressed"]
+[connection signal="gui_input" from="ExplorerWindow/Handles/Right" to="ExplorerWindow/Handles" method="_on_right_gui_input"]
+[connection signal="gui_input" from="ExplorerWindow/Handles/Bottom" to="ExplorerWindow/Handles" method="_on_bottom_gui_input"]
+[connection signal="gui_input" from="ExplorerWindow/Handles/Corner" to="ExplorerWindow/Handles" method="_on_corner_gui_input"]

@@ -1,5 +1,7 @@
 extends Node
 
+@export var folder_only := false
+
 @onready var cont = $ScrollContainer/VBoxContainer/container
 @onready var pinned = $pinned/pinned_container
 @onready var Npath = $path
@@ -35,6 +37,8 @@ func open_folder(folder_name:String):
 	set_layout()
 
 func open_file(file_name:String):
+	if folder_only:
+		return
 	if file:
 		path = path.get_base_dir()
 	path = path + "/" + file_name
@@ -44,10 +48,15 @@ func open_file(file_name:String):
 	file = true 
 
 func set_layout():
+	var dir = DirAccess.open(path)
+	if dir == null:
+		Npath.text = path
+		return
+
 	file = false
 	Npath.text = path
 	for i in cont.get_children(): i.queue_free()
-	var dir = DirAccess.open(path)
+
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
@@ -64,9 +73,8 @@ func set_layout():
 			nBut.pressed.connect(open_file.bind(file_name))
 			if limited.size() > 0:
 				if !file_name.gex_extesion() in limited: nBut.queue_free()
-					
-		file_name = dir.get_next()
 
+		file_name = dir.get_next()
 
 func _on_up_pressed() -> void:
 	if file: path.get_base_dir()
@@ -75,15 +83,18 @@ func _on_up_pressed() -> void:
 
 
 func _on_path_text_submitted(new_text: String) -> void:
-	if new_text.is_absolute_path():
+	if new_text.is_absolute_path() and DirAccess.dir_exists_absolute(new_text):
 		path = new_text
 		set_layout()
 	else:
-		Npath.clear()
+		Npath.text = path
 	
 
 func _on_open_pressed() -> void:
-	emit_signal("done", Npath.text)
+	var result_path := path
+	if folder_only and file:
+		result_path = path.get_base_dir()
+	emit_signal("done", result_path)
 	close_animation()
 
 func _on_cancel_pressed() -> void:

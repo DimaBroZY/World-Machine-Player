@@ -16,4 +16,13 @@ func _on_text_submitted(text: String):
 
 
 func _on_folder_button_pressed() -> void:
-	OS.shell_open(ProjectSettings.globalize_path(Settings.get_setting("music_path", "user://music")))
+	var win := preload("res://Windows/file_explorer.tscn").instantiate()
+	var explorer := win.get_node("ExplorerWindow/Content/file_explorer")  # проверь актуальный путь у себя в дереве сцены — там где висит иконка скрипта
+	explorer.folder_only = true
+	get_tree().root.add_child(win)
+	explorer.done.connect(func(path: String) -> void:
+		line_edit.text = path
+		Settings.save_setting("music_path", path)
+	)
+	win.show()
+	TintManager.apply_tint_to_scene()
