@@ -47,6 +47,7 @@ PlaylistManager="*res://Scripts/Global/PlaylistManager.gd"
 RadioStationManager="*uid://bpsnea15mld13"
 FileExplorerAutoload="*uid://dil7ah1qlsels"
 MediaControlsBridge="*uid://c0wpsr5dprqfh"
+DiscordRpcBridge="*uid://jn2c52pjaup"
 
 [debug]
 

@@ -152,6 +152,7 @@ func _ready() -> void:
 				
 				var display_title = title if not title.is_empty() else station_name
 				MediaControlsBridge.UpdateNowPlaying(display_title, station_name, _smtc_placeholder_path)
+				DiscordRpcBridge.UpdateNowPlaying(display_title, station_name, 0.0)
 	)
 
 	_radio.station_unsupported.connect(func(is_unsupported: bool):
@@ -844,6 +845,7 @@ func update_track_name() -> void:
 	curTrack.set_track_name(track_name)
 	
 	MediaControlsBridge.UpdateNowPlaying(track_name, "Local Storage", _smtc_placeholder_path)
+	DiscordRpcBridge.UpdateNowPlaying(track_name, "Local Storage", music.stream.get_length() if music.stream else 0.0)
 
 
 func _find_track_index_by_source(source_path: String) -> int:
@@ -988,6 +990,7 @@ func play_state() -> void:
 	current_source.play()
 	gramophone.animPlayer.play("Playing")
 	MediaControlsBridge.SetPlaying(true)
+	DiscordRpcBridge.SetPlaying(true, music.get_playback_position() if current_source is LocalPlaybackSource else 0.0)
 	_enable_notes()
 	_update_niko_state()
 	_update_gramaphone_state()
@@ -998,6 +1001,7 @@ func pause_state() -> void:
 	gramophone.animPlayer.pause()
 	play_button.button_pressed = false
 	MediaControlsBridge.SetPlaying(false)
+	DiscordRpcBridge.SetPlaying(false, 0.0)
 	_enable_notes()
 
 func _on_stop_button_pressed() -> void:
@@ -1006,6 +1010,8 @@ func _on_stop_button_pressed() -> void:
 		state = PAUSE
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
+	MediaControlsBridge.SetStopped()
+	DiscordRpcBridge.SetStopped()
 	MediaControlsBridge.SetStopped()
 	update_state()
 
