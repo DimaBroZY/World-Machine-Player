@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "JnXolyrDHWU=",
+  "dgSpecHash": "NhYatWIolvc=",
   "success": true,
   "projectFilePath": "D:\\Documents\\world-machine-player\\Scripts\\Global\\Smtc\\Native\\Smtc.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Ershov Dmitriy\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.29\\microsoft.netcore.app.runtime.win-x64.8.0.29.nupkg.sha512",
+    "C:\\Users\\Ershov Dmitriy\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.29\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.29.nupkg.sha512",
+    "C:\\Users\\Ershov Dmitriy\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.29\\microsoft.aspnetcore.app.runtime.win-x64.8.0.29.nupkg.sha512",
     "C:\\Users\\Ershov Dmitriy\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.56\\microsoft.windows.sdk.net.ref.10.0.19041.56.nupkg.sha512"
   ],
   "logs": []

@@ -17,31 +17,28 @@ public static class SmtcService
 	private static extern int SetCurrentProcessExplicitAppUserModelID(string appId);
 	
 	public static void Initialize()
-	{
-		if (_smtc != null) return;
-		
-		try 
 		{
-			SetCurrentProcessExplicitAppUserModelID("DimaBroZY.WorldMachinePlayer");
+			if (_smtc != null) 
+				return;
+			const string AppId = "DimaBroZY.WorldMachinePlayer";
+			const string AppName = "World Machine Player";
+			SetCurrentProcessExplicitAppUserModelID(AppId);
+			StartMenuShortcutHelper.EnsureShortcut(AppId, AppName);
+			
+			_player = new MediaPlayer();
+			_player.CommandManager.IsEnabled = false; 
+
+			_smtc = _player.SystemMediaTransportControls;
+			_smtc.IsEnabled = true;
+			_smtc.IsPlayEnabled = true;
+			_smtc.IsPauseEnabled = true;
+			_smtc.IsNextEnabled = true;
+			_smtc.IsPreviousEnabled = true;
+			_smtc.DisplayUpdater.Type = MediaPlaybackType.Music;
+			_smtc.DisplayUpdater.Update();
+
+			_smtc.ButtonPressed += OnButtonPressed;
 		}
-		catch {}
-		
-		_player = new MediaPlayer();
-		_player.CommandManager.IsEnabled = false; 
-
-		_smtc = _player.SystemMediaTransportControls;
-		_smtc.IsEnabled = true;
-		_smtc.IsPlayEnabled = true;
-		_smtc.IsPauseEnabled = true;
-		_smtc.IsNextEnabled = true;
-		_smtc.IsPreviousEnabled = true;
-		
-		_smtc.DisplayUpdater.Type = MediaPlaybackType.Music;
-		_smtc.DisplayUpdater.AppMediaId = "DimaBroZY.WorldMachinePlayer"; 
-		_smtc.DisplayUpdater.Update();
-
-		_smtc.ButtonPressed += OnButtonPressed;
-	}
 
 	private static void OnButtonPressed(SystemMediaTransportControls s, SystemMediaTransportControlsButtonPressedEventArgs e)
 	{

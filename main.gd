@@ -137,9 +137,16 @@ func _ready() -> void:
 	)
 
 	_radio.track_changed.connect(func(title: String):
-		if _showing_radio_mode:
-			curTrack.set_track_name(title)
-			MediaControlsBridge.UpdateNowPlaying(title, "Internet Radio")
+			if _showing_radio_mode:
+				curTrack.set_track_name(title)
+				
+				var stations = RadioStationManager.get_stations()
+				var station_name = "Radio"
+				if not stations.is_empty() and _current_station_index >= 0 and _current_station_index < stations.size():
+					station_name = str(stations[_current_station_index].get("name", "Radio"))
+				
+				var display_title = title if not title.is_empty() else station_name
+				MediaControlsBridge.UpdateNowPlaying(display_title, station_name)
 	)
 
 	_radio.station_unsupported.connect(func(is_unsupported: bool):
@@ -830,7 +837,8 @@ func update_track_name() -> void:
 	else:
 		track_name = MUSIC_FILE.resource_path.get_file().get_basename()
 	curTrack.set_track_name(track_name)
-	MediaControlsBridge.UpdateNowPlaying(track_name, "")
+	
+	MediaControlsBridge.UpdateNowPlaying(track_name, "Local Storage")
 
 
 func _find_track_index_by_source(source_path: String) -> int:
