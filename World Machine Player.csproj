@@ -1,0 +1,20 @@
+<Project Sdk="Godot.NET.Sdk/4.7.1">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>WorldMachinePlayer</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(GodotTargetPlatform)' != 'android' ">
+    <DefineConstants>$(DefineConstants);WINDOWS_SMTC</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(GodotTargetPlatform)' != 'android' ">
+    <ProjectReference Include="Scripts/Global/Smtc/Native/Smtc.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Scripts/Global/Smtc/Native/**/*.cs" />
+  </ItemGroup>
+</Project>

@@ -89,6 +89,20 @@ var _radio_unsupported: bool = false
 var _station_search_query: String = ""
 
 func _ready() -> void:
+	MediaControlsBridge.PlayRequested.connect(func():
+		play_button.set_pressed_no_signal(true)
+		state = PLAY
+		update_state()
+	)
+	MediaControlsBridge.PauseRequested.connect(func():
+		play_button.set_pressed_no_signal(false)
+		state = PAUSE
+		update_state()
+	)
+	MediaControlsBridge.NextRequested.connect(_on_next_track_pressed)
+	MediaControlsBridge.PreviousRequested.connect(_on_previous_track_pressed)
+	
+	
 	EventBus.setWorldMachine.connect(_set_world_machine)
 	EventBus.noteEnabling.connect(_enable_notes)
 	EventBus.highPriority.connect(_set_high_priority)
@@ -125,7 +139,8 @@ func _ready() -> void:
 	_radio.track_changed.connect(func(title: String):
 		if _showing_radio_mode:
 			curTrack.set_track_name(title)
-	)	
+			MediaControlsBridge.UpdateNowPlaying(title, "Internet Radio")
+	)
 
 	_radio.station_unsupported.connect(func(is_unsupported: bool):
 		_radio_unsupported = is_unsupported
@@ -809,11 +824,13 @@ func _get_track_resource_path(track_index: int) -> String:
 
 
 func update_track_name() -> void:
+	var track_name: String
 	if playlist.size() > 0 and current_index < playlist.size():
-		var track: Dictionary = playlist[current_index]
-		curTrack.set_track_name(str(track.get("name", MUSIC_FILE.resource_path.get_file().get_basename())))
+		track_name = str(playlist[current_index].get("name", MUSIC_FILE.resource_path.get_file().get_basename()))
 	else:
-		curTrack.set_track_name(MUSIC_FILE.resource_path.get_file().get_basename())
+		track_name = MUSIC_FILE.resource_path.get_file().get_basename()
+	curTrack.set_track_name(track_name)
+	MediaControlsBridge.UpdateNowPlaying(track_name, "")
 
 
 func _find_track_index_by_source(source_path: String) -> int:
@@ -957,6 +974,7 @@ func update_state() -> void:
 func play_state() -> void:
 	current_source.play()
 	gramophone.animPlayer.play("Playing")
+	MediaControlsBridge.SetPlaying(true)
 	_enable_notes()
 	_update_niko_state()
 	_update_gramaphone_state()
@@ -966,6 +984,7 @@ func pause_state() -> void:
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
 	play_button.button_pressed = false
+	MediaControlsBridge.SetPlaying(false)
 	_enable_notes()
 
 func _on_stop_button_pressed() -> void:
@@ -974,6 +993,7 @@ func _on_stop_button_pressed() -> void:
 		state = PAUSE
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
+	MediaControlsBridge.SetStopped()
 	update_state()
 
 

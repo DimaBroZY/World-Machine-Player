@@ -19,7 +19,7 @@ config/version="2.0.0"
 run/main_scene="uid://br0vuvri2rao8"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="WorldMachinePlayer"
-config/features=PackedStringArray("4.7", "Mobile")
+config/features=PackedStringArray("4.7", "C#", "Mobile")
 run/max_fps=60
 run/low_processor_mode=true
 boot_splash/show_image=false
@@ -46,6 +46,7 @@ WindowManager="*uid://jq3xrh6vnfjp"
 PlaylistManager="*res://Scripts/Global/PlaylistManager.gd"
 RadioStationManager="*uid://bpsnea15mld13"
 FileExplorerAutoload="*uid://dil7ah1qlsels"
+MediaControlsBridge="*uid://c0wpsr5dprqfh"
 
 [debug]
 
@@ -61,6 +62,10 @@ window/frame_pacing/android/enable_frame_pacing=false
 window/stretch/mode="viewport"
 window/per_pixel_transparency/allowed=true
 window/vsync/vsync_mode=0
+
+[dotnet]
+
+project/assembly_name="World Machine Player"
 
 [editor]
 
