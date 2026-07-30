@@ -1,8 +1,13 @@
 using System;
+using System.IO;
 using Windows.Media;
 using Windows.Media.Playback;
-namespace WorldMachinePlayer.Smtc;
 using System.Runtime.InteropServices;
+using Windows.Storage;
+using Windows.Storage.Streams;
+using System.Threading.Tasks;
+
+namespace WorldMachinePlayer.Smtc; 
 
 public enum SmtcButton { Play, Pause, Next, Previous, Stop }
 
@@ -17,28 +22,28 @@ public static class SmtcService
 	private static extern int SetCurrentProcessExplicitAppUserModelID(string appId);
 	
 	public static void Initialize()
-		{
-			if (_smtc != null) 
-				return;
-			const string AppId = "DimaBroZY.WorldMachinePlayer";
-			const string AppName = "World Machine Player";
-			SetCurrentProcessExplicitAppUserModelID(AppId);
-			StartMenuShortcutHelper.EnsureShortcut(AppId, AppName);
-			
-			_player = new MediaPlayer();
-			_player.CommandManager.IsEnabled = false; 
+	{
+		if (_smtc != null) 
+			return;
+		const string AppId = "DimaBroZY.WorldMachinePlayer";
+		const string AppName = "World Machine Player";
+		SetCurrentProcessExplicitAppUserModelID(AppId);
+		StartMenuShortcutHelper.EnsureShortcut(AppId, AppName);
+		  
+		_player = new MediaPlayer();
+		_player.CommandManager.IsEnabled = false; 
 
-			_smtc = _player.SystemMediaTransportControls;
-			_smtc.IsEnabled = true;
-			_smtc.IsPlayEnabled = true;
-			_smtc.IsPauseEnabled = true;
-			_smtc.IsNextEnabled = true;
-			_smtc.IsPreviousEnabled = true;
-			_smtc.DisplayUpdater.Type = MediaPlaybackType.Music;
-			_smtc.DisplayUpdater.Update();
+		_smtc = _player.SystemMediaTransportControls;
+		_smtc.IsEnabled = true;
+		_smtc.IsPlayEnabled = true;
+		_smtc.IsPauseEnabled = true;
+		_smtc.IsNextEnabled = true;
+		_smtc.IsPreviousEnabled = true;
+		_smtc.DisplayUpdater.Type = MediaPlaybackType.Music;
+		_smtc.DisplayUpdater.Update();
 
-			_smtc.ButtonPressed += OnButtonPressed;
-		}
+		_smtc.ButtonPressed += OnButtonPressed;
+	}
 
 	private static void OnButtonPressed(SystemMediaTransportControls s, SystemMediaTransportControlsButtonPressedEventArgs e)
 	{
@@ -54,13 +59,41 @@ public static class SmtcService
 		if (mapped.HasValue) ButtonPressed?.Invoke(mapped.Value);
 	}
 
-	public static void UpdateMetadata(string title, string artist)
+	public static async void UpdateMetadata(string title, string artist, string absoluteImagePath = "")
 	{
 		if (_smtc == null) return;
-		var props = _smtc.DisplayUpdater.MusicProperties;
+	   
+		var updater = _smtc.DisplayUpdater;
+		updater.Type = MediaPlaybackType.Music;
+	   
+		var props = updater.MusicProperties;
 		props.Title = title;
 		props.Artist = artist;
-		_smtc.DisplayUpdater.Update();
+
+		if (!string.IsNullOrEmpty(absoluteImagePath))
+		{
+			// Меняем прямые слэши Godot на обратные системные слэши Windows
+			string winPath = absoluteImagePath.Replace('/', '\\');
+
+			if (File.Exists(winPath))
+			{
+				try
+				{
+					StorageFile file = await StorageFile.GetFileFromPathAsync(winPath);
+					updater.Thumbnail = RandomAccessStreamReference.CreateFromFile(file);
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"[SMTC Error] Ошибка загрузки обложки: {ex.Message}");
+				}
+			}
+			else
+			{
+				Console.WriteLine($"[SMTC Error] Файл обложки не найден по пути: {winPath}");
+			}
+		}
+
+		updater.Update();
 	}
 
 	public static void SetPlaybackStatus(bool isPlaying) =>

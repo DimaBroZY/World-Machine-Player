@@ -49,7 +49,9 @@ const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
 const PLAYLIST_ITEM = preload("res://scenes/playlist.tscn")
 const DELETE_ICON = preload("res://Assets/Icons/RecycleBin.png")
 const DELETE_ICON_HOVER = preload("res://Assets/Icons/RecycleBin_Hover.png")
+
 static var mode_button_group: ButtonGroup
+
 var _showing_radio_mode: bool = false
 var _local_track_list_cache: Array[Dictionary] = []
 var _local_track_list_cache_valid: bool = false
@@ -87,8 +89,11 @@ var _radio_buffering: bool = false
 var _radio_unavailable: bool = false
 var _radio_unsupported: bool = false
 var _station_search_query: String = ""
+var _smtc_placeholder_path: String = ""
+
 
 func _ready() -> void:
+	_setup_smtc_placeholder()
 	MediaControlsBridge.PlayRequested.connect(func():
 		play_button.set_pressed_no_signal(true)
 		state = PLAY
@@ -146,7 +151,7 @@ func _ready() -> void:
 					station_name = str(stations[_current_station_index].get("name", "Radio"))
 				
 				var display_title = title if not title.is_empty() else station_name
-				MediaControlsBridge.UpdateNowPlaying(display_title, station_name)
+				MediaControlsBridge.UpdateNowPlaying(display_title, station_name, _smtc_placeholder_path)
 	)
 
 	_radio.station_unsupported.connect(func(is_unsupported: bool):
@@ -838,7 +843,7 @@ func update_track_name() -> void:
 		track_name = MUSIC_FILE.resource_path.get_file().get_basename()
 	curTrack.set_track_name(track_name)
 	
-	MediaControlsBridge.UpdateNowPlaying(track_name, "Local Storage")
+	MediaControlsBridge.UpdateNowPlaying(track_name, "Local Storage", _smtc_placeholder_path)
 
 
 func _find_track_index_by_source(source_path: String) -> int:
@@ -1435,3 +1440,17 @@ func _on_station_confirmed(station_name: String, station_url: String) -> void:
 	RadioStationManager.add_station(station_name, station_url)
 	_refresh_station_list()
 	
+func _setup_smtc_placeholder() -> void:
+	var user_path = "user://smtc_placeholder.png"
+	
+	if not FileAccess.file_exists(user_path):
+		var img_texture = load("res://Assets/placeholders/smtc_placeholder.png") 
+		if img_texture and img_texture is Texture2D:
+			var err = img_texture.get_image().save_png(user_path)
+			if err != OK:
+				print("[SMTC] Error while saving placeholder: ", err)
+			else:
+				print("[SMTC] Placeholder saved in user://")
+	
+	_smtc_placeholder_path = ProjectSettings.globalize_path(user_path)
+	print("[SMTC] Path to placeholder: ", _smtc_placeholder_path)

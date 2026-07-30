@@ -35,10 +35,11 @@ public partial class MediaControlsBridge : Node
 	}
 #endif
 
-	public void UpdateNowPlaying(string title, string artist)
+	public void UpdateNowPlaying(string title, string artist, string imagePath = "")
 	{
 #if WINDOWS_SMTC
-		if (OperatingSystem.IsWindows()) SmtcService.UpdateMetadata(title, artist);
+		if (OperatingSystem.IsWindows()) 
+			SmtcService.UpdateMetadata(title, artist, imagePath);
 #endif
 	}
 
