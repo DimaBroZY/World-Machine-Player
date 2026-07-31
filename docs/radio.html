@@ -18,10 +18,13 @@
   </head>
   <body data-page="radio">
     <header class="site-header">
-      <a class="brand" href="../index.html" aria-label="World Machine Player">
-        <img src="../assets/color-sun.png" alt="" width="32" height="32">
-        <span>World Machine Player</span>
-      </a>
+      <div class="brand-group">
+        <a class="brand" href="../index.html" aria-label="World Machine Player">
+          <img src="../assets/color-sun.png" alt="" width="32" height="32">
+          <span>World Machine Player</span>
+        </a>
+        <a id="repo-stars" class="brand-stars" href="https://github.com/DimaBroZY/World-Machine-Player" target="_blank" rel="noreferrer">★ —</a>
+      </div>
       <nav class="site-nav" aria-label="Основная навигация">
         <button id="lang-switch" class="lang-switch" aria-label="Switch language">RU</button>
         <a href="../index.html#features" data-i18n="nav_features">Возможности</a>
@@ -79,14 +82,14 @@
           <h2 id="browser-title" data-i18n="radio_browser_title">Где взять URL радиостанции</h2>
           <p data-i18n="radio_browser_intro">
             <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a> —
-            открытый каталог интернет-радио. Найди станцию с потоком в формате <strong>MP3</strong> и скопируй прямую ссылку.
+            открытый каталог интернет-радио. Найди станцию с потоком и скопируй прямую ссылку.
           </p>
 
           <aside class="docs-callout" role="note">
-            <strong data-i18n="radio_mp3_label">Важно: только MP3</strong>
+            <strong data-i18n="radio_mp3_label">Важно: лучше MP3</strong>
             <p data-i18n="radio_mp3_desc">
-              World Machine Player поддерживает радиопотоки в формате MP3. При выборе станции ищи тег
-              <code>MP3</code> в списке — потоки AAC, OGG и других форматов могут не воспроизводиться.
+              World Machine Player поддерживает MP3, AAC, OGG и FLAC. Если используется не MP3 или AAC,
+              есть шанс, что вместо названия трека будет отображаться только название радио.
             </p>
           </aside>
 
@@ -131,7 +134,6 @@
 
       <section class="docs-section docs-section-end">
         <div class="wrap docs-end">
-          <p data-i18n="radio_end_note">Если станция не играет, проверь формат (MP3) и что ссылка скопирована полностью из адресной строки после нажатия Save.</p>
           <a class="button button-primary" href="../index.html" data-i18n="radio_back_home">На главную</a>
         </div>
       </section>

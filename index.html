@@ -19,10 +19,13 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="World Machine Player">
-        <img src="assets/color-sun.png" alt="" width="32" height="32">
-        <span>World Machine Player</span>
-      </a>
+      <div class="brand-group">
+        <a class="brand" href="#top" aria-label="World Machine Player">
+          <img src="assets/color-sun.png" alt="" width="32" height="32">
+          <span>World Machine Player</span>
+        </a>
+        <a id="repo-stars" class="brand-stars" href="https://github.com/DimaBroZY/World-Machine-Player" target="_blank" rel="noreferrer">★ —</a>
+      </div>
       <nav class="site-nav" aria-label="Основная навигация">
         <button id="lang-switch" class="lang-switch" aria-label="Switch language">RU</button>
         <a href="#features" data-i18n="nav_features">Возможности</a>
@@ -53,6 +56,10 @@
 " target="_blank" rel="noreferrer" data-i18n="hero_github">
               <span class="button-icon" aria-hidden="true">↗</span>
               GitHub
+            </a>
+            <a class="button button-boosty" href="https://boosty.to/worldmachineplayer" target="_blank" rel="noreferrer">
+              <span class="button-icon button-icon-boosty" aria-hidden="true">B</span>
+              <span data-i18n="btn_boosty">Boosty</span>
             </a>
           </div>
           <dl class="hero-facts" aria-label="Коротко о релизе">
@@ -109,12 +116,17 @@
             <article class="feature-card">
               <img src="assets/jukebox.png" alt="" width="32" height="32">
               <h3 data-i18n="feat_radio_title">Интернет-радио</h3>
-              <p data-i18n="feat_radio_desc">Добавляй станции по URL — MP3-потоки из каталогов вроде <code>radio-browser.info</code>. Инструкция в <a href="docs/radio.html">docs/radio.html</a>.</p>
+              <p data-i18n="feat_radio_desc">Добавляй станции по URL — потоки <code>FLAC</code>, <code>MP3</code>, <code>OGG</code> и <code>AAC</code> из каталогов вроде <code>radio-browser.info</code>. Инструкция в <a href="docs/radio.html">docs/radio.html</a>.</p>
             </article>
             <article class="feature-card">
               <img src="assets/theme.png" alt="" width="32" height="32">
               <h3 data-i18n="feat_theme_title">Кастомизация</h3>
               <p data-i18n="feat_theme_desc">Несколько визуальных тем для внешнего вида плеера и настроения.</p>
+            </article>
+            <article class="feature-card">
+              <img src="assets/discord.png" alt="" width="32" height="32">
+              <h3 data-i18n="feat_discord_title">Discord Rich Presence</h3>
+              <p data-i18n="feat_discord_desc">Показывай текущий трек в Discord и следи за прогрессом прямо в профиле.</p>
             </article>
             <article class="feature-card">
               <img src="assets/stop.png" alt="" width="32" height="32">

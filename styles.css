@@ -80,6 +80,25 @@ pre {
   text-decoration: none;
 }
 
+.brand-stars {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  padding: 0 12px;
+  height: 36px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: rgba(255, 207, 92, 0.18);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.brand-stars:hover,
+.brand-stars:focus-visible {
+  background: rgba(255, 207, 92, 0.28);
+}
+
 .brand img {
   width: 32px;
   height: 32px;
@@ -90,6 +109,12 @@ pre {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.brand-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .site-nav {
@@ -299,6 +324,21 @@ h3 {
   border-color: rgba(246, 240, 222, 0.16);
 }
 
+.button-boosty {
+  color: #fff;
+  background: linear-gradient(135deg, #ff8b00 0%, #ff5000 100%);
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  border-radius: 8px;
+  font-weight: 700;
+  transition: .25s ease;
+}
+
+.button-boosty:hover,
+.button-boosty:focus-visible {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #ff7a00 0%, #ff4200 100%);
+}
+
 .button-ghost:hover,
 .button-ghost:focus-visible,
 .button-secondary:hover,
@@ -316,6 +356,11 @@ h3 {
   justify-content: center;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.13);
+}
+
+.button-icon.button-icon-boosty {
+  background: #fff;
+  color: #ff6200;
 }
 
 .hero-facts {

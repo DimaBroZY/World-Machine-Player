@@ -26,11 +26,15 @@ const translations = {
     feat_playlists_title: "Плейлисты",
     feat_playlists_desc: "Создавай плейлисты и собирай треки в подборки — удобно для альбомов, сетов и любимых композиций.",
     feat_radio_title: "Интернет-радио",
-    feat_radio_desc: 'Добавляй станции по URL — MP3-потоки из каталогов вроде <code>radio-browser.info</code>. Инструкция в <a href="docs/radio.html">docs/radio.html</a>.',
+    feat_radio_desc: 'Добавляй станции по URL - потоки <code>FLAC</code>, <code>MP3</code>, <code>OGG</code> и <code>AAC</code> из каталогов вроде <code>radio-browser.info</code>. Инструкция в <a href="docs/radio.html">docs/radio.html</a>.',
     feat_theme_title: "Кастомизация",
     feat_theme_desc: "Несколько визуальных тем для внешнего вида плеера и настроения.",
+    feat_discord_title: "Discord Rich Presence",
+    feat_discord_desc: "Показывай текущий трек в Discord и следи за прогрессом прямо в профиле.",
     feat_settings_title: "Настройки",
     feat_settings_desc: "Можно указать свою папку с музыкой. Настройки сохраняются автоматически.",
+    hero_stars_dt: "GitHub-звёзды",
+
     how_kicker: "Быстрый старт",
     how_title: "Запуск в четыре шага",
     step_1: "Скачай последнюю версию из GitHub Releases.",
@@ -51,7 +55,7 @@ const translations = {
     radio_description: "Как добавить интернет-радио в World Machine Player: поиск станций на radio-browser.info и добавление MP3-потоков.",
     radio_kicker: "Помощь",
     radio_page_title: "Как добавить радиостанции",
-    radio_lead: 'World Machine Player умеет воспроизводить интернет-радио. Добавь станцию по имени и URL потока — ниже пошаговая инструкция для плеера и для поиска ссылок на <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.',
+    radio_lead: 'World Machine Player умеет воспроизводить интернет-радио. Добавь станцию по имени и URL потока - ниже пошаговая инструкция для плеера и для поиска ссылок на <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.',
     radio_player_kicker: "World Machine Player",
     radio_player_title: "Добавление станции в плеере",
     radio_player_step1: "Открой вкладку <strong>Radio</strong> в плеере.",
@@ -66,15 +70,15 @@ const translations = {
     radio_fig_list_alt: "Добавленная радиостанция в списке World Machine Player",
     radio_browser_kicker: "radio-browser.info",
     radio_browser_title: "Где взять URL радиостанции",
-    radio_browser_intro: '<a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a> — открытый каталог интернет-радио. Найди станцию с потоком в формате <strong>MP3</strong> и скопируй прямую ссылку.',
-    radio_mp3_label: "Важно: только MP3",
-    radio_mp3_desc: "World Machine Player поддерживает радиопотоки в формате MP3. При выборе станции ищи тег <code>MP3</code> в списке — потоки AAC, OGG и других форматов могут не воспроизводиться.",
+    radio_browser_intro: '<a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a> - открытый каталог интернет-радио. Найди станцию с потоком и скопируй прямую ссылку.',
+    radio_mp3_label: "Важно: лучше MP3",
+    radio_mp3_desc: "World Machine Player поддерживает MP3, AAC, OGG и FLAC. Если используется не MP3 или AAC, есть шанс, что вместо названия трека будет отображаться только название радио.",
     radio_browser_step1: 'Открой <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.',
     radio_browser_step2: "Перейди в раздел <strong>By category</strong> → <strong>By tag</strong> или воспользуйся поиском.",
     radio_browser_step3: "Найди интересующий тег, например <code>lofi</code>, и открой список станций.",
     radio_browser_step4: "Выбери станцию с тегом <strong>MP3</strong> в строке списка.",
     radio_browser_step5: "Нажми кнопку <strong>Save</strong> в строке станции.",
-    radio_browser_step6: "Браузер откроет страницу потока — скопируй URL из адресной строки (например, <code>https://usa9.fastcast4u.com/proxy/jamz?mp=/1</code>).",
+    radio_browser_step6: "Браузер откроет страницу потока - скопируй URL из адресной строки (например, <code>https://usa9.fastcast4u.com/proxy/jamz?mp=/1</code>).",
     radio_browser_step7: "Вставь скопированный URL в поле <strong>URL</strong> при добавлении радио в World Machine Player.",
     radio_fig_home: "Главная страница radio-browser.info",
     radio_fig_home_alt: "Главная страница каталога radio-browser.info",
@@ -88,7 +92,6 @@ const translations = {
     radio_fig_save_alt: "Кнопка Save для получения ссылки на поток",
     radio_fig_url: "Страница потока — копируй URL из адресной строки",
     radio_fig_url_alt: "Страница MP3-потока с URL в адресной строке браузера",
-    radio_end_note: "Если станция не играет, проверь формат (MP3) и что ссылка скопирована полностью из адресной строки после нажатия Save.",
     radio_back_home: "На главную",
     docs_title: "World Machine Player — помощь",
     docs_description: "Помощь по World Machine Player: радио, настройки и ответы на частые вопросы.",
@@ -159,6 +162,7 @@ const translations = {
     faq_a_streaming: "Возможно в будущем.",
     faq_q_radio: "Как добавить свое радио?",
     faq_a_radio: 'Смотрите <a href="radio.html">гайд по добавлению радио</a>.',
+    btn_boosty: "Boosty",
     lightbox_close: "Закрыть",
   },
   en: {
@@ -188,11 +192,15 @@ const translations = {
     feat_playlists_title: "Playlists",
     feat_playlists_desc: "Create playlists and organize tracks into collections — handy for albums, sets, and favorites.",
     feat_radio_title: "Internet Radio",
-    feat_radio_desc: 'Add stations by URL — MP3 streams from directories like <code>radio-browser.info</code>. See <a href="docs/radio.html">docs/radio.html</a> for a guide.',
+    feat_radio_desc: 'Add stations by URL — streams <code>FLAC</code>, <code>MP3</code>, <code>OGG</code>, and <code>AAC</code> from directories like <code>radio-browser.info</code>. See <a href="docs/radio.html">docs/radio.html</a> for a guide.',
     feat_theme_title: "Customization",
     feat_theme_desc: "Multiple visual themes for player appearance and mood.",
+    feat_discord_title: "Discord Rich Presence",
+    feat_discord_desc: "Show the current track in Discord and track progress from your profile.",
     feat_settings_title: "Settings",
     feat_settings_desc: "You can specify your own music folder. Settings are saved automatically.",
+    hero_stars_dt: "GitHub Stars",
+
     how_kicker: "Quick Start",
     how_title: "Launch in four steps",
     step_1: "Download the latest version from GitHub Releases.",
@@ -213,7 +221,7 @@ const translations = {
     radio_description: "How to add internet radio to World Machine Player: find stations on radio-browser.info and add MP3 streams.",
     radio_kicker: "Help",
     radio_page_title: "How to add radio stations",
-    radio_lead: 'World Machine Player can play internet radio. Add a station by name and stream URL — step-by-step guide for the player and for finding links on <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.',
+    radio_lead: 'World Machine Player can play internet radio. Add a station by name and stream URL - step-by-step guide for the player and for finding links on <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.',
     radio_player_kicker: "World Machine Player",
     radio_player_title: "Adding a station in the player",
     radio_player_step1: "Open the <strong>Radio</strong> tab in the player.",
@@ -228,15 +236,15 @@ const translations = {
     radio_fig_list_alt: "Added radio station in the World Machine Player list",
     radio_browser_kicker: "radio-browser.info",
     radio_browser_title: "Where to get a radio station URL",
-    radio_browser_intro: '<a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a> is an open internet radio directory. Find a station with an <strong>MP3</strong> stream and copy the direct link.',
-    radio_mp3_label: "Important: MP3 only",
-    radio_mp3_desc: "World Machine Player supports MP3 radio streams. When choosing a station, look for the <code>MP3</code> tag in the list — AAC, OGG, and other formats may not play.",
+    radio_browser_intro: '<a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a> is an open internet radio directory. Find a station with a stream and copy the direct link.',
+    radio_mp3_label: "Important: better MP3",
+    radio_mp3_desc: "World Machine Player supports MP3, AAC, OGG, and FLAC. If you use a non-MP3/non-AAC stream, there is a chance the player will show the radio name instead of the track title.",
     radio_browser_step1: 'Open <a href="https://www.radio-browser.info/" target="_blank" rel="noreferrer">radio-browser.info</a>.',
     radio_browser_step2: "Go to <strong>By category</strong> → <strong>By tag</strong> or use search.",
     radio_browser_step3: "Find a tag you like, e.g. <code>lofi</code>, and open the station list.",
     radio_browser_step4: "Pick a station with the <strong>MP3</strong> tag in the row.",
     radio_browser_step5: "Click the <strong>Save</strong> button on the station row.",
-    radio_browser_step6: "The browser opens the stream page — copy the URL from the address bar (e.g. <code>https://usa9.fastcast4u.com/proxy/jamz?mp=/1</code>).",
+    radio_browser_step6: "The browser opens the stream page - copy the URL from the address bar (e.g. <code>https://usa9.fastcast4u.com/proxy/jamz?mp=/1</code>).",
     radio_browser_step7: "Paste the copied URL into the <strong>URL</strong> field when adding radio in World Machine Player.",
     radio_fig_home: "radio-browser.info homepage",
     radio_fig_home_alt: "radio-browser.info catalog homepage",
@@ -250,7 +258,6 @@ const translations = {
     radio_fig_save_alt: "Save button to get the stream link",
     radio_fig_url: "Stream page — copy URL from the address bar",
     radio_fig_url_alt: "MP3 stream page with URL in the browser address bar",
-    radio_end_note: "If a station won't play, check the format (MP3) and that the link was copied fully from the address bar after clicking Save.",
     radio_back_home: "Back to home",
     docs_title: "World Machine Player — help",
     docs_description: "World Machine Player help: radio, settings, and frequently asked questions.",
@@ -321,30 +328,10 @@ const translations = {
     faq_a_streaming: "Maybe in the future.",
     faq_q_radio: "How do I add my own radio?",
     faq_a_radio: 'See the <a href="radio.html">radio guide</a>.',
+    btn_boosty: "Boosty",
     lightbox_close: "Close",
   }
 };
-
-const copyButtons = document.querySelectorAll("[data-copy]");
-
-copyButtons.forEach((button) => {
-  const originalText = button.textContent;
-
-  button.addEventListener("click", async () => {
-    const value = button.dataset.copy;
-
-    try {
-      await navigator.clipboard.writeText(value);
-      button.textContent = document.documentElement.lang === 'ru' ? "SHA скопирован" : "SHA copied";
-    } catch {
-      button.textContent = value;
-    }
-
-    window.setTimeout(() => {
-      button.textContent = originalText;
-    }, 2200);
-  });
-});
 
 // Localization logic
 const langSwitch = document.getElementById('lang-switch');
@@ -415,6 +402,24 @@ function initLanguage() {
   }
 }
 
+async function fetchRepoStars() {
+  const starLink = document.getElementById('repo-stars');
+  if (!starLink) return;
+
+  try {
+    const response = await fetch('https://api.github.com/repos/DimaBroZY/World-Machine-Player');
+    if (!response.ok) throw new Error('GitHub API request failed');
+
+    const repoData = await response.json();
+    const count = typeof repoData.stargazers_count === 'number' ? repoData.stargazers_count : null;
+    if (count !== null) {
+      starLink.textContent = `★ ${count.toLocaleString()}`;
+    }
+  } catch {
+    starLink.textContent = '★ —';
+  }
+}
+
 if (langSwitch) {
   langSwitch.addEventListener('click', () => {
     const currentLang = document.documentElement.lang;
@@ -425,6 +430,7 @@ if (langSwitch) {
 }
 
 initLanguage();
+fetchRepoStars();
 
 // Docs screenshot lightbox
 function initDocsLightbox() {
