@@ -451,12 +451,6 @@ icon_hover = ExtResource("3_jq2sk")
 icon_pressed = ExtResource("3_jq2sk")
 icon_disabled = ExtResource("3_jq2sk")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
-process_mode = 3
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 1
-
 [node name="LoadingInfo" type="Label" parent="MainWindow" unique_id=1563508309 groups=["tintable"]]
 process_thread_group = 1
 process_thread_group_order = 0
@@ -1097,7 +1091,6 @@ script = ExtResource("2_lswn8")
 click_sound_press = ExtResource("19_qsp4k")
 click_sound_release = ExtResource("20_kq58d")
 
-[connection signal="finished" from="MainWindow/AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
 [connection signal="pressed" from="MainWindow/Buttons/StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="MainWindow/Buttons/ReverseButton" to="." method="_on_reverse_button_pressed"]
 [connection signal="toggled" from="MainWindow/Buttons/PlayButton" to="." method="_on_play_button_toggled"]

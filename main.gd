@@ -1,8 +1,8 @@
 extends Control
 
 # я DimaBroZY и я долбаеб
+# часть кода писал ИИ и мне было в падлу его проверять хд
 
-@onready var music: AudioStreamPlayer = $MainWindow/AudioStreamPlayer
 @onready var curTrack: ScrollText = $MainWindow/CurrentTrack/PanelContainer/ScrollerControl
 @onready var loadingInfo: Label = $MainWindow/LoadingInfo
 @onready var niko = $MainWindow/Objects/Niko
@@ -33,15 +33,13 @@ extends Control
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
 const PLAY: int = 0
 const PAUSE: int = 1
-const MUSIC_CACHE_VERSION: int = 2
+const MUSIC_CACHE_VERSION: int = 3
 const MUSIC_CACHE_FILE: String = "user://music_cache.json"
 const MUSIC_CACHE_DIR: String = "user://music_cache"
-const MUSIC_CACHE_RESOURCE_EXTENSION: String = "res"
 const MUSIC_FOLDER_WATCH_SCAN_DELAY: float = 1.0
 const MUSIC_FOLDER_WATCH_SCAN_STEP: int = 20
 const MUSIC_FOLDER_REFRESH_DEBOUNCE: float = 2.25
 const MIN_FILE_AGE_SECONDS: int = 2
-const STREAM_CACHE_RADIUS: int = 1
 const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
 const LOCK_TIME: float = 0.0
 const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
@@ -58,7 +56,7 @@ var _rebuilding_playlist_ui: bool = false
 
 
 
-var MUSIC_FILE: AudioStream = preload("res://music/Prelude.mp3")
+const FALLBACK_TRACK_PATH := "res://music/Prelude.mp3"
 
 var state: int = PAUSE
 var playlist: Array[Dictionary] = []
@@ -67,10 +65,8 @@ var _shuffle_history: Array[int] = []
 var _shuffle_pos: int = -1
 var FOLDER_PATH: String
 var _music_cache: Dictionary = {}
-var _stream_cache: Dictionary = {}
 var _is_loading_tracks: bool = false
 var _last_music_scan_ok: bool = false
-var _stream_cache_refresh_queued: bool = false
 var _music_folder_watcher
 var _music_folder_refresh_queued: bool = false
 var _music_folder_refresh_requested: bool = false
@@ -80,6 +76,7 @@ var search_query: String = ""
 var _checked_track_source_path: String = ""
 
 var current_source: PlaybackSource
+var _local: LocalPlayer
 var _local_source: LocalPlaybackSource
 var _radio_source: RadioPlaybackSource
 var _radio: RadioStreamer
@@ -116,7 +113,14 @@ func _ready() -> void:
 
 	volume_percent = volumeControl.volumeControlSlide.value
 	set_volume(volume_percent)
-	
+
+	_local = LocalPlayer.new()
+	add_child(_local)
+	_local.track_finished.connect(_on_local_track_finished)
+	_local.set_pitch(speedControl.speedControlSlide.value / 100.0)
+	_local_source = LocalPlaybackSource.new(_local)
+	current_source = _local_source
+
 	await load_tracks_from_folder(true)
 
 	_setup_mode_buttons()
@@ -175,8 +179,7 @@ func _ready() -> void:
 	)
 	stationInfo.visible = false
 	station_search_bar.text_changed.connect(_on_station_search_text_changed)
-	
-	_local_source = LocalPlaybackSource.new(self)
+
 	_radio_source = RadioPlaybackSource.new(_radio)
 	current_source = _local_source
 	var initial_stations := RadioStationManager.get_stations()
@@ -256,9 +259,13 @@ func nicoAnim() -> void:
 		niko.animPlayer.play("Dance_Sitting")
 
 
-func _on_audio_stream_player_finished() -> void:
+func _on_local_track_finished() -> void:
+	if _showing_radio_mode:
+		return
 	if Settings.get_setting("EndOfTrackAction") == false:
-		music.play(0.0)
+		_local.seek(0.0)
+		if state == PLAY:
+			_local.play()
 	else:
 		_on_next_track_pressed()
 
@@ -331,11 +338,9 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 		return
 
 	_is_loading_tracks = true
-	_ensure_music_cache_dir()
 	_music_cache = _load_music_cache()
 
 	var previous_source_path: String = _get_current_track_value("source_path")
-	var previous_resource_path: String = _get_current_track_value("resource_path")
 	var changed_sources: Dictionary = {}
 	var scanned_tracks: Array[Dictionary] = _scan_music_folder()
 
@@ -353,7 +358,7 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 	_cleanup_missing_tracks(existing_sources)
 
 	var refreshed_playlist: Array[Dictionary] = []
-	var imported_count: int = 0
+	var scanned_count: int = 0
 
 	for file_info: Dictionary in scanned_tracks:
 		var source_path: String = str(file_info["source_path"])
@@ -361,33 +366,29 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 		if _music_cache.has(source_path):
 			cached_track = _music_cache[source_path] as Dictionary
 
-		var needs_import: bool = _track_needs_import(cached_track, file_info)
-		if needs_import and not bool(file_info["ready"]):
+		var needs_refresh: bool = _track_needs_refresh(cached_track, file_info)
+		if needs_refresh and not bool(file_info["ready"]):
 			if cached_track.is_empty():
 				continue
-			var pending_track: Dictionary = cached_track.duplicate()
-			refreshed_playlist.append(pending_track)
+			refreshed_playlist.append(cached_track.duplicate())
 			continue
 
 		var track: Dictionary
-		if needs_import:
-			if not cached_track.is_empty():
-				_drop_cached_stream(str(cached_track.get("resource_path", "")))
-
-			imported_count += 1
+		if needs_refresh:
+			scanned_count += 1
 			changed_sources[source_path] = true
 			if show_loading:
-				_show_loading_info(imported_count)
+				_show_loading_info(scanned_count)
 				await get_tree().process_frame
 
-			track = _import_track(file_info)
+			track = _build_track_entry(file_info)
 			if track.is_empty():
 				continue
 
 			_music_cache[source_path] = track
 			await get_tree().process_frame
 		else:
-			track = _updated_track_from_cache(cached_track, file_info)
+			track = _sync_track_metadata(cached_track, file_info)
 			_music_cache[source_path] = track
 
 		refreshed_playlist.append(track)
@@ -395,9 +396,8 @@ func load_tracks_from_folder(show_loading: bool = true) -> void:
 	playlist = refreshed_playlist
 	full_playlist = refreshed_playlist.duplicate()
 	_local_track_list_cache_valid = false
-	_remove_orphan_cache_files()
 	_save_music_cache()
-	_apply_playlist_after_refresh(previous_source_path, previous_resource_path, changed_sources)
+	_apply_playlist_after_refresh(previous_source_path, changed_sources)
 
 	_apply_active_playlist_filter(true)
 
@@ -480,6 +480,7 @@ func _load_music_cache() -> Dictionary:
 
 	var cache_data: Dictionary = parsed as Dictionary
 	if int(cache_data.get("cache_version", 0)) != MUSIC_CACHE_VERSION:
+		_purge_legacy_playback_cache()
 		return entries
 
 	var tracks_variant: Variant = cache_data.get("tracks", [])
@@ -517,15 +518,8 @@ func _save_music_cache() -> void:
 	file.close()
 
 
-func _track_needs_import(cached_track: Dictionary, file_info: Dictionary) -> bool:
+func _track_needs_refresh(cached_track: Dictionary, file_info: Dictionary) -> bool:
 	if cached_track.is_empty():
-		return true
-
-	var resource_path: String = str(cached_track.get("resource_path", ""))
-	if resource_path.is_empty() or not FileAccess.file_exists(resource_path):
-		return true
-
-	if resource_path.get_extension().to_lower() != MUSIC_CACHE_RESOURCE_EXTENSION:
 		return true
 
 	if int(cached_track.get("size", -1)) != int(file_info["size"]):
@@ -537,7 +531,7 @@ func _track_needs_import(cached_track: Dictionary, file_info: Dictionary) -> boo
 	return false
 
 
-func _updated_track_from_cache(cached_track: Dictionary, file_info: Dictionary) -> Dictionary:
+func _sync_track_metadata(cached_track: Dictionary, file_info: Dictionary) -> Dictionary:
 	var track: Dictionary = cached_track.duplicate()
 	var source_path: String = str(file_info["source_path"])
 
@@ -547,44 +541,19 @@ func _updated_track_from_cache(cached_track: Dictionary, file_info: Dictionary) 
 	track["extension"] = str(file_info["extension"])
 	track["size"] = int(file_info["size"])
 	track["modified_time"] = int(file_info["modified_time"])
-
-	if not track.has("resource_path") or str(track["resource_path"]).is_empty():
-		track["resource_path"] = _get_cache_resource_path(file_info)
-
-	if track.has("cached_path"):
-		_delete_cached_path(str(track["cached_path"]), source_path)
-		track.erase("cached_path")
-
-	_delete_legacy_cache_files(file_info)
+	track.erase("resource_path")
+	track.erase("cached_path")
 	return track
 
 
-func _import_track(file_info: Dictionary) -> Dictionary:
+func _build_track_entry(file_info: Dictionary) -> Dictionary:
 	var source_path: String = str(file_info["source_path"])
-	var file_name: String = str(file_info["file_name"])
-	var resource_path: String = _get_cache_resource_path(file_info)
-	var buffer: PackedByteArray = _read_file_buffer(source_path)
-
-	if buffer.is_empty():
-		print("Cannot read audio file: ", source_path)
+	if source_path.is_empty() or not FileAccess.file_exists(source_path):
 		return {}
-
-	var stream: AudioStream = _create_audio_stream(file_name, buffer)
-	if stream == null:
-		print("Cannot create AudioStream for: ", source_path)
-		return {}
-
-	var save_error: int = ResourceSaver.save(stream, resource_path)
-	if save_error != OK:
-		print("Cannot save cached stream: ", resource_path, " error: ", save_error)
-		return {}
-
-	_delete_legacy_cache_files(file_info)
 
 	return {
 		"source_path": source_path,
-		"resource_path": resource_path,
-		"file_name": file_name,
+		"file_name": str(file_info["file_name"]),
 		"name": str(file_info["name"]),
 		"extension": str(file_info["extension"]),
 		"size": int(file_info["size"]),
@@ -592,84 +561,17 @@ func _import_track(file_info: Dictionary) -> Dictionary:
 	}
 
 
-func _read_file_buffer(path: String) -> PackedByteArray:
-	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
-	if file == null:
-		return PackedByteArray()
-
-	var buffer: PackedByteArray = file.get_buffer(file.get_length())
-	file.close()
-	return buffer
-
-
-func _create_audio_stream(file_name: String, buffer: PackedByteArray) -> AudioStream:
-	var extension: String = file_name.get_extension().to_lower()
-	var stream: AudioStream = null
-
-	if extension == "ogg":
-		stream = AudioStreamOggVorbis.load_from_buffer(buffer)
-	elif extension == "mp3":
-		stream = AudioStreamMP3.load_from_buffer(buffer)
-	elif extension == "opus":
-		var opus_stream: AudioStreamOpus = AudioStreamOpus.new()
-		opus_stream.data = buffer
-		stream = opus_stream
-	elif extension == "flac":
-		var flac_stream: AudioStreamFLAC = AudioStreamFLAC.new()
-		flac_stream.data = buffer
-		stream = flac_stream
-
-	return stream
-
-
 func _cleanup_missing_tracks(existing_sources: Dictionary) -> void:
 	var cached_sources: Array = _music_cache.keys()
 	for source_variant: Variant in cached_sources:
 		var source_path: String = str(source_variant)
 		if not existing_sources.has(source_path):
-			var track: Dictionary = _music_cache[source_path] as Dictionary
-			_delete_cached_track(track)
 			_music_cache.erase(source_path)
 
 
-func _delete_cached_track(track: Dictionary) -> void:
-	var source_path: String = str(track.get("source_path", ""))
-	var resource_path: String = str(track.get("resource_path", ""))
-	_drop_cached_stream(resource_path)
-	_delete_cached_path(resource_path, source_path)
-	_delete_cached_path(str(track.get("cached_path", "")), source_path)
-
-
-func _delete_legacy_cache_files(file_info: Dictionary) -> void:
-	var source_path: String = str(file_info["source_path"])
-	var file_name: String = str(file_info["file_name"])
-	var legacy_audio_path: String = "user://" + file_name.replace(" ", "_").replace("[", "_").replace("]", "_")
-	var legacy_resource_path: String = legacy_audio_path.get_basename() + ".tres"
-
-	_delete_cached_path(legacy_audio_path, source_path)
-	_delete_cached_path(legacy_resource_path, source_path)
-
-
-func _delete_cached_path(path: String, source_path: String = "") -> void:
-	if path.is_empty():
+func _purge_legacy_playback_cache() -> void:
+	if not DirAccess.dir_exists_absolute(MUSIC_CACHE_DIR):
 		return
-
-	if not path.begins_with("user://"):
-		return
-
-	if not source_path.is_empty() and path == source_path:
-		return
-
-	if FileAccess.file_exists(path):
-		DirAccess.remove_absolute(path)
-
-
-func _remove_orphan_cache_files() -> void:
-	var valid_paths: Dictionary = {}
-	for track: Dictionary in playlist:
-		var resource_path: String = str(track.get("resource_path", ""))
-		if not resource_path.is_empty():
-			valid_paths[resource_path] = true
 
 	var dir: DirAccess = DirAccess.open(MUSIC_CACHE_DIR)
 	if dir == null:
@@ -679,21 +581,18 @@ func _remove_orphan_cache_files() -> void:
 	var file_name: String = dir.get_next()
 	while file_name != "":
 		if not dir.current_is_dir():
-			var cache_path: String = _join_path(MUSIC_CACHE_DIR, file_name)
-			if not valid_paths.has(cache_path):
-				_drop_cached_stream(cache_path)
-				DirAccess.remove_absolute(cache_path)
+			DirAccess.remove_absolute(_join_path(MUSIC_CACHE_DIR, file_name))
 		file_name = dir.get_next()
 	dir.list_dir_end()
 
 
-func _apply_playlist_after_refresh(previous_source_path: String, previous_resource_path: String, changed_sources: Dictionary) -> void:
+func _apply_playlist_after_refresh(previous_source_path: String, changed_sources: Dictionary) -> void:
 	if playlist.is_empty():
 		current_index = 0
-		if music.stream != MUSIC_FILE:  
+		if _local.get_current_path() != ProjectSettings.globalize_path(FALLBACK_TRACK_PATH):
 			_load_fallback_track()
 			if state == PLAY:
-				music.play()
+				_local.play()
 		return
 
 	var same_track_found: bool = false
@@ -707,23 +606,22 @@ func _apply_playlist_after_refresh(previous_source_path: String, previous_resour
 	if not same_track_found:
 		current_index = int(clamp(current_index, 0, playlist.size() - 1))
 
-	var next_resource_path: String = _get_current_track_value("resource_path")
+	var next_source_path: String = _get_current_track_value("source_path")
 	var should_reload: bool = (
 		not same_track_found
 		or changed_sources.has(previous_source_path)
-		or next_resource_path != previous_resource_path
-		or music.stream == null
+		or next_source_path != _local.get_current_path()
+		or not _local.has_track()
 	)
 
 	if should_reload:
 		var should_resume: bool = state == PLAY
-		music.stop()
+		_local.stop()
 		_load_current_track()
 		if should_resume:
-			music.play()
+			_local.play()
 	else:
 		update_track_name()
-		_queue_stream_cache_refresh()
 
 
 func _load_current_track() -> void:
@@ -732,118 +630,33 @@ func _load_current_track() -> void:
 		return
 
 	current_index = int(clamp(current_index, 0, playlist.size() - 1))
-	var resource_path: String = _get_current_track_value("resource_path")
-	var stream: AudioStream = _get_or_load_stream(resource_path)
+	var source_path: String = _get_current_track_value("source_path")
 
-	if stream != null:
-		music.stream = stream
-	else:
-		print("Cached stream is missing or invalid: ", resource_path)
-		music.stream = MUSIC_FILE
+	if source_path.is_empty() or not _local.load_track(source_path):
+		print("Cannot load audio file: ", source_path)
+		_load_fallback_track()
+		return
 
 	update_track_name()
-	_queue_stream_cache_refresh()
 
 
 func _load_fallback_track() -> void:
-	music.stop()
-	music.stream = MUSIC_FILE
-	_stream_cache.clear()
+	_local.stop()
+	if not _local.load_track(FALLBACK_TRACK_PATH):
+		print("Cannot load fallback track: ", FALLBACK_TRACK_PATH)
 	update_track_name()
-
-
-func _get_or_load_stream(resource_path: String) -> AudioStream:
-	if resource_path.is_empty():
-		return null
-
-	var cached_stream: Variant = _stream_cache.get(resource_path, null)
-	if cached_stream is AudioStream:
-		return cached_stream as AudioStream
-
-	if not FileAccess.file_exists(resource_path):
-		return null
-
-	var resource: Resource = ResourceLoader.load(resource_path, "", ResourceLoader.CACHE_MODE_REPLACE)
-	if not (resource is AudioStream):
-		return null
-
-	var stream: AudioStream = resource as AudioStream
-	_stream_cache[resource_path] = stream
-	return stream
-
-
-func _drop_cached_stream(resource_path: String) -> void:
-	if resource_path.is_empty():
-		return
-
-	_stream_cache.erase(resource_path)
-
-
-func _queue_stream_cache_refresh() -> void:
-	if _stream_cache_refresh_queued:
-		return
-
-	_stream_cache_refresh_queued = true
-	call_deferred("_refresh_stream_cache")
-
-
-func _refresh_stream_cache() -> void:
-	_stream_cache_refresh_queued = false
-
-	if playlist.is_empty():
-		_stream_cache.clear()
-		return
-
-	var wanted_paths: Dictionary = {}
-	for offset: int in range(-STREAM_CACHE_RADIUS, STREAM_CACHE_RADIUS + 1):
-		var track_index: int = _wrap_track_index(current_index + offset)
-		if track_index == -1:
-			continue
-
-		var resource_path: String = _get_track_resource_path(track_index)
-		if resource_path.is_empty():
-			continue
-
-		wanted_paths[resource_path] = true
-		_get_or_load_stream(resource_path)
-
-	_prune_stream_cache(wanted_paths)
-
-
-func _prune_stream_cache(wanted_paths: Dictionary) -> void:
-	var cached_paths: Array = _stream_cache.keys()
-	for path_variant: Variant in cached_paths:
-		var resource_path: String = str(path_variant)
-		if not wanted_paths.has(resource_path):
-			_stream_cache.erase(resource_path)
-
-
-func _wrap_track_index(track_index: int) -> int:
-	if playlist.is_empty():
-		return -1
-
-	var playlist_size: int = playlist.size()
-	return ((track_index % playlist_size) + playlist_size) % playlist_size
-
-
-func _get_track_resource_path(track_index: int) -> String:
-	if track_index < 0 or track_index >= playlist.size():
-		return ""
-
-	var track: Dictionary = playlist[track_index]
-	return str(track.get("resource_path", ""))
 
 
 func update_track_name() -> void:
 	var track_name: String
 	if playlist.size() > 0 and current_index < playlist.size():
-		track_name = str(playlist[current_index].get("name", MUSIC_FILE.resource_path.get_file().get_basename()))
+		track_name = str(playlist[current_index].get("name", FALLBACK_TRACK_PATH.get_file().get_basename()))
 	else:
-		track_name = MUSIC_FILE.resource_path.get_file().get_basename()
+		track_name = FALLBACK_TRACK_PATH.get_file().get_basename()
 	curTrack.set_track_name(track_name)
-	
+
 	MediaControlsBridge.UpdateNowPlaying(track_name, "Local Storage", _smtc_placeholder_path)
-	DiscordRpcBridge.UpdateNowPlaying(track_name, "Local Storage", music.stream.get_length() if music.stream else 0.0)
+	DiscordRpcBridge.UpdateNowPlaying(track_name, "Local Storage", _local.get_length())
 
 
 func _find_track_index_by_source(source_path: String) -> int:
@@ -863,37 +676,11 @@ func _get_current_track_value(key: String) -> String:
 	return str(track.get(key, ""))
 
 
-func _get_cache_resource_path(file_info: Dictionary) -> String:
-	var source_path: String = str(file_info["source_path"])
-	var file_name: String = str(file_info["file_name"])
-	var safe_name: String = _sanitize_cache_file_name(file_name.get_basename())
-	var path_hash: int = int(abs(source_path.hash()))
-	return _join_path(MUSIC_CACHE_DIR, safe_name + "_" + str(path_hash) + "." + MUSIC_CACHE_RESOURCE_EXTENSION)
-
-
-func _sanitize_cache_file_name(file_name: String) -> String:
-	var result: String = file_name
-	var invalid_characters: Array[String] = ["\\", "/", ":", "*", "?", "\"", "<", ">", "|", "[", "]", " "]
-	for character: String in invalid_characters:
-		result = result.replace(character, "_")
-
-	if result.is_empty():
-		return "track"
-
-	return result
-
-
 func _join_path(base_path: String, file_name: String) -> String:
 	if base_path.ends_with("/") or base_path.ends_with("\\"):
 		return base_path + file_name
 
 	return base_path + "/" + file_name
-
-
-func _ensure_music_cache_dir() -> void:
-	if not DirAccess.dir_exists_absolute(MUSIC_CACHE_DIR):
-		DirAccess.make_dir_recursive_absolute(MUSIC_CACHE_DIR)
-
 
 
 func _show_loading_info(count: int) -> void:
@@ -948,7 +735,7 @@ func _on_next_track_pressed() -> void:
 				_shuffle_pos = _shuffle_history.size() - 1
 		else:
 			current_index = (current_index + 1) % playlist.size()
-		music.stop()
+		_local.stop()
 		_load_current_track()
 		update_state()
 		_await_track_skip()
@@ -970,7 +757,7 @@ func _on_previous_track_pressed() -> void:
 			current_index = _shuffle_history[_shuffle_pos]
 		elif not Settings.get_setting("shuffle"):
 			current_index = (current_index - 1 + playlist.size()) % playlist.size()
-		music.stop()
+		_local.stop()
 		_load_current_track()
 		update_state()
 		nextTrack.disabled = true
@@ -988,7 +775,7 @@ func play_state() -> void:
 	current_source.play()
 	gramophone.animPlayer.play("Playing")
 	MediaControlsBridge.SetPlaying(true)
-	DiscordRpcBridge.SetPlaying(true, music.get_playback_position() if current_source is LocalPlaybackSource else 0.0)
+	DiscordRpcBridge.SetPlaying(true, _local.get_position() if current_source is LocalPlaybackSource else 0.0)
 	_enable_notes()
 	_update_niko_state()
 	_update_gramaphone_state()
@@ -1016,7 +803,7 @@ func _on_stop_button_pressed() -> void:
 
 func _on_speed_control_slide_value_changed(_value: float) -> void:
 	$MainWindow/PlaybackSpeedControlNode/SpeedValue.text = "Playback Speed: " + str(int(speedControl.speedControlSlide.value)) + "%"
-	music.pitch_scale = speedControl.speedControlSlide.value / 100
+	_local.set_pitch(speedControl.speedControlSlide.value / 100.0)
 	niko.animPlayer.speed_scale = speedControl.speedControlSlide.value / 100
 	gramophone.animPlayer.speed_scale = speedControl.speedControlSlide.value / 100
 	notes.speed_scale = speedControl.speedControlSlide.value / 100
@@ -1024,7 +811,6 @@ func _on_speed_control_slide_value_changed(_value: float) -> void:
 func set_volume(percent: float) -> void:
 	volume_percent = clamp(percent, 0.0, 100.0)
 
-	music.volume_db = linear_to_db(volume_percent / 100.0)
 	AudioManager.SetVolume(volume_percent / 100.0)
 	
 	# синхронизация UI
@@ -1039,20 +825,23 @@ func _on_volume_control_slide_value_changed(value: float) -> void:
 func _on_reverse_button_pressed() -> void:
 	if _showing_radio_mode:
 		return
-	if music.playing == true:
-		music.play(0.0)
+	if _local.is_playing():
+		_local.seek(0.0)
+		_local.play()
 	else:
-		music.stop()
+		_local.stop()
 
 
 func _on_speed_minus_pressed() -> void:
-	music.pitch_scale -= 0.05
-	speedControl.speedControlSlide.value = music.pitch_scale * 100
+	var next_pitch := _local.get_pitch() - 0.05
+	_local.set_pitch(next_pitch)
+	speedControl.speedControlSlide.value = next_pitch * 100
 
 
 func _on_speed_plus_pressed() -> void:
-	music.pitch_scale += 0.05
-	speedControl.speedControlSlide.value = music.pitch_scale * 100
+	var next_pitch := _local.get_pitch() + 0.05
+	_local.set_pitch(next_pitch)
+	speedControl.speedControlSlide.value = next_pitch * 100
 
 
 func percent_to_db(percent: float) -> float:
@@ -1327,12 +1116,12 @@ func play_track_by_index(index: int) -> void:
 	_checked_track_source_path = str(playlist[index].get("source_path", ""))
 	_sync_track_checkboxes(_checked_track_source_path)
 
-	music.stop()
+	_local.stop()
 
 	_load_current_track()
 
 	if state == PLAY:
-		music.play()
+		_local.play()
 
 	update_state()
 	

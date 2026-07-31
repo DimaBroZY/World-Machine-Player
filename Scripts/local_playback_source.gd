@@ -1,27 +1,24 @@
 class_name LocalPlaybackSource
 extends PlaybackSource
 
-var _main: Control
+var _local: LocalPlayer
 
-func _init(main_node: Control) -> void:
-	_main = main_node
+func _init(local: LocalPlayer) -> void:
+	_local = local
 
 func play() -> void:
-	_main.music.stream_paused = false
-	if not _main.music.is_playing():
-		_main.music.play()
+	if _local.is_paused() or not _local.is_playing():
+		_local.play()
 
 func pause() -> void:
-	_main.music.stream_paused = true
+	_local.pause()
 
 func stop() -> void:
-	_main.music.stop()
+	_local.stop()
 
 func is_playing() -> bool:
-	return _main.music.is_playing() and not _main.music.stream_paused
+	return _local.is_playing()
 
-func next() -> void:
-	_main._on_next_track_pressed()
+func next() -> void: pass
 
-func previous() -> void:
-	_main._on_previous_track_pressed()
+func previous() -> void: pass

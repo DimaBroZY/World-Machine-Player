@@ -1,6 +1,7 @@
 using Godot;
 using ManagedBass;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -8,41 +9,43 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-// Автолоад (см. project.godot -> [autoload] AudioManager).
-// Полностью заменяет addons/icy-radio-streamer: BASS сам качает, декодирует
-// (mp3/ogg/aac/flac и т.д.) и играет интернет-поток напрямую в звуковое
-// устройство, в обход Godot-шного AudioStreamPlayer/AudioStreamGenerator.
-//
-// Наружу отдаёт тот же набор состояний/сигналов, которым раньше заведовал
-// Scripts/radio_streamer.gd поверх IcyHttpStream, так что main.gd можно не трогать.
 public partial class AudioManager : Node
 {
 	[Signal] public delegate void TrackChangedEventHandler(string title);
 	[Signal] public delegate void BufferingChangedEventHandler(bool isBuffering);
 	[Signal] public delegate void StationUnavailableEventHandler(bool isUnavailable);
 	[Signal] public delegate void StationUnsupportedEventHandler(bool isUnsupported);
+	[Signal] public delegate void LocalTrackFinishedEventHandler();
 
 	private static readonly Regex StreamTitleRegex =
 		new(@"StreamTitle='(.*?)';", RegexOptions.Compiled);
 
-	private int _streamChannel = 0;
-	private bool _isInitialized = false;
+	private const float DefaultFrequency = 44100f;
 
-	private bool _isActive = false;      // start()/stop() — радио вообще должно играть
-	private bool _isSwitching = false;   // идёт подключение/переподключение к станции
-	private bool _isBuffering = false;   // канал застопорился, ждём буфер
-	private bool _userPaused = false;    // пользователь поставил на паузу вручную
+	private int _streamChannel;
+	private int _localChannel;
+	private bool _isInitialized;
+
+	private bool _isActive;
+	private bool _isSwitching;
+	private bool _isBuffering;
+	private bool _userPaused;
 
 	private string _currentUrl = "";
-	private string _pendingUrl = null;   // set_station() вызвали, пока уже шло подключение
-	private int _connectGeneration = 0;  // чтобы не применить результат устаревшего подключения
+	private string _pendingUrl;
+	private int _connectGeneration;
 	private float _volume = 1.0f;
+
+	private string _localPath = "";
+	private float _localPitch = 1.0f;
+	private float _localBaseFrequency = DefaultFrequency;
+	private bool _localUserPaused;
 
 	private SyncProcedure _metaSync;
 	private SyncProcedure _stallSync;
 	private SyncProcedure _endSync;
+	private SyncProcedure _localEndSync;
 
-	// Срабатывает один раз, до первого обращения к Bass.* - учит .NET находить bass.dll
 	static AudioManager()
 	{
 		NativeLibrary.SetDllImportResolver(typeof(Bass).Assembly, ResolveNative);
@@ -52,40 +55,75 @@ public partial class AudioManager : Node
 	{
 		if (libraryName != "bass")
 			return IntPtr.Zero;
+
 		string fileName = OperatingSystem.IsWindows() ? "bass.dll" : "libbass.so";
-		string[] candidates =
+		foreach (string path in BuildNativeCandidates(fileName, assembly))
 		{
-			Path.Combine(AppContext.BaseDirectory, fileName),
-			Path.Combine(Path.GetDirectoryName(assembly.Location) ?? "", fileName),
-			Path.Combine(Directory.GetCurrentDirectory(), fileName),
-			Path.Combine(OS.GetExecutablePath().GetBaseDir(), fileName),
-		};
-		foreach (var path in candidates)
-		{
-			if (File.Exists(path) && NativeLibrary.TryLoad(path, out var handle))
+			if (File.Exists(path) && NativeLibrary.TryLoad(path, out IntPtr handle))
 			{
 				GD.Print($"BASS: нативная либа загружена из {path}");
 				return handle;
 			}
 		}
-		GD.PrintErr("BASS: bass.dll/.so не найден ни в одном из путей:\n  " + string.Join("\n  ", candidates));
+
+		GD.PrintErr("BASS: bass.dll/.so не найден ни в одном из путей:\n  " +
+			string.Join("\n  ", BuildNativeCandidates(fileName, assembly)));
 		return IntPtr.Zero;
+	}
+
+	private static IEnumerable<string> BuildNativeCandidates(string fileName, Assembly assembly)
+	{
+		yield return Path.Combine(AppContext.BaseDirectory, fileName);
+		yield return Path.Combine(Path.GetDirectoryName(assembly.Location) ?? "", fileName);
+		yield return Path.Combine(Directory.GetCurrentDirectory(), fileName);
+		yield return Path.Combine(OS.GetExecutablePath().GetBaseDir(), fileName);
 	}
 
 	public override void _Ready()
 	{
-		// таймаут подключения и стартовая преднабуферизация для интернет-потоков
 		Bass.Configure(Configuration.NetTimeOut, 10000);
 		Bass.Configure(Configuration.NetPreBuffer, 25);
 
-		_isInitialized = Bass.Init(-1, 44100, DeviceInitFlags.Default);
+		_isInitialized = Bass.Init(-1, (int)DefaultFrequency, DeviceInitFlags.Default);
 		if (!_isInitialized)
+		{
 			GD.PrintErr($"Ошибка инициализации BASS: {Bass.LastError}");
-		else
-			GD.Print("BASS успешно инициализирован!");
+			return;
+		}
+
+		GD.Print("BASS успешно инициализирован!");
+		LoadBassPlugins();
 	}
 
-	// ================= публичный API для radio_streamer.gd =================
+	private void LoadBassPlugins()
+	{
+		LoadBassPlugin("bassflac");
+		LoadBassPlugin("bassopus");
+	}
+
+	private void LoadBassPlugin(string baseName)
+	{
+		string fileName = OperatingSystem.IsWindows() ? $"{baseName}.dll" : $"lib{baseName}.so";
+		foreach (string path in BuildNativeCandidates(fileName, typeof(Bass).Assembly))
+		{
+			if (!File.Exists(path))
+				continue;
+
+			int pluginHandle = Bass.PluginLoad(path);
+			if (pluginHandle != 0)
+			{
+				GD.Print($"BASS plugin loaded: {path}");
+				return;
+			}
+
+			GD.PrintErr($"BASS plugin failed ({baseName}): {path} ({Bass.LastError})");
+			return;
+		}
+
+		GD.PrintErr($"BASS plugin not found: {fileName}");
+	}
+
+	// ================= radio API =================
 
 	public bool IsActive() => _isActive;
 
@@ -99,7 +137,6 @@ public partial class AudioManager : Node
 		return Bass.ChannelIsActive(_streamChannel) == PlaybackState.Paused;
 	}
 
-	// Просто запоминает/меняет станцию. Если радио сейчас активно - переподключается.
 	public void SetStation(string url)
 	{
 		if (url == _currentUrl && !_isSwitching && _streamChannel != 0)
@@ -144,16 +181,117 @@ public partial class AudioManager : Node
 		_isSwitching = false;
 		_pendingUrl = null;
 		_connectGeneration++;
-		FreeChannel();
+		FreeStreamChannel();
 		EmitSignal(SignalName.BufferingChanged, false);
 		EmitSignal(SignalName.StationUnavailable, false);
 	}
+
+	// ================= local API =================
+
+	public bool HasLocalTrack() => _localChannel != 0;
+
+	public string GetLocalPath() => _localPath;
+
+	public bool LoadLocalTrack(string path)
+	{
+		FreeLocalChannel();
+		_localPath = "";
+
+		string resolved = ResolveFilePath(path);
+		if (string.IsNullOrEmpty(resolved) || !File.Exists(resolved))
+		{
+			GD.PrintErr($"Local: файл не найден: {path}");
+			return false;
+		}
+
+		int channel = Bass.CreateStream(resolved, 0, 0, BassFlags.Default);
+		if (channel == 0)
+		{
+			GD.PrintErr($"Local: не удалось открыть {resolved}: {Bass.LastError}");
+			return false;
+		}
+
+		_localChannel = channel;
+		_localPath = resolved;
+		_localUserPaused = false;
+		var info = Bass.ChannelGetInfo(channel);
+		_localBaseFrequency = info.Frequency > 0 ? info.Frequency : DefaultFrequency;
+		AttachLocalEndSync(channel);
+		ApplyLocalAttributes();
+		return true;
+	}
+
+	public void PlayLocal()
+	{
+		if (_localChannel == 0) return;
+		_localUserPaused = false;
+		Bass.ChannelPlay(_localChannel, false);
+	}
+
+	public void PauseLocal()
+	{
+		_localUserPaused = true;
+		if (_localChannel != 0)
+			Bass.ChannelPause(_localChannel);
+	}
+
+	public void StopLocal()
+	{
+		_localUserPaused = false;
+		FreeLocalChannel();
+		_localPath = "";
+	}
+
+	public bool IsLocalPlaying()
+	{
+		if (_localChannel == 0) return false;
+		return Bass.ChannelIsActive(_localChannel) == PlaybackState.Playing;
+	}
+
+	public bool IsLocalPaused()
+	{
+		if (_localChannel == 0) return false;
+		return Bass.ChannelIsActive(_localChannel) == PlaybackState.Paused;
+	}
+
+	public double GetLocalPosition()
+	{
+		if (_localChannel == 0) return 0.0;
+		long bytes = Bass.ChannelGetPosition(_localChannel, PositionFlags.Bytes);
+		return Bass.ChannelBytes2Seconds(_localChannel, bytes);
+	}
+
+	public double GetLocalLength()
+	{
+		if (_localChannel == 0) return 0.0;
+		long bytes = Bass.ChannelGetLength(_localChannel, PositionFlags.Bytes);
+		return Bass.ChannelBytes2Seconds(_localChannel, bytes);
+	}
+
+	public void SeekLocal(double seconds)
+	{
+		if (_localChannel == 0) return;
+		long bytes = Bass.ChannelSeconds2Bytes(_localChannel, Math.Max(0.0, seconds));
+		Bass.ChannelSetPosition(_localChannel, bytes, PositionFlags.Bytes);
+	}
+
+	public void SetLocalPitch(float scale)
+	{
+		_localPitch = Mathf.Clamp(scale, 0.05f, 4.0f);
+		ApplyLocalPitch();
+	}
+
+	public float GetLocalPitch() => _localPitch;
+
+	// ================= shared =================
 
 	public void SetVolume(float linear01)
 	{
 		_volume = Mathf.Clamp(linear01, 0.0f, 1.0f);
 		if (_streamChannel != 0)
 			Bass.ChannelSetAttribute(_streamChannel, ChannelAttribute.Volume, _volume);
+		if (_localChannel != 0)
+			Bass.ChannelSetAttribute(_localChannel, ChannelAttribute.Volume, _volume);
 	}
 
 	private void Connect()
@@ -169,13 +307,11 @@ public partial class AudioManager : Node
 		int generation = _connectGeneration;
 		string url = _currentUrl;
 
-		FreeChannel();
+		FreeStreamChannel();
 		EmitSignal(SignalName.BufferingChanged, true);
 		EmitSignal(SignalName.StationUnavailable, false);
 		EmitSignal(SignalName.StationUnsupported, false);
 
-		// BASS.CreateStream(url) — блокирующий вызов (ждёт коннекта или таймаута),
-		// поэтому уводим его в фоновый поток и возвращаемся в главный через CallDeferred.
 		Task.Run(() =>
 		{
 			string request = url + "\r\nUser-Agent: WorldMachinePlayer";
@@ -186,7 +322,6 @@ public partial class AudioManager : Node
 
 	private void OnConnectResult(int channel, int generation, string url)
 	{
-		// пока мы ждали — станцию сменили/остановили радио: этот канал больше не нужен
 		if (generation != _connectGeneration || url != _currentUrl)
 		{
 			if (channel != 0)
@@ -210,7 +345,7 @@ public partial class AudioManager : Node
 		}
 
 		_streamChannel = channel;
-		AttachSyncs(channel, generation);
+		AttachStreamSyncs(channel, generation);
 		Bass.ChannelSetAttribute(channel, ChannelAttribute.Volume, _volume);
 
 		if (!_userPaused)
@@ -233,9 +368,8 @@ public partial class AudioManager : Node
 		}
 	}
 
-	private void AttachSyncs(int channel, int generation)
+	private void AttachStreamSyncs(int channel, int generation)
 	{
-		// ICY/Shoutcast-метаданные ("StreamTitle='...';") — то же, что раньше парсил GDScript
 		_metaSync = (h, ch, data, user) =>
 		{
 			IntPtr ptr = Bass.ChannelGetTags(ch, TagType.META);
@@ -245,19 +379,33 @@ public partial class AudioManager : Node
 		};
 		Bass.ChannelSetSync(channel, SyncFlags.MetadataReceived, 0, _metaSync);
 
-		// data == 0 -> застряли (буферизуем), data != 0 -> отпустило
 		_stallSync = (h, ch, data, user) =>
 		{
 			CallDeferred(nameof(OnStalledChanged), data == 0);
 		};
 		Bass.ChannelSetSync(channel, SyncFlags.Stalled, 0, _stallSync);
 
-		// поток внезапно оборвался — пробуем переподключиться сами
 		_endSync = (h, ch, data, user) =>
 		{
 			CallDeferred(nameof(OnConnectionEnded), generation);
 		};
 		Bass.ChannelSetSync(channel, SyncFlags.End, 0, _endSync);
+	}
+
+	private void AttachLocalEndSync(int channel)
+	{
+		_localEndSync = (h, ch, data, user) =>
+		{
+			CallDeferred(nameof(OnLocalTrackEnded));
+		};
+		Bass.ChannelSetSync(channel, SyncFlags.End, 0, _localEndSync);
+	}
+
+	private void OnLocalTrackEnded()
+	{
+		if (_localChannel == 0)
+			return;
+		EmitSignal(SignalName.LocalTrackFinished);
 	}
 
 	private void OnMetadataReceived(string raw)
@@ -351,22 +499,53 @@ public partial class AudioManager : Node
 			Connect();
 	}
 
-	private void FreeChannel()
+	private void ApplyLocalAttributes()
 	{
-		if (_streamChannel != 0)
-		{
-			Bass.ChannelStop(_streamChannel);
-			Bass.StreamFree(_streamChannel);
-			_streamChannel = 0;
-		}
+		ApplyLocalPitch();
+		if (_localChannel != 0)
+			Bass.ChannelSetAttribute(_localChannel, ChannelAttribute.Volume, _volume);
+	}
+
+	private void ApplyLocalPitch()
+	{
+		if (_localChannel == 0) return;
+		Bass.ChannelSetAttribute(_localChannel, ChannelAttribute.Frequency, _localBaseFrequency * _localPitch);
+	}
+
+	private static string ResolveFilePath(string path)
+	{
+		if (string.IsNullOrWhiteSpace(path))
+			return "";
+
+		if (path.StartsWith("res://", StringComparison.Ordinal) ||
+			path.StartsWith("user://", StringComparison.Ordinal))
+			return ProjectSettings.GlobalizePath(path);
+
+		return path;
+	}
+
+	private void FreeStreamChannel()
+	{
+		if (_streamChannel == 0) return;
+		Bass.ChannelStop(_streamChannel);
+		Bass.StreamFree(_streamChannel);
+		_streamChannel = 0;
 		_isBuffering = false;
 	}
 
-	// Корректное освобождение ресурсов при выходе из игры
+	private void FreeLocalChannel()
+	{
+		if (_localChannel == 0) return;
+		Bass.ChannelStop(_localChannel);
+		Bass.StreamFree(_localChannel);
+		_localChannel = 0;
+	}
+
 	public override void _ExitTree()
 	{
-		_connectGeneration++; // на случай если фоновый Task.Run ещё не вернулся
-		FreeChannel();
+		_connectGeneration++;
+		FreeStreamChannel();
+		FreeLocalChannel();
 		if (_isInitialized)
 			Bass.Free();
 		base._ExitTree();

@@ -20,7 +20,6 @@ run/main_scene="uid://br0vuvri2rao8"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="WorldMachinePlayer"
 config/features=PackedStringArray("4.7", "C#", "Mobile")
-run/max_fps=60
 run/low_processor_mode=true
 boot_splash/show_image=false
 boot_splash/stretch_mode=0
