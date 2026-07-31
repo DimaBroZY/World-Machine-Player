@@ -43,6 +43,7 @@ public partial class AudioManager : Node
 
 	private SyncProcedure _metaSync;
 	private SyncProcedure _stallSync;
+	private SyncProcedure _oggChangeSync;
 	private SyncProcedure _endSync;
 	private SyncProcedure _localEndSync;
 
@@ -348,6 +349,7 @@ public partial class AudioManager : Node
 		_streamChannel = channel;
 		AttachStreamSyncs(channel, generation);
 		Bass.ChannelSetAttribute(channel, ChannelAttribute.Volume, _volume);
+		ReadOggTags(channel);
 
 		if (!_userPaused)
 			Bass.ChannelPlay(channel, false);
@@ -385,6 +387,12 @@ public partial class AudioManager : Node
 			CallDeferred(nameof(OnStalledChanged), data == 0);
 		};
 		Bass.ChannelSetSync(channel, SyncFlags.Stalled, 0, _stallSync);
+
+		_oggChangeSync = (h, ch, data, user) =>
+		{
+			CallDeferred(nameof(OnOggTagsChanged), ch);
+		};
+		Bass.ChannelSetSync(channel, SyncFlags.OggChange, 0, _oggChangeSync);
 
 		_endSync = (h, ch, data, user) =>
 		{
@@ -476,6 +484,76 @@ public partial class AudioManager : Node
 		catch (DecoderFallbackException)
 		{
 			return false;
+		}
+	}
+
+	private void OnOggTagsChanged(int channel)
+	{
+		// Приходит при переподключении/смене URL — не даём устаревшему каналу
+		// перезаписать метаданные текущего.
+		if (channel != _streamChannel)
+			return;
+
+		ReadOggTags(channel);
+	}
+
+	// OGG/Opus/Ogg-FLAC не используют ICY StreamTitle — их метаданные (Vorbis
+	// comments) читаются через TAG_OGG, а не TAG_META, и обновляются через
+	// отдельный BASS_SYNC_OGG_CHANGE, а не BASS_SYNC_META.
+	private void ReadOggTags(int channel)
+	{
+		IntPtr ptr = Bass.ChannelGetTags(channel, TagType.OGG);
+		if (ptr == IntPtr.Zero)
+			return;
+
+		string artist = null;
+		string title = null;
+
+		foreach (string line in ReadNullSeparatedUtf8(ptr))
+		{
+			int eq = line.IndexOf('=');
+			if (eq <= 0)
+				continue;
+
+			string key = line.Substring(0, eq);
+			string value = line.Substring(eq + 1);
+
+			if (key.Equals("TITLE", StringComparison.OrdinalIgnoreCase))
+				title = value;
+			else if (key.Equals("ARTIST", StringComparison.OrdinalIgnoreCase))
+				artist = value;
+		}
+
+		if (string.IsNullOrEmpty(title))
+			return;
+
+		string displayTitle = string.IsNullOrEmpty(artist) ? title : $"{artist} - {title}";
+		EmitSignal(SignalName.TrackChanged, displayTitle);
+	}
+
+	// TAG_OGG — это последовательность UTF-8 строк "KEY=VALUE", каждая
+	// с нулевым байтом на конце, а весь список заканчивается двойным нулём.
+	private static IEnumerable<string> ReadNullSeparatedUtf8(IntPtr ptr)
+	{
+		if (ptr == IntPtr.Zero)
+			yield break;
+
+		int offset = 0;
+		while (true)
+		{
+			int start = offset;
+			while (Marshal.ReadByte(ptr, offset) != 0)
+				offset++;
+
+			int length = offset - start;
+			if (length == 0)
+				yield break;
+
+			byte[] data = new byte[length];
+			Marshal.Copy(ptr + start, data, 0, length);
+			yield return Encoding.UTF8.GetString(data);
+
+			offset++;
 		}
 	}
 
