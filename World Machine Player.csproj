@@ -22,4 +22,10 @@
     <PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
     <PackageReference Include="ManagedBass" Version="4.0.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="libs\*.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

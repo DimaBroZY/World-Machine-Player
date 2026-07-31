@@ -47,38 +47,6 @@ public partial class AudioManager : Node
 	private SyncProcedure _endSync;
 	private SyncProcedure _localEndSync;
 
-	static AudioManager()
-	{
-		NativeLibrary.SetDllImportResolver(typeof(Bass).Assembly, ResolveNative);
-	}
-
-	private static IntPtr ResolveNative(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
-	{
-		if (libraryName != "bass")
-			return IntPtr.Zero;
-
-		string fileName = OperatingSystem.IsWindows() ? "bass.dll" : "libbass.so";
-		foreach (string path in BuildNativeCandidates(fileName, assembly))
-		{
-			if (File.Exists(path) && NativeLibrary.TryLoad(path, out IntPtr handle))
-			{
-				GD.Print($"BASS: нативная либа загружена из {path}");
-				return handle;
-			}
-		}
-
-		GD.PrintErr("BASS: bass.dll/.so не найден ни в одном из путей:\n  " +
-			string.Join("\n  ", BuildNativeCandidates(fileName, assembly)));
-		return IntPtr.Zero;
-	}
-
-	private static IEnumerable<string> BuildNativeCandidates(string fileName, Assembly assembly)
-	{
-		yield return Path.Combine(AppContext.BaseDirectory, fileName);
-		yield return Path.Combine(Path.GetDirectoryName(assembly.Location) ?? "", fileName);
-		yield return Path.Combine(Directory.GetCurrentDirectory(), fileName);
-		yield return Path.Combine(OS.GetExecutablePath().GetBaseDir(), fileName);
-	}
 
 	public override void _Ready()
 	{
@@ -105,24 +73,24 @@ public partial class AudioManager : Node
 
 	private void LoadBassPlugin(string baseName)
 	{
+		string userDir = ProjectSettings.GlobalizePath("user://binaries");
 		string fileName = OperatingSystem.IsWindows() ? $"{baseName}.dll" : $"lib{baseName}.so";
-		foreach (string path in BuildNativeCandidates(fileName, typeof(Bass).Assembly))
+		string path = Path.Combine(userDir, fileName);
+
+		if (!File.Exists(path))
 		{
-			if (!File.Exists(path))
-				continue;
-
-			int pluginHandle = Bass.PluginLoad(path);
-			if (pluginHandle != 0)
-			{
-				GD.Print($"BASS plugin loaded: {path}");
-				return;
-			}
-
-			GD.PrintErr($"BASS plugin failed ({baseName}): {path} ({Bass.LastError})");
+			GD.PrintErr($"BASS plugin not found: {fileName} in {userDir}");
 			return;
 		}
 
-		GD.PrintErr($"BASS plugin not found: {fileName}");
+		int pluginHandle = Bass.PluginLoad(path);
+		if (pluginHandle != 0)
+		{
+			GD.Print($"BASS plugin loaded: {path}");
+			return;
+		}
+
+		GD.PrintErr($"BASS plugin failed ({baseName}): {path} ({Bass.LastError})");
 	}
 
 	// ================= radio API =================
