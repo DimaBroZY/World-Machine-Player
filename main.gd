@@ -83,7 +83,6 @@ var _radio: RadioStreamer
 var _current_station_index: int = 0
 var _radio_buffering: bool = false
 var _radio_unavailable: bool = false
-var _radio_unsupported: bool = false
 var _station_search_query: String = ""
 var _smtc_placeholder_path: String = ""
 
@@ -156,15 +155,6 @@ func _ready() -> void:
 			DiscordRpcBridge.UpdateNowPlaying(display_title, station_name, 0.0)
 	)
 
-	_radio.station_unsupported.connect(func(is_unsupported: bool):
-		_radio_unsupported = is_unsupported
-		if _showing_radio_mode:
-			unsupportInfo.visible = is_unsupported
-		_enable_notes()
-		_update_niko_state()
-		_update_gramaphone_state()
-	)
-	unsupportInfo.visible = false
 
 	_radio.station_unavailable.connect(func(is_unavailable: bool):
 		_radio_unavailable = is_unavailable
@@ -209,13 +199,13 @@ func _enable_notes() -> void:
 	if enabled == null:
 		enabled = true
 		Settings.save_setting("noteEnabled", enabled)
-	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable or _radio_unsupported)
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
 	notes.emitting = enabled and (state == PLAY) and not radio_blocked
 	
 func _update_gramaphone_state() -> void:
 	if state != PLAY:
 		return
-	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable or _radio_unsupported)
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
 	if radio_blocked:
 		gramophone.animPlayer.pause()
 	else:
@@ -224,7 +214,7 @@ func _update_gramaphone_state() -> void:
 func _update_niko_state() -> void:
 	if state != PLAY:
 		return
-	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable or _radio_unsupported)
+	var radio_blocked := _showing_radio_mode and (_radio_buffering or _radio_unavailable)
 	if radio_blocked:
 		niko.animPlayer.play("Sleeping")
 	else:

@@ -467,29 +467,6 @@ horizontal_alignment = 2
 vertical_alignment = 2
 clip_text = true
 
-[node name="unsupportInfo" type="Label" parent="MainWindow" unique_id=1336061863 groups=["tintable"]]
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 0
-visible = false
-texture_filter = 1
-layout_mode = 0
-offset_left = 58.0
-offset_top = 420.0
-offset_right = 214.0
-offset_bottom = 474.0
-text = "unsupported 
-stream format"
-label_settings = SubResource("LabelSettings_s1fef")
-
-[node name="icon" type="TextureRect" parent="MainWindow/unsupportInfo" unique_id=1414043937]
-layout_mode = 0
-offset_left = -47.0
-offset_top = 4.0
-offset_right = -7.0
-offset_bottom = 44.0
-texture = ExtResource("4_htxhm")
-
 [node name="StationInfo" type="Label" parent="MainWindow" unique_id=1399512230 groups=["tintable"]]
 process_thread_group = 1
 process_thread_group_order = 0
