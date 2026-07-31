@@ -441,6 +441,7 @@ grow_vertical = 0
 [connection signal="pressed" from="ExplorerWindow/Layout/TopBar/HBox/CloseButton" to="ExplorerWindow/Layout/TopBar" method="_on_close_button_pressed"]
 [connection signal="pressed" from="ExplorerWindow/Content/file_explorer/ScrollContainer/VBoxContainer/up" to="ExplorerWindow/Content/file_explorer" method="_on_up_pressed"]
 [connection signal="pressed" from="ExplorerWindow/Content/file_explorer/special/pin" to="ExplorerWindow/Content/file_explorer" method="_on_pin_pressed"]
+[connection signal="text_changed" from="ExplorerWindow/Content/file_explorer/path" to="ExplorerWindow/Content/file_explorer" method="_on_path_text_changed"]
 [connection signal="text_submitted" from="ExplorerWindow/Content/file_explorer/path" to="ExplorerWindow/Content/file_explorer" method="_on_path_text_submitted"]
 [connection signal="pressed" from="ExplorerWindow/Content/file_explorer/actions/open" to="ExplorerWindow/Content/file_explorer" method="_on_open_pressed"]
 [connection signal="pressed" from="ExplorerWindow/Content/file_explorer/actions/cancel" to="ExplorerWindow/Content/file_explorer" method="_on_cancel_pressed"]
