@@ -29,6 +29,7 @@ extends Control
 @onready var add_radio_button: Button = $MainWindow/CurrentTrack/TrackListPanel/StationList/AddRadioButton
 
 
+
 const DIRECTORY_WATCHER_SCRIPT = preload("res://addons/directory_watcher/DirectoryWatcher.gd")
 const PLAY: int = 0
 const PAUSE: int = 1
@@ -84,6 +85,10 @@ var _radio_buffering: bool = false
 var _radio_unavailable: bool = false
 var _station_search_query: String = ""
 var _smtc_placeholder_path: String = ""
+
+var text_sound := preload("res://sfx/text.wav")
+var text_audio_player: AudioStreamPlayer
+var playback: AudioStreamPlaybackPolyphonic
 
 
 func _ready() -> void:
@@ -175,6 +180,18 @@ func _ready() -> void:
 		_radio.set_station(str(initial_stations[_current_station_index]["url"]))
 
 	add_radio_button.pressed.connect(_on_add_radio_button_pressed)
+	
+	# Звук при вводе текста в LineEdit
+	text_audio_player = AudioStreamPlayer.new()
+	add_child(text_audio_player)
+
+	var polyphonic := AudioStreamPolyphonic.new()
+	polyphonic.polyphony = 32
+	text_audio_player.volume_db = -10
+	text_audio_player.stream = polyphonic
+	text_audio_player.play()
+
+	playback = text_audio_player.get_stream_playback()
 	
 	_apply_active_playlist_filter()
 	
@@ -1094,6 +1111,7 @@ func play_track_by_index(index: int) -> void:
 	
 func _on_line_edit_text_changed(text: String) -> void:
 	apply_search(text)
+	playback.play_stream(text_sound)
 	
 func apply_search(query: String) -> void:
 	search_query = query.to_lower()
@@ -1153,6 +1171,7 @@ func _select_station(index: int) -> void:
 
 func _on_station_search_text_changed(text: String) -> void:
 	_station_search_query = text.to_lower()
+	playback.play_stream(text_sound)
 	_refresh_station_list()
 
 func _update_playlists_block_state():

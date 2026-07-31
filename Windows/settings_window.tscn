@@ -571,7 +571,6 @@ text = "System"
 
 [node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2110584640]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ooibu")
@@ -996,6 +995,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
 [node name="SystemPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=700226324]
 unique_name_in_owner = true
+visible = false
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1040,6 +1040,7 @@ horizontal_alignment = 1
 [connection signal="gui_input" from="SettingsWindow/Handles/Right" to="SettingsWindow/Handles" method="_on_right_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Bottom" to="SettingsWindow/Handles" method="_on_bottom_gui_input"]
 [connection signal="gui_input" from="SettingsWindow/Handles/Corner" to="SettingsWindow/Handles" method="_on_corner_gui_input"]
+[connection signal="text_changed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FolderPath" to="SettingsWindow" method="_on_folder_path_text_changed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FolderButton" to="SettingsWindow" method="_on_folder_button_pressed"]
 [connection signal="dir_selected" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/PathPanel/FileDialog" to="SettingsWindow" method="_on_file_dialog_dir_selected"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel" method="_on_previous_pressed"]
