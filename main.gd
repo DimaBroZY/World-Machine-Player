@@ -19,7 +19,6 @@ extends Control
 @onready var radio_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/ModeButtonsContainer/HBoxContainer/RadioButton
 @onready var playlists_container: VBoxContainer = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/PlaylistsScrollContainer/VBoxContainer
 @onready var new_playlist_button: Button = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/PlaylistTitleAndButtonsCotainer/NewPlaylistButton
-@onready var radio_player: AudioStreamPlayer = $MainWindow/RadioPlayer
 @onready var play_button: Button = $MainWindow/Buttons/PlayButton
 @onready var track_list_root = $MainWindow/CurrentTrack/TrackListPanel/TrackList
 @onready var station_list_root = $MainWindow/CurrentTrack/TrackListPanel/StationList
@@ -129,7 +128,6 @@ func _ready() -> void:
 
 	_radio = RadioStreamer.new()
 	add_child(_radio)
-	_radio.setup(radio_player)
 	_radio.buffering_changed.connect(func(is_buffering: bool):
 		_radio_buffering = is_buffering
 		if _showing_radio_mode:
@@ -142,35 +140,35 @@ func _ready() -> void:
 	)
 
 	_radio.track_changed.connect(func(title: String):
-			if _showing_radio_mode:
-				curTrack.set_track_name(title)
-				
-				var stations = RadioStationManager.get_stations()
-				var station_name = "Radio"
-				if not stations.is_empty() and _current_station_index >= 0 and _current_station_index < stations.size():
-					station_name = str(stations[_current_station_index].get("name", "Radio"))
-				
-				var display_title = title if not title.is_empty() else station_name
-				MediaControlsBridge.UpdateNowPlaying(display_title, station_name, _smtc_placeholder_path)
-				DiscordRpcBridge.UpdateNowPlaying(display_title, station_name, 0.0)
+		if _showing_radio_mode:
+			curTrack.set_track_name(title)
+
+			var stations = RadioStationManager.get_stations()
+			var station_name = "Radio"
+			if not stations.is_empty() and _current_station_index >= 0 and _current_station_index < stations.size():
+				station_name = str(stations[_current_station_index].get("name", "Radio"))
+
+			var display_title = title if not title.is_empty() else station_name
+			MediaControlsBridge.UpdateNowPlaying(display_title, station_name, _smtc_placeholder_path)
+			DiscordRpcBridge.UpdateNowPlaying(display_title, station_name, 0.0)
 	)
 
 	_radio.station_unsupported.connect(func(is_unsupported: bool):
 		_radio_unsupported = is_unsupported
 		if _showing_radio_mode:
 			unsupportInfo.visible = is_unsupported
-			if _showing_radio_mode:
-				unsupportInfo.visible = is_unsupported
-			_enable_notes()
-			_update_niko_state()
-			_update_gramaphone_state()			
-		)
+		_enable_notes()
+		_update_niko_state()
+		_update_gramaphone_state()
+	)
 	unsupportInfo.visible = false
-	
+
 	_radio.station_unavailable.connect(func(is_unavailable: bool):
 		_radio_unavailable = is_unavailable
 		if _showing_radio_mode:
 			stationInfo.visible = is_unavailable
+			if not is_unavailable:
+				_refresh_station_list()
 		_enable_notes()
 		_update_niko_state()
 		_update_gramaphone_state()
@@ -1027,7 +1025,7 @@ func set_volume(percent: float) -> void:
 	volume_percent = clamp(percent, 0.0, 100.0)
 
 	music.volume_db = linear_to_db(volume_percent / 100.0)
-	radio_player.volume_db = linear_to_db(volume_percent / 100.0)
+	AudioManager.SetVolume(volume_percent / 100.0)
 	
 	# синхронизация UI
 	volumeControl.volumeControlSlide.value = volume_percent
@@ -1365,11 +1363,10 @@ func _refresh_station_list() -> void:
 		item.check_box.visible = false
 
 		var is_current := i == _current_station_index
-		item.disabled = _radio.is_switching() or is_current
 		item.set_selected(is_current)
 		item.add_to_playlist_button.texture_normal = DELETE_ICON
 		item.add_to_playlist_button.texture_hover = DELETE_ICON_HOVER
-		item.add_to_playlist_button.modulate = Color.BLACK if is_current else Color.WHITE
+		item.add_to_playlist_button.modulate = Color.WHITE if is_current else Color.WHITE
 	
 		item.pressed.disconnect(Callable(item, "_on_track_pressed"))
 
@@ -1387,8 +1384,6 @@ func _refresh_station_list() -> void:
 		
 func _select_station(index: int) -> void:
 	if index < 0 or index >= RadioStationManager.get_stations().size():
-		return
-	if _radio.is_switching():
 		return
 
 	_current_station_index = index

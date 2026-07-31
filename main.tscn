@@ -34,10 +34,6 @@
 [ext_resource type="Texture2D" uid="uid://ccnsv1qmv6r3f" path="res://Assets/Icons/Notes.png" id="27_kq58d"]
 [ext_resource type="PackedScene" uid="uid://d4fibf524tiey" path="res://Objects/Loading.tscn" id="31_seu75"]
 
-[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_seu75"]
-mix_rate = 48000.0
-buffer_length = 10.0
-
 [sub_resource type="LabelSettings" id="LabelSettings_xuqvo"]
 font = ExtResource("9_kek77")
 
@@ -454,12 +450,6 @@ icon_normal = ExtResource("3_jq2sk")
 icon_hover = ExtResource("3_jq2sk")
 icon_pressed = ExtResource("3_jq2sk")
 icon_disabled = ExtResource("3_jq2sk")
-
-[node name="RadioPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=770886441]
-process_thread_group = 1
-process_thread_group_order = 0
-process_thread_messages = 0
-stream = SubResource("AudioStreamGenerator_seu75")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MainWindow" unique_id=628063227]
 process_mode = 3
