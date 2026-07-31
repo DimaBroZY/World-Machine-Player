@@ -954,6 +954,8 @@ func _on_local_button_toggled(is_pressed: bool) -> void:
 		loadingIcon.visible = false
 		stationInfo.visible = false
 		_apply_active_playlist_filter()
+		if not _local.has_track():
+			_load_current_track()
 		update_track_name()
 		_update_playlists_block_state()
 		if state == PLAY:
