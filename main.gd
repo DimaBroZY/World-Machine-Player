@@ -25,7 +25,6 @@ extends Control
 @onready var stations_container = $MainWindow/CurrentTrack/TrackListPanel/StationList/ScrollContainer/VBoxContainer
 @onready var stationInfo = $MainWindow/StationInfo
 @onready var station_search_bar = $MainWindow/CurrentTrack/TrackListPanel/StationList/LineEdit
-@onready var unsupportInfo: Label = $MainWindow/unsupportInfo
 @onready var playlistsBlock: Panel = $MainWindow/CurrentTrack/TrackListPanel/PlaylistsAndModes/Block
 @onready var add_radio_button: Button = $MainWindow/CurrentTrack/TrackListPanel/StationList/AddRadioButton
 

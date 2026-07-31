@@ -4,8 +4,6 @@ extends Node
 signal track_changed(title: String)
 signal buffering_changed(is_buffering: bool)
 signal station_unavailable(is_unavailable: bool)
-signal station_unsupported(is_unsupported: bool)
-
 
 func setup(_player: AudioStreamPlayer) -> void:
 	pass
@@ -21,10 +19,6 @@ func _ready() -> void:
 	AudioManager.StationUnavailable.connect(func(is_unavailable: bool) -> void:
 		station_unavailable.emit(is_unavailable)
 	)
-	AudioManager.StationUnsupported.connect(func(is_unsupported: bool) -> void:
-		station_unsupported.emit(is_unsupported)
-	)
-
 
 func is_active() -> bool:
 	return AudioManager.IsActive()

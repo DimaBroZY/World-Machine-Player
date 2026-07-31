@@ -99,6 +99,7 @@ public partial class AudioManager : Node
 	{
 		LoadBassPlugin("bassflac");
 		LoadBassPlugin("bassopus");
+		LoadBassPlugin("bass_aac");
 	}
 
 	private void LoadBassPlugin(string baseName)
