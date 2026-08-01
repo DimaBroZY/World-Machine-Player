@@ -735,12 +735,10 @@ func _show_loading_info(count: int) -> void:
 			files_count += 1
 	
 	loadingInfo.text = "Loading: " + str(count) + " / " + str(files_count)
-	#loadingInfo.visible = true
 	loadingIcon.visible = true
 
 
 func _hide_loading_info() -> void:
-	#loadingInfo.visible = false
 	loadingIcon.visible = false
 	
 func _await_track_skip()-> void:
@@ -1241,10 +1239,6 @@ func _on_station_search_text_changed(text: String) -> void:
 	_refresh_station_list()
 
 func _update_playlists_block_state():
-	#if _showing_radio_mode:
-		#playlistsBlock.show()
-	#else:
-		#playlistsBlock.hide()
 	pass
 func _delete_station(index: int) -> void:
 	var stations := RadioStationManager.get_stations()
