@@ -259,17 +259,28 @@ func _crossfade_enabled() -> bool:
 func _on_crossfade_timer_timeout() -> void:
 	if not _crossfade_enabled():
 		return
-	if Settings.get_setting("EndOfTrackAction") == false:
-		return
 	if _showing_radio_mode or state != PLAY or not _local.has_track():
 		return
-	if playlist.size() <= 1:
+
+	var repeat_current: bool = Settings.get_setting("EndOfTrackAction") == false
+	if not repeat_current and playlist.size() <= 1:
 		return
+
 	var remaining: float = _local.get_length() - _local.get_position()
 	if remaining <= CROSSFADE_SECONDS and remaining > 0.0 and not _crossfade_started:
 		_crossfade_started = true
-		_advance_with_crossfade()
+		if repeat_current:
+			_crossfade_repeat_current()
+		else:
+			_advance_with_crossfade()
 
+func _crossfade_repeat_current() -> void:
+	var source_path: String = _get_current_track_value("source_path")
+	if source_path.is_empty() or not _local.crossfade_to(source_path, CROSSFADE_SECONDS):
+		_local.seek(0.0)
+		if state == PLAY:
+			_local.play()
+	_crossfade_started = false
 
 func _advance_with_crossfade() -> void:
 	if Settings.get_setting("shuffle"):
@@ -301,9 +312,10 @@ func _on_local_track_finished() -> void:
 	if _showing_radio_mode:
 		return
 	if Settings.get_setting("EndOfTrackAction") == false:
-		_local.seek(0.0)
-		if state == PLAY:
-			_local.play()
+		if not _crossfade_enabled():
+			_local.seek(0.0)
+			if state == PLAY:
+				_local.play()
 	else:
 		if not _crossfade_enabled():
 			_on_next_track_pressed()
