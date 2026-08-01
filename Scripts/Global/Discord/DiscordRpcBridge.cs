@@ -21,8 +21,15 @@ public partial class DiscordRpcBridge : Node
 		_client.Initialize();
 	}
 	
+	private bool IsEnabled()
+	{
+		var settings = GetNode("/root/Settings");
+		return (bool)settings.Call("get_setting", "discord_rpc_enabled", true);
+	}
+
 	public void UpdateNowPlaying(string title, string artist, double durationSeconds = 0)
 	{
+		if (!IsEnabled()) return;
 		_title = title;
 		_artist = artist;
 		_durationSeconds = durationSeconds;
@@ -31,7 +38,7 @@ public partial class DiscordRpcBridge : Node
 	
 	public void SetPlaying(bool isPlaying, double positionSeconds = 0)
 	{
-		if (_client == null) return;
+		if (_client == null || !IsEnabled()) return;
 
 		var presence = new RichPresence
 		{
