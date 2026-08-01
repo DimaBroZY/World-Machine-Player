@@ -38,6 +38,7 @@ driver/certificate_bundle_override=""
 
 [autoload]
 
+SingleInstanceGuard="*uid://c1lwgoppb5mjy"
 Settings="*res://Settings.gd"
 TintManager="*res://Windows/Scripts/TintManager.gd"
 EventBus="*uid://y57mki3he356"
