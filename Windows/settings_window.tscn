@@ -633,7 +633,6 @@ text = "System"
 
 [node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=338045341]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ooibu")
@@ -1135,6 +1134,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
 [node name="SystemPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=700226324]
 unique_name_in_owner = true
+visible = false
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3

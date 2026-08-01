@@ -259,6 +259,8 @@ func _crossfade_enabled() -> bool:
 func _on_crossfade_timer_timeout() -> void:
 	if not _crossfade_enabled():
 		return
+	if Settings.get_setting("EndOfTrackAction") == false:
+		return
 	if _showing_radio_mode or state != PLAY or not _local.has_track():
 		return
 	if playlist.size() <= 1:
