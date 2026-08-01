@@ -419,6 +419,10 @@ func _scan_music_folder() -> Array[Dictionary]:
 		file_name = dir.get_next()
 	dir.list_dir_end()
 
+	found_tracks.sort_custom(func(a, b):
+		return str(a["file_name"]).naturalnocasecmp_to(str(b["file_name"])) < 0
+	)
+
 	_last_music_scan_ok = true
 	return found_tracks
 
@@ -575,7 +579,7 @@ func _apply_playlist_after_refresh(previous_source_path: String, changed_sources
 		current_index = 0
 		if _local.get_current_path() != ProjectSettings.globalize_path(FALLBACK_TRACK_PATH):
 			_load_fallback_track()
-			if state == PLAY:
+			if state == PLAY and not _showing_radio_mode:
 				_local.play()
 		return
 
@@ -599,7 +603,7 @@ func _apply_playlist_after_refresh(previous_source_path: String, changed_sources
 	)
 
 	if should_reload:
-		var should_resume: bool = state == PLAY
+		var should_resume: bool = state == PLAY and not _showing_radio_mode
 		_local.stop()
 		_load_current_track()
 		if should_resume:
@@ -632,6 +636,8 @@ func _load_fallback_track() -> void:
 
 
 func update_track_name() -> void:
+	if _showing_radio_mode:
+		return
 	var track_name: String
 	if playlist.size() > 0 and current_index < playlist.size():
 		track_name = str(playlist[current_index].get("name", FALLBACK_TRACK_PATH.get_file().get_basename()))
