@@ -42,6 +42,7 @@ const MUSIC_FOLDER_REFRESH_DEBOUNCE: float = 2.25
 const MIN_FILE_AGE_SECONDS: int = 2
 const SUPPORTED_AUDIO_EXTENSIONS: Array[String] = ["ogg", "mp3", "flac", "opus"]
 const LOCK_TIME: float = 0.0
+const CROSSFADE_SECONDS: float = 3.0
 const TRACK_ITEM = preload("res://scenes/trackitem.tscn")
 const PLAYLIST_ITEM = preload("res://scenes/playlist.tscn")
 const DELETE_ICON = preload("res://Assets/Icons/RecycleBin.png")
@@ -78,6 +79,8 @@ var _checked_track_source_path: String = ""
 var current_source: PlaybackSource
 var _local: LocalPlayer
 var _local_source: LocalPlaybackSource
+var _crossfade_started := false
+var _crossfade_timer: Timer
 var _radio_source: RadioPlaybackSource
 var _radio: RadioStreamer
 var _current_station_index: int = 0
@@ -122,6 +125,12 @@ func _ready() -> void:
 	_local.set_pitch(speedControl.speedControlSlide.value / 100.0)
 	_local_source = LocalPlaybackSource.new(_local)
 	current_source = _local_source
+
+	_crossfade_timer = Timer.new()
+	_crossfade_timer.wait_time = 0.25
+	_crossfade_timer.autostart = true
+	add_child(_crossfade_timer)
+	_crossfade_timer.timeout.connect(_on_crossfade_timer_timeout)
 
 	await load_tracks_from_folder(true)
 
@@ -243,6 +252,49 @@ func nicoAnim() -> void:
 		niko.animPlayer.play("Dance_Sitting")
 
 
+func _crossfade_enabled() -> bool:
+	return Settings.get_setting("Crossfade", false) == true
+
+
+func _on_crossfade_timer_timeout() -> void:
+	if not _crossfade_enabled():
+		return
+	if _showing_radio_mode or state != PLAY or not _local.has_track():
+		return
+	if playlist.size() <= 1:
+		return
+	var remaining: float = _local.get_length() - _local.get_position()
+	if remaining <= CROSSFADE_SECONDS and remaining > 0.0 and not _crossfade_started:
+		_crossfade_started = true
+		_advance_with_crossfade()
+
+
+func _advance_with_crossfade() -> void:
+	if Settings.get_setting("shuffle"):
+		if _shuffle_history.is_empty():
+			_shuffle_history.append(current_index)
+			_shuffle_pos = 0
+		if _shuffle_pos < _shuffle_history.size() - 1:
+			_shuffle_pos += 1
+			current_index = _shuffle_history[_shuffle_pos]
+		else:
+			var next_index := randi() % playlist.size()
+			while next_index == current_index:
+				next_index = randi() % playlist.size()
+			current_index = next_index
+			_shuffle_history.append(current_index)
+			_shuffle_pos = _shuffle_history.size() - 1
+	else:
+		current_index = (current_index + 1) % playlist.size()
+
+	var source_path: String = _get_current_track_value("source_path")
+	if source_path.is_empty() or not _local.crossfade_to(source_path, CROSSFADE_SECONDS):
+		_load_current_track()
+		_local.play()
+	update_track_name()
+	_crossfade_started = false
+
+
 func _on_local_track_finished() -> void:
 	if _showing_radio_mode:
 		return
@@ -251,7 +303,8 @@ func _on_local_track_finished() -> void:
 		if state == PLAY:
 			_local.play()
 	else:
-		_on_next_track_pressed()
+		if not _crossfade_enabled():
+			_on_next_track_pressed()
 
 
 func _on_setting_changed(key: String, value: Variant) -> void:
@@ -613,6 +666,7 @@ func _apply_playlist_after_refresh(previous_source_path: String, changed_sources
 
 
 func _load_current_track() -> void:
+	_crossfade_started = false
 	if playlist.is_empty():
 		_load_fallback_track()
 		return
@@ -725,6 +779,8 @@ func _on_next_track_pressed() -> void:
 				_shuffle_pos = _shuffle_history.size() - 1
 		else:
 			current_index = (current_index + 1) % playlist.size()
+
+		_crossfade_started = false
 		_local.stop()
 		_load_current_track()
 		update_state()
@@ -747,6 +803,8 @@ func _on_previous_track_pressed() -> void:
 			current_index = _shuffle_history[_shuffle_pos]
 		elif not Settings.get_setting("shuffle"):
 			current_index = (current_index - 1 + playlist.size()) % playlist.size()
+
+		_crossfade_started = false
 		_local.stop()
 		_load_current_track()
 		update_state()

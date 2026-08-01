@@ -234,6 +234,42 @@ func _on_next_pressed() -> void:
 	EventBus.setShuffle.emit()
 "
 
+[sub_resource type="GDScript" id="GDScript_jklcd"]
+script/source = "extends PanelContainer
+# onready var
+@onready var label = $ChangeSetting/PanelContainer/Label
+@onready var labelText = label.text
+# var
+var Crossfade = Settings.get_setting(\"Crossfade\")
+
+
+
+func _ready() -> void:
+	if Crossfade == null:
+		Settings.save_setting(\"Crossfade\", false)
+		Crossfade = Settings.get_setting(\"Crossfade\")
+	else:	
+		Crossfade = Settings.get_setting(\"Crossfade\")
+		set_label_text()
+		
+func set_label_text():
+	if Crossfade == false:
+		label.text = \"Off\"
+	else:
+		label.text = \"On\"	
+	Settings.save_setting(\"Crossfade\", Crossfade)
+	
+func _on_previous_pressed() -> void:
+	Crossfade = !Crossfade
+	set_label_text()
+	EventBus.crossfade_enabled.emit()
+	
+func _on_next_pressed() -> void:
+	Crossfade = !Crossfade
+	set_label_text()
+	EventBus.crossfade_enabled.emit()
+"
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khhxn"]
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
@@ -813,6 +849,84 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 
+[node name="CrossfadePanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=1858004039]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 185)
+offset_transform_visual_only = false
+theme_override_styles/panel = SubResource("StyleBoxEmpty_s1fef")
+script = SubResource("GDScript_jklcd")
+
+[node name="ChangeSetting" type="Control" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel" unique_id=871954867]
+layout_mode = 2
+
+[node name="Crossfade" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting" unique_id=1800421792]
+layout_mode = 0
+offset_left = 135.0
+offset_top = 1.0
+offset_right = 241.0
+offset_bottom = 29.0
+scale = Vector2(1.5, 1.5)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("15_8x2rp")
+text = "Crossfade"
+label_settings = SubResource("LabelSettings_8x2rp")
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting" unique_id=963034987]
+custom_maximum_size = Vector2(345, 35)
+layout_mode = 0
+offset_left = 42.0
+offset_top = 46.0
+offset_right = 387.0
+offset_bottom = 81.0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jnyio")
+
+[node name="Label" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting/PanelContainer" unique_id=1338003212]
+layout_mode = 2
+text = "off"
+label_settings = SubResource("LabelSettings_mcsq1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tooltip" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting/PanelContainer" unique_id=458094488 groups=["tintable"]]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wb4oo")
+script = ExtResource("19_g5yv1")
+custom_text = "On/Off crossfade"
+metadata/_custom_type_script = "uid://t8kh4ydb8o8c"
+
+[node name="Previous" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting" unique_id=1010794170]
+custom_maximum_size = Vector2(35, 35)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 46.0
+offset_right = 43.0
+offset_bottom = 81.0
+pivot_offset = Vector2(342.43176, -54.590576)
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_ooibu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jklcd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_l8fi3")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_logg6")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_6bdik")
+
+[node name="Next" type="Button" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting" unique_id=1947890536]
+custom_maximum_size = Vector2(35, 35)
+layout_mode = 0
+offset_left = 387.0
+offset_top = 46.0
+offset_right = 422.0
+offset_bottom = 81.0
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vhduf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tnr6a")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xy3xa")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_jyvwr")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
+
 [node name="VisualPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2109862331]
 unique_name_in_owner = true
 visible = false
@@ -1047,6 +1161,8 @@ horizontal_alignment = 1
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/EndOfTrackActionPanel" method="_on_next_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel" method="_on_previous_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/ShufflePanel" method="_on_next_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel" method="_on_previous_pressed"]
+[connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel" method="_on_next_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet" method="_on_previous_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet/ChangeSetting/Next" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/WorldMachineThemeSet" method="_on_next_pressed"]
 [connection signal="pressed" from="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes/ChangeSetting/Previous" to="SettingsWindow/Content/PanelManager/HBoxContainer/VisualPanel/VBoxContainer/Notes" method="_on_previous_pressed"]

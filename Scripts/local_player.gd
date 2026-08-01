@@ -14,6 +14,10 @@ func load_track(source_path: String) -> bool:
 	return AudioManager.LoadLocalTrack(source_path)
 
 
+func crossfade_to(source_path: String, duration: float = 2.0) -> bool:
+	return AudioManager.CrossfadeToLocal(source_path, duration)
+
+
 func play() -> void:
 	AudioManager.PlayLocal()
 

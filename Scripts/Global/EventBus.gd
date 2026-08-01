@@ -17,3 +17,6 @@ signal setEndOfTrackAction
 
 @warning_ignore("unused_signal")
 signal setShuffle
+
+@warning_ignore("unused_signal")
+signal crossfade_enabled

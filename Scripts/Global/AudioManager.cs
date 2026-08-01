@@ -40,6 +40,8 @@ public partial class AudioManager : Node
 	private float _localPitch = 1.0f;
 	private float _localBaseFrequency = DefaultFrequency;
 	private bool _localUserPaused;
+	private int _fadeOutChannel;
+	private int _fadeOutGeneration;
 
 	private SyncProcedure _metaSync;
 	private SyncProcedure _stallSync;
@@ -79,18 +81,18 @@ public partial class AudioManager : Node
 
 		if (!File.Exists(path))
 		{
-			GD.PrintErr($"BASS plugin not found: {fileName} in {userDir}");
+			GD.PrintErr($"[BASS] plugin not found: {fileName} in {userDir}");
 			return;
 		}
 
 		int pluginHandle = Bass.PluginLoad(path);
 		if (pluginHandle != 0)
 		{
-			GD.Print($"BASS plugin loaded: {path}");
+			GD.Print($"[BASS] plugin loaded: {path}");
 			return;
 		}
 
-		GD.PrintErr($"BASS plugin failed ({baseName}): {path} ({Bass.LastError})");
+		GD.PrintErr($"[BASS] plugin failed ({baseName}): {path} ({Bass.LastError})");
 	}
 
 	// ================= radio API =================
@@ -189,6 +191,71 @@ public partial class AudioManager : Node
 		AttachLocalEndSync(channel);
 		ApplyLocalAttributes();
 		return true;
+	}
+	public bool CrossfadeToLocal(string path, float durationSeconds)
+	{
+		string resolved = ResolveFilePath(path);
+		if (string.IsNullOrEmpty(resolved) || !File.Exists(resolved))
+		{
+			GD.PrintErr($"Local: файл не найден: {path}");
+			return false;
+		}
+
+		int newChannel = Bass.CreateStream(resolved, 0, 0, BassFlags.Default);
+		if (newChannel == 0)
+		{
+			GD.PrintErr($"Local: не удалось открыть {resolved}: {Bass.LastError}");
+			return false;
+		}
+
+		int durationMs = Mathf.Max(0, (int)(durationSeconds * 1000f));
+
+		if (_fadeOutChannel != 0)
+		{
+			Bass.ChannelStop(_fadeOutChannel);
+			Bass.StreamFree(_fadeOutChannel);
+			_fadeOutChannel = 0;
+		}
+
+		int oldChannel = _localChannel;
+		if (oldChannel != 0)
+		{
+			_fadeOutChannel = oldChannel;
+			Bass.ChannelSlideAttribute(oldChannel, ChannelAttribute.Volume, 0f, durationMs);
+		}
+
+		var info = Bass.ChannelGetInfo(newChannel);
+		Bass.ChannelSetAttribute(newChannel, ChannelAttribute.Volume, 0f);
+		Bass.ChannelPlay(newChannel, false);
+		Bass.ChannelSlideAttribute(newChannel, ChannelAttribute.Volume, _volume, durationMs);
+
+		_localChannel = newChannel;
+		_localPath = resolved;
+		_localUserPaused = false;
+		_localBaseFrequency = info.Frequency > 0 ? info.Frequency : DefaultFrequency;
+		AttachLocalEndSync(newChannel);
+		ApplyLocalPitch();
+
+		_fadeOutGeneration++;
+		_ = FreeFadeOutChannelAfter(oldChannel, durationSeconds + 0.1f, _fadeOutGeneration);
+
+		return true;
+	}
+
+	private async Task FreeFadeOutChannelAfter(int channel, float delaySeconds, int generation)
+	{
+		if (channel == 0)
+			return;
+
+		var timer = GetTree().CreateTimer(delaySeconds);
+		await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+
+		if (generation != _fadeOutGeneration || channel != _fadeOutChannel)
+			return;
+
+		Bass.ChannelStop(channel);
+		Bass.StreamFree(channel);
+		_fadeOutChannel = 0;
 	}
 
 	public void PlayLocal()
