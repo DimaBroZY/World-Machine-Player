@@ -7,6 +7,23 @@ signal station_confirmed(station_name: String, url: String)
 @onready var ok_button: Button = $AddRadioWindow/Main/ButtonsContainer/Buttons/OkButton
 @onready var cancel_button: Button = $AddRadioWindow/Main/ButtonsContainer/Buttons/CancelButton
 @onready var close_button: Button = $AddRadioWindow.get_node("%CloseButton")
+@onready var status_label: Label = _create_status_label()
+
+var _pending_name: String = ""
+var _url_regex: RegEx = _make_url_regex()
+
+
+func _make_url_regex() -> RegEx:
+	var regex := RegEx.new()
+	regex.compile("^https?://[^\\s/$.?#].[^\\s]*$")
+	return regex
+
+
+func _create_status_label() -> Label:
+	var label := $AddRadioWindow/Main/StatusLabel
+	label.add_theme_color_override("font_color", Color.WHITE)
+	label.name = "StatusLabel"
+	return label
 
 
 func _ready() -> void:
@@ -23,17 +40,50 @@ func _ready() -> void:
 func open_dialog() -> void:
 	name_field.text = ""
 	url_field.text = ""
+	status_label.text = ""
 	visible = true
 	WindowManager.set_modal_open(true)
+
+func _show_success(text: String) -> void:
+	status_label.add_theme_color_override("font_color", Color.GREEN)
+	status_label.text = text
+
+func _show_error(text: String) -> void:
+	status_label.add_theme_color_override("font_color", Color.INDIAN_RED)
+	status_label.text = text
 
 
 func _on_ok_pressed() -> void:
 	var station_name: String = name_field.text.strip_edges()
 	var station_url: String = url_field.text.strip_edges()
 	if station_name.is_empty() or station_url.is_empty():
+		_show_error("Fill in both fields")
 		return
-	station_confirmed.emit(station_name, station_url)
-	close_animation()
+	if _url_regex.search(station_url) == null:
+		_show_error("Incorrect URL (need http:// or https://)")
+		return
+
+	_pending_name = station_name
+	ok_button.disabled = true
+	status_label.add_theme_color_override("font_color", Color.WHITE)
+	status_label.text = "Station check..."
+
+	if AudioManager.StationTestResult.is_connected(_on_station_test_result):
+		AudioManager.StationTestResult.disconnect(_on_station_test_result)
+	AudioManager.StationTestResult.connect(_on_station_test_result, CONNECT_ONE_SHOT)
+	AudioManager.TestStation(station_url)
+
+
+func _on_station_test_result(url: String, is_valid: bool, is_unsupported: bool) -> void:
+	ok_button.disabled = false
+	if is_valid:
+		station_confirmed.emit(_pending_name, url)
+		_show_success("Station added successfully")
+		close_animation()
+	elif is_unsupported:
+		_show_error("Stream format not supported")
+	else:
+		_show_error("Failed to connect (unavailable)")
 
 
 func _on_cancel_pressed() -> void:

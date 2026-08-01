@@ -66,7 +66,7 @@ border_color = Color(0.654902, 0.654902, 0.654902, 1)
 [node name="Window" type="Window" unique_id=732612012]
 oversampling_override = 1.0
 initial_position = 1
-size = Vector2i(450, 275)
+size = Vector2i(450, 300)
 borderless = true
 always_on_top = true
 script = ExtResource("1_f5bhk")
@@ -82,13 +82,22 @@ icon_disabled = SubResource("AtlasTexture_jq2sk")
 is_disabled = true
 
 [node name="Main" type="PanelContainer" parent="AddRadioWindow" unique_id=1907677936]
-custom_minimum_size = Vector2(0, 175)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 0
 offset_left = 4.0
 offset_top = 72.0
 offset_right = 454.0
 offset_bottom = 247.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ig7ow")
+
+[node name="StatusLabel" type="Label" parent="AddRadioWindow/Main" unique_id=367547759 groups=["no_tint"]]
+custom_maximum_size = Vector2(390, 30)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(20, 40)
+offset_transform_visual_only = false
+theme_override_fonts/font = ExtResource("7_wqir2")
+text = "Status"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="AddRadioWindow/Main" unique_id=1357663078]
 custom_minimum_size = Vector2(0, 120)
@@ -171,6 +180,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_cp482")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ctxh1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ctxh1")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_ctxh1")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_ctxh1")
 script = ExtResource("13_3ip0w")
 
 [node name="OkLabel" type="Label" parent="AddRadioWindow/Main/ButtonsContainer/Buttons/OkButton" unique_id=1276085952]

@@ -16,6 +16,7 @@ public partial class AudioManager : Node
 	[Signal] public delegate void StationUnavailableEventHandler(bool isUnavailable);
 	[Signal] public delegate void StationUnsupportedEventHandler(bool isUnsupported);
 	[Signal] public delegate void LocalTrackFinishedEventHandler();
+	[Signal] public delegate void StationTestResultEventHandler(string url, bool isValid, bool isUnsupported);
 
 	private static readonly Regex StreamTitleRegex =
 		new(@"StreamTitle='(.*?)';", RegexOptions.Compiled);
@@ -157,6 +158,22 @@ public partial class AudioManager : Node
 		EmitSignal(SignalName.BufferingChanged, false);
 		EmitSignal(SignalName.StationUnavailable, false);
 	}
+
+	public void TestStation(string url)
+	{
+		Task.Run(() =>
+		{
+			string request = url + "\r\nUser-Agent: WorldMachinePlayer";
+			int channel = Bass.CreateStream(request, 0, BassFlags.Default, null);
+			bool ok = channel != 0;
+			bool unsupported = !ok && Bass.LastError == Errors.FileFormat;
+			if (ok) Bass.StreamFree(channel); 
+			CallDeferred(nameof(EmitStationTestResult), url, ok, unsupported);
+		});
+	}
+
+	private void EmitStationTestResult(string url, bool isValid, bool isUnsupported)
+		=> EmitSignal(SignalName.StationTestResult, url, isValid, isUnsupported);
 
 	// ================= local API =================
 
