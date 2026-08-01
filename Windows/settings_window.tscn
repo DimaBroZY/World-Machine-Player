@@ -605,33 +605,32 @@ toggle_mode = true
 button_group = ExtResource("21_sjhro")
 text = "System"
 
-[node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=2110584640]
+[node name="GeneralPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer" unique_id=338045341]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ooibu")
 
-[node name="GeneralLabel" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel" unique_id=4518194]
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel" unique_id=354164529]
+layout_mode = 2
+
+[node name="GeneralLabel" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=4518194]
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 3)
 offset_transform_visual_only = false
 theme_override_fonts/font = ExtResource("4_qm3jx")
 theme_override_font_sizes/font_size = 30
 text = "----- General -----"
 label_settings = SubResource("LabelSettings_sjhro")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel" unique_id=354164529]
-layout_mode = 2
-
 [node name="PathPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=33671686]
 custom_maximum_size = Vector2(410, 50)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(10, 50)
+offset_transform_position = Vector2(10, 0)
 offset_transform_visual_only = false
 theme_override_styles/panel = SubResource("StyleBoxFlat_s1fef")
 
@@ -693,7 +692,7 @@ recent_list_enabled = false
 [node name="EndOfTrackActionPanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=1470375712]
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 40)
+offset_transform_position = Vector2(0, -10)
 offset_transform_visual_only = false
 theme_override_styles/panel = SubResource("StyleBoxEmpty_s1fef")
 script = SubResource("GDScript_jnyio")
@@ -773,7 +772,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 [node name="ShufflePanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=919233641]
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 110)
+offset_transform_position = Vector2(0, 65)
 offset_transform_visual_only = false
 theme_override_styles/panel = SubResource("StyleBoxEmpty_s1fef")
 script = SubResource("GDScript_ooibu")
@@ -852,7 +851,7 @@ theme_override_styles/disabled = SubResource("StyleBoxTexture_q6p7f")
 [node name="CrossfadePanel" type="PanelContainer" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer" unique_id=1858004039]
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, 185)
+offset_transform_position = Vector2(0, 140)
 offset_transform_visual_only = false
 theme_override_styles/panel = SubResource("StyleBoxEmpty_s1fef")
 script = SubResource("GDScript_jklcd")
@@ -863,9 +862,9 @@ layout_mode = 2
 [node name="Crossfade" type="Label" parent="SettingsWindow/Content/PanelManager/HBoxContainer/GeneralPanel/VBoxContainer/CrossfadePanel/ChangeSetting" unique_id=1800421792]
 layout_mode = 0
 offset_left = 135.0
-offset_top = 1.0
+offset_top = 7.0
 offset_right = 241.0
-offset_bottom = 29.0
+offset_bottom = 35.0
 scale = Vector2(1.5, 1.5)
 size_flags_horizontal = 0
 size_flags_vertical = 0

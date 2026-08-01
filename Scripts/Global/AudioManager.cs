@@ -497,7 +497,8 @@ public partial class AudioManager : Node
 
 		try
 		{
-			return Encoding.GetEncoding(932).GetString(data);
+			int systemCodePage = Encoding.Default.CodePage;
+			return Encoding.GetEncoding(systemCodePage).GetString(data);
 		}
 		catch (Exception)
 		{
@@ -524,17 +525,12 @@ public partial class AudioManager : Node
 
 	private void OnOggTagsChanged(int channel)
 	{
-		// Приходит при переподключении/смене URL — не даём устаревшему каналу
-		// перезаписать метаданные текущего.
 		if (channel != _streamChannel)
 			return;
 
 		ReadOggTags(channel);
 	}
 
-	// OGG/Opus/Ogg-FLAC не используют ICY StreamTitle — их метаданные (Vorbis
-	// comments) читаются через TAG_OGG, а не TAG_META, и обновляются через
-	// отдельный BASS_SYNC_OGG_CHANGE, а не BASS_SYNC_META.
 	private void ReadOggTags(int channel)
 	{
 		IntPtr ptr = Bass.ChannelGetTags(channel, TagType.OGG);
@@ -566,8 +562,6 @@ public partial class AudioManager : Node
 		EmitSignal(SignalName.TrackChanged, displayTitle);
 	}
 
-	// TAG_OGG — это последовательность UTF-8 строк "KEY=VALUE", каждая
-	// с нулевым байтом на конце, а весь список заканчивается двойным нулём.
 	private static IEnumerable<string> ReadNullSeparatedUtf8(IntPtr ptr)
 	{
 		if (ptr == IntPtr.Zero)
