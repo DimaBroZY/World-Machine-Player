@@ -11,6 +11,14 @@ var track_source_path: String = ""
 var track_index: int = -1
 var _ignore_checkbox_sync: bool = false
 
+var open_sound: Array = [
+	preload("res://sfx/twm_notif.wav"),
+	preload("res://sfx/twm_notif2.wav"),
+	preload("res://sfx/twm_notif3.wav"),
+	preload("res://sfx/twm_notif4.wav")
+]
+var audio_player: AudioStreamPlayer
+var playback: AudioStreamPlaybackPolyphonic
 
 func setup(track: Dictionary, index: int) -> void:
 	track_source_path = str(track.get("source_path", ""))
@@ -30,6 +38,18 @@ func _ready() -> void:
 	pressed.connect(_on_track_pressed)
 	add_to_playlist_button.pressed.connect(_on_add_to_playlist_pressed)
 
+
+	# Инициализация аудиоплеера для воспроизведения звуков уведомлений
+	audio_player = AudioStreamPlayer.new()
+	add_child(audio_player)
+
+	var polyphonic := AudioStreamPolyphonic.new()
+	polyphonic.polyphony = 32
+	audio_player.volume_db = -10
+	audio_player.stream = polyphonic
+	audio_player.play()
+
+	playback = audio_player.get_stream_playback()
 
 func _on_track_pressed() -> void:
 	_apply_single_checkbox_selection()

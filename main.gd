@@ -50,6 +50,8 @@ const DELETE_ICON_HOVER = preload("res://Assets/Icons/RecycleBin_Hover.png")
 
 static var mode_button_group: ButtonGroup
 
+
+
 var _showing_radio_mode: bool = false
 var _local_track_list_cache: Array[Dictionary] = []
 var _local_track_list_cache_valid: bool = false
@@ -90,7 +92,13 @@ var _station_search_query: String = ""
 var _smtc_placeholder_path: String = ""
 
 var text_sound := preload("res://sfx/text.wav")
-var text_audio_player: AudioStreamPlayer
+var open_sound: Array = [
+	preload("res://sfx/twm_notif.wav"),
+	preload("res://sfx/twm_notif2.wav"),
+	preload("res://sfx/twm_notif3.wav"),
+	preload("res://sfx/twm_notif4.wav")
+]
+var audio_player: AudioStreamPlayer
 var playback: AudioStreamPlaybackPolyphonic
 
 
@@ -191,17 +199,18 @@ func _ready() -> void:
 	add_radio_button.pressed.connect(_on_add_radio_button_pressed)
 	
 	# Звук при вводе текста в LineEdit
-	text_audio_player = AudioStreamPlayer.new()
-	add_child(text_audio_player)
+	audio_player = AudioStreamPlayer.new()
+	add_child(audio_player)
 
 	var polyphonic := AudioStreamPolyphonic.new()
 	polyphonic.polyphony = 32
-	text_audio_player.volume_db = -10
-	text_audio_player.stream = polyphonic
-	text_audio_player.play()
+	audio_player.volume_db = -10
+	audio_player.stream = polyphonic
+	audio_player.play()
 
-	playback = text_audio_player.get_stream_playback()
+	playback = audio_player.get_stream_playback()
 	
+	# функции
 	_apply_active_playlist_filter()
 	
 	_create_music_folder_watcher()
@@ -210,7 +219,6 @@ func _ready() -> void:
 	_enable_notes()
 	
 	
-
 func _set_world_machine() -> void:
 		if Settings.get_setting("worldMachineTheme") == true:
 			niko.material = preload("res://materials/world_machine_material.tres")
@@ -243,13 +251,14 @@ func _update_niko_state() -> void:
 	if radio_blocked:
 		niko.animPlayer.play("Sleeping")
 	else:
-		nicoAnim()
+		nikoAnim()
 	
-func nicoAnim() -> void:
-	if randi_range(1, 2) == 1:
-		niko.animPlayer.play("Dancing")
-	else:
-		niko.animPlayer.play("Dance_Sitting")
+func nikoAnim():
+	var nikoAnims: Array = [
+		"Dancing",
+        "Dance_Sitting"
+	]
+	niko.animPlayer.play(nikoAnims.pick_random())
 
 
 func _crossfade_enabled() -> bool:
