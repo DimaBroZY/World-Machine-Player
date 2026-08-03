@@ -862,12 +862,16 @@ func _on_stop_button_pressed() -> void:
 	current_source.stop()
 	if state == PLAY:
 		state = PAUSE
+
+	play_button.button_pressed = false
 	niko.animPlayer.play("Sleeping")
 	gramophone.animPlayer.pause()
 	MediaControlsBridge.SetStopped()
 	DiscordRpcBridge.SetStopped()
-	MediaControlsBridge.SetStopped()
-	update_state()
+
+	_enable_notes()
+	_update_niko_state()
+	_update_gramaphone_state()
 
 
 func _on_speed_control_slide_value_changed(_value: float) -> void:
@@ -912,11 +916,6 @@ func _on_speed_plus_pressed() -> void:
 	_local.set_pitch(next_pitch)
 	speedControl.speedControlSlide.value = next_pitch * 100
 
-
-func percent_to_db(percent: float) -> float:
-	if percent <= 0.0:
-		return -80.0 
-	return linear_to_db(percent / 100.0)
 
 func _on_volume_minus_pressed() -> void:
 	set_volume(volume_percent - 5.0)

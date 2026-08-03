@@ -128,6 +128,7 @@ public partial class AudioManager : Node
 
 	public void StartRadio()
 	{
+		_userPaused = false;
 		if (_isActive) return;
 		_isActive = true;
 		Connect();
@@ -149,6 +150,7 @@ public partial class AudioManager : Node
 
 	public void StopRadio()
 	{
+		_userPaused = false;
 		if (!_isActive) return;
 		_isActive = false;
 		_isSwitching = false;
@@ -292,8 +294,11 @@ public partial class AudioManager : Node
 	public void StopLocal()
 	{
 		_localUserPaused = false;
-		FreeLocalChannel();
-		_localPath = "";
+		if (_localChannel != 0)
+		{
+			Bass.ChannelStop(_localChannel);
+			Bass.ChannelSetPosition(_localChannel, 0, PositionFlags.Bytes);
+		}
 	}
 
 	public bool IsLocalPlaying()
