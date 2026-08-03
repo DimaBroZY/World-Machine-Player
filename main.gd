@@ -78,6 +78,11 @@ var full_playlist: Array = []
 var search_query: String = ""
 var _checked_track_source_path: String = ""
 
+
+var _autoplay_track: Dictionary = {}
+var _autoplay_history: Array[Dictionary] = []
+var _autoplay_history_pos: int = -1
+
 var current_source: PlaybackSource
 var _local: LocalPlayer
 var _local_source: LocalPlaybackSource
@@ -271,8 +276,8 @@ func _on_crossfade_timer_timeout() -> void:
 	if _showing_radio_mode or state != PLAY or not _local.has_track():
 		return
 
-	var repeat_current: bool = Settings.get_setting("EndOfTrackAction") == false
-	if not repeat_current and playlist.size() <= 1:
+	var repeat_current: bool = Settings.get_setting("EndOfTrackAction", false) == false
+	if not repeat_current and playlist.is_empty() and not _in_library_autoplay():
 		return
 
 	var remaining: float = _local.get_length() - _local.get_position()
@@ -292,22 +297,10 @@ func _crossfade_repeat_current() -> void:
 	_crossfade_started = false
 
 func _advance_with_crossfade() -> void:
-	if Settings.get_setting("shuffle"):
-		if _shuffle_history.is_empty():
-			_shuffle_history.append(current_index)
-			_shuffle_pos = 0
-		if _shuffle_pos < _shuffle_history.size() - 1:
-			_shuffle_pos += 1
-			current_index = _shuffle_history[_shuffle_pos]
-		else:
-			var next_index := randi() % playlist.size()
-			while next_index == current_index:
-				next_index = randi() % playlist.size()
-			current_index = next_index
-			_shuffle_history.append(current_index)
-			_shuffle_pos = _shuffle_history.size() - 1
-	else:
-		current_index = (current_index + 1) % playlist.size()
+	if playlist.is_empty() and not _in_library_autoplay():
+		return
+
+	_advance_queue()
 
 	var source_path: String = _get_current_track_value("source_path")
 	if source_path.is_empty() or not _local.crossfade_to(source_path, CROSSFADE_SECONDS):
@@ -320,7 +313,7 @@ func _advance_with_crossfade() -> void:
 func _on_local_track_finished() -> void:
 	if _showing_radio_mode:
 		return
-	if Settings.get_setting("EndOfTrackAction") == false:
+	if Settings.get_setting("EndOfTrackAction", false) == false:
 		if not _crossfade_enabled():
 			_local.seek(0.0)
 			if state == PLAY:
@@ -334,6 +327,7 @@ func _on_setting_changed(key: String, value: Variant) -> void:
 	if key == "music_path":
 		FOLDER_PATH = str(value)
 		current_index = 0
+		_exit_library_autoplay()
 		_create_music_folder_watcher()
 		await load_tracks_from_folder(true)
 		update_state()
@@ -690,12 +684,12 @@ func _apply_playlist_after_refresh(previous_source_path: String, changed_sources
 
 func _load_current_track() -> void:
 	_crossfade_started = false
-	if playlist.is_empty():
+	var track: Dictionary = _current_track_dict()
+	if track.is_empty():
 		_load_fallback_track()
 		return
 
-	current_index = int(clamp(current_index, 0, playlist.size() - 1))
-	var source_path: String = _get_current_track_value("source_path")
+	var source_path: String = str(track.get("source_path", ""))
 
 	if source_path.is_empty() or not _local.load_track(source_path):
 		print("Cannot load audio file: ", source_path)
@@ -715,11 +709,12 @@ func _load_fallback_track() -> void:
 func update_track_name() -> void:
 	if _showing_radio_mode:
 		return
-	var track_name: String
-	if playlist.size() > 0 and current_index < playlist.size():
-		track_name = str(playlist[current_index].get("name", FALLBACK_TRACK_PATH.get_file().get_basename()))
-	else:
-		track_name = FALLBACK_TRACK_PATH.get_file().get_basename()
+	var track: Dictionary = _current_track_dict()
+	var track_name: String = FALLBACK_TRACK_PATH.get_file().get_basename()
+	if not track.is_empty():
+		track_name = str(track.get("name", track_name))
+		_checked_track_source_path = str(track.get("source_path", ""))
+		_sync_track_checkboxes(_checked_track_source_path)
 	curTrack.set_track_name(track_name)
 
 	MediaControlsBridge.UpdateNowPlaying(track_name, "Local Storage", _smtc_placeholder_path)
@@ -736,11 +731,7 @@ func _find_track_index_by_source(source_path: String) -> int:
 
 
 func _get_current_track_value(key: String) -> String:
-	if current_index < 0 or current_index >= playlist.size():
-		return ""
-
-	var track: Dictionary = playlist[current_index]
-	return str(track.get(key, ""))
+	return str(_current_track_dict().get(key, ""))
 
 
 func _join_path(base_path: String, file_name: String) -> String:
@@ -772,6 +763,118 @@ func _await_track_skip()-> void:
 	previousTrack.disabled = false
 
 
+func _search_is_active() -> bool:
+	return not search_query.strip_edges().is_empty()
+
+
+func _in_library_autoplay() -> bool:
+	return not _autoplay_track.is_empty()
+
+
+# Текущий трек: либо playlist[current_index] (обычная очередь / поиск),
+# либо _autoplay_track, если мы уже провалились в библиотеку.
+func _current_track_dict() -> Dictionary:
+	if _in_library_autoplay():
+		return _autoplay_track
+	if playlist.is_empty():
+		return {}
+	current_index = int(clamp(current_index, 0, playlist.size() - 1))
+	return playlist[current_index]
+
+
+func _exit_library_autoplay() -> void:
+	_autoplay_track = {}
+	_autoplay_history.clear()
+	_autoplay_history_pos = -1
+
+
+
+func _advance_into_library() -> void:
+	if full_playlist.is_empty():
+		_autoplay_track = {}
+		return
+
+	if _autoplay_history_pos < _autoplay_history.size() - 1:
+		_autoplay_history_pos += 1
+		_autoplay_track = _autoplay_history[_autoplay_history_pos]
+		return
+
+	var current_path: String = str(_autoplay_track.get("source_path", ""))
+	var next_track: Dictionary
+
+	if Settings.get_setting("shuffle"):
+		next_track = full_playlist[randi() % full_playlist.size()]
+		var attempts := 0
+		while str(next_track.get("source_path", "")) == current_path and full_playlist.size() > 1 and attempts < 8:
+			next_track = full_playlist[randi() % full_playlist.size()]
+			attempts += 1
+	else:
+		var start_index := 0
+		if not current_path.is_empty():
+			for i in range(full_playlist.size()):
+				if str(full_playlist[i].get("source_path", "")) == current_path:
+					start_index = (i + 1) % full_playlist.size()
+					break
+		next_track = full_playlist[start_index]
+
+	_autoplay_track = next_track
+	_autoplay_history.append(next_track)
+	_autoplay_history_pos = _autoplay_history.size() - 1
+
+
+# Шаг назад внутри автоплея из библиотеки.
+# false = истории больше нет, нужно вернуться к обычной очереди (playlist).
+func _retreat_into_library() -> bool:
+	if _autoplay_history_pos <= 0:
+		return false
+	_autoplay_history_pos -= 1
+	_autoplay_track = _autoplay_history[_autoplay_history_pos]
+	return true
+
+
+# Двигает current_index (или _autoplay_track) на следующий трек.
+# Учитывает Shuffle; если активен поиск и его результаты закончились -
+# проваливается в full_playlist вместо зацикливания на результатах поиска.
+func _advance_queue() -> void:
+	if _in_library_autoplay():
+		_advance_into_library()
+		return
+
+	if playlist.is_empty():
+		return
+
+	var searching: bool = _search_is_active() and not full_playlist.is_empty()
+
+	if Settings.get_setting("shuffle"):
+		if _shuffle_history.is_empty():
+			_shuffle_history.append(current_index)
+			_shuffle_pos = 0
+		if _shuffle_pos < _shuffle_history.size() - 1:
+			_shuffle_pos += 1
+			current_index = _shuffle_history[_shuffle_pos]
+			return
+		if searching and _shuffle_history.size() >= playlist.size():
+			_shuffle_history.clear()
+			_shuffle_pos = -1
+			_advance_into_library()
+			return
+		var next_index := randi() % playlist.size()
+		if playlist.size() > 1:
+			while next_index == current_index:
+				next_index = randi() % playlist.size()
+		current_index = next_index
+		_shuffle_history.append(current_index)
+		_shuffle_pos = _shuffle_history.size() - 1
+	else:
+		var next_index: int = current_index + 1
+		if next_index >= playlist.size():
+			if searching:
+				_advance_into_library()
+				return
+			next_index = 0
+		current_index = next_index
+
+
 func _on_next_track_pressed() -> void:
 	if _showing_radio_mode:
 		var stations := RadioStationManager.get_stations()
@@ -781,31 +884,17 @@ func _on_next_track_pressed() -> void:
 		_current_station_index = (_current_station_index + 1) % stations.size()
 		_select_station(_current_station_index)
 		return
-		
-	if playlist.size() > 0:
-		if Settings.get_setting("shuffle"):
-			if _shuffle_history.is_empty():
-				_shuffle_history.append(current_index)
-				_shuffle_pos = 0
-			if _shuffle_pos < _shuffle_history.size() - 1:
-				_shuffle_pos += 1
-				current_index = _shuffle_history[_shuffle_pos]
-			else:
-				var next_index := randi() % playlist.size()
-				if playlist.size() > 1:
-					while next_index == current_index:
-						next_index = randi() % playlist.size()
-				current_index = next_index
-				_shuffle_history.append(current_index)
-				_shuffle_pos = _shuffle_history.size() - 1
-		else:
-			current_index = (current_index + 1) % playlist.size()
 
-		_crossfade_started = false
-		_local.stop()
-		_load_current_track()
-		update_state()
-		_await_track_skip()
+	if playlist.is_empty() and not _in_library_autoplay():
+		return
+
+	_advance_queue()
+
+	_crossfade_started = false
+	_local.stop()
+	_load_current_track()
+	update_state()
+	_await_track_skip()
 
 
 func _on_previous_track_pressed() -> void:
@@ -818,19 +907,26 @@ func _on_previous_track_pressed() -> void:
 		_select_station(_current_station_index)
 		return
 
-	if playlist.size() > 0:
+	if _in_library_autoplay():
+		if not _retreat_into_library():
+			_exit_library_autoplay()
+			if not playlist.is_empty():
+				current_index = playlist.size() - 1
+	elif playlist.size() > 0:
 		if Settings.get_setting("shuffle") and _shuffle_pos > 0:
 			_shuffle_pos -= 1
 			current_index = _shuffle_history[_shuffle_pos]
 		elif not Settings.get_setting("shuffle"):
 			current_index = (current_index - 1 + playlist.size()) % playlist.size()
+	else:
+		return
 
-		_crossfade_started = false
-		_local.stop()
-		_load_current_track()
-		update_state()
-		nextTrack.disabled = true
-		_await_track_skip()
+	_crossfade_started = false
+	_local.stop()
+	_load_current_track()
+	update_state()
+	nextTrack.disabled = true
+	_await_track_skip()
 
 
 func update_state() -> void:
@@ -1107,10 +1203,11 @@ func _apply_active_playlist_filter(force_refresh: bool = false) -> void:
 	track_list_root.visible = true
 	station_list_root.visible = false
 
-	if not playlist.is_empty() and current_index >= 0 and current_index < playlist.size():
-		_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
-	elif _checked_track_source_path.is_empty() and not playlist.is_empty():
-		_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
+	if not _in_library_autoplay():
+		if not playlist.is_empty() and current_index >= 0 and current_index < playlist.size():
+			_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
+		elif _checked_track_source_path.is_empty() and not playlist.is_empty():
+			_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
 
 	var next_playlist := _compute_local_playlist()
 	var ui_is_empty := tracks_container.get_child_count() == 0
@@ -1120,17 +1217,19 @@ func _apply_active_playlist_filter(force_refresh: bool = false) -> void:
 	playlist = next_playlist
 	_local_track_list_cache = next_playlist.duplicate()
 	_local_track_list_cache_valid = true
-	_shuffle_history.clear()
-	_shuffle_pos = -1
 
-	var found_index := _find_track_index_by_source(_checked_track_source_path)
-	if found_index >= 0:
-		current_index = found_index
-	elif not playlist.is_empty():
-		current_index = 0
-		_checked_track_source_path = str(playlist[0].get("source_path", ""))
-	else:
-		current_index = 0
+	if not _in_library_autoplay():
+		_shuffle_history.clear()
+		_shuffle_pos = -1
+
+		var found_index := _find_track_index_by_source(_checked_track_source_path)
+		if found_index >= 0:
+			current_index = found_index
+		elif not playlist.is_empty():
+			current_index = 0
+			_checked_track_source_path = str(playlist[0].get("source_path", ""))
+		else:
+			current_index = 0
 
 	refresh_track_list()
 
@@ -1142,16 +1241,17 @@ func refresh_track_list() -> void:
 	if playlist.is_empty():
 		return
 
-	if _checked_track_source_path.is_empty():
-		current_index = int(clamp(current_index, 0, playlist.size() - 1))
-		_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
-	else:
-		var found_index := _find_track_index_by_source(_checked_track_source_path)
-		if found_index >= 0:
-			current_index = found_index
-		else:
+	if not _in_library_autoplay():
+		if _checked_track_source_path.is_empty():
 			current_index = int(clamp(current_index, 0, playlist.size() - 1))
 			_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
+		else:
+			var found_index := _find_track_index_by_source(_checked_track_source_path)
+			if found_index >= 0:
+				current_index = found_index
+			else:
+				current_index = int(clamp(current_index, 0, playlist.size() - 1))
+				_checked_track_source_path = str(playlist[current_index].get("source_path", ""))
 
 	for i in range(playlist.size()):
 		var track: Dictionary = playlist[i]
@@ -1180,6 +1280,7 @@ func play_track_by_index(index: int) -> void:
 	if index < 0 or index >= playlist.size():
 		return
 
+	_exit_library_autoplay()
 	current_index = index
 	_shuffle_history.clear()
 	_shuffle_pos = -1
