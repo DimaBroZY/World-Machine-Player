@@ -1176,12 +1176,15 @@ func _compute_local_playlist() -> Array[Dictionary]:
 	if search_query.strip_edges() == "":
 		return base_playlist
 
-	var filtered_playlist: Array[Dictionary] = []
+	var candidates := PackedStringArray()
 	for track: Dictionary in base_playlist:
-		var track_name := str(track.get("name", "")).to_lower()
-		var file_name := str(track.get("file_name", "")).to_lower()
-		if search_query in track_name or search_query in file_name:
-			filtered_playlist.append(track)
+		candidates.append(str(track.get("name", "")) + " " + str(track.get("file_name", "")))
+
+	var indices: Array = TrackSearch.RankMatches(candidates, search_query, 55)
+
+	var filtered_playlist: Array[Dictionary] = []
+	for idx in indices:
+		filtered_playlist.append(base_playlist[idx])
 	return filtered_playlist
 
 

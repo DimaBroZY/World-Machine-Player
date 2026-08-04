@@ -51,6 +51,7 @@ DiscordRpcBridge="*uid://jn2c52pjaup"
 BassLoader="*uid://btwdtjqygug2w"
 AudioManager="*uid://7hvykqtjxxpw"
 FileExplorerAutoload="*uid://dil7ah1qlsels"
+TrackSearch="*uid://s2roxqonaq4q"
 
 [debug]
 
