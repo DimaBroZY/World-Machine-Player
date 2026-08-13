@@ -25,7 +25,7 @@ public partial class AudioManager : Node
 
 	private int _streamChannel;
 	private int _localChannel;
-	private bool _isInitialized;
+	private readonly Dictionary<string, int> _sfxSamples = new();	private bool _isInitialized;
 
 	private bool _isActive;
 	private bool _isSwitching;
@@ -36,6 +36,7 @@ public partial class AudioManager : Node
 	private string _pendingUrl;
 	private int _connectGeneration;
 	private float _volume = 1.0f;
+	private float _sfxVolume = 0.3f;
 
 	private string _localPath = "";
 	private float _localPitch = 1.0f;
@@ -56,14 +57,22 @@ public partial class AudioManager : Node
 		Bass.Configure(Configuration.NetTimeOut, 10000);
 		Bass.Configure(Configuration.NetPreBuffer, 25);
 
-		_isInitialized = Bass.Init(-1, (int)DefaultFrequency, DeviceInitFlags.Default);
+		_isInitialized = Bass.Init(
+			-1,
+			(int)DefaultFrequency,
+			DeviceInitFlags.Default
+		);
+
 		if (!_isInitialized)
 		{
-			GD.PrintErr($"Ошибка инициализации BASS: {Bass.LastError}");
+			GD.PrintErr(
+				$"Ошибка инициализации BASS: {Bass.LastError}"
+			);
 			return;
 		}
 
 		GD.Print("BASS успешно инициализирован!");
+
 		LoadBassPlugins();
 	}
 
@@ -72,30 +81,91 @@ public partial class AudioManager : Node
 		LoadBassPlugin("bassflac");
 		LoadBassPlugin("bassopus");
 		LoadBassPlugin("bass_aac");
+		LoadBassPlugin("libbassflac");
+		LoadBassPlugin("libbassopus");
+		LoadBassPlugin("libbass_aac");
 	}
 
 	private void LoadBassPlugin(string baseName)
 	{
 		string userDir = ProjectSettings.GlobalizePath("user://binaries");
-		string fileName = OperatingSystem.IsWindows() ? $"{baseName}.dll" : $"lib{baseName}.so";
+
+		string fileName;
+
+		if (OperatingSystem.IsWindows())
+		{
+			fileName = $"{baseName}.dll";
+		}
+		else if (OperatingSystem.IsLinux())
+		{
+			fileName = $"lib{baseName}.so";
+		}
+		else
+		{
+			GD.PrintErr($"[BASS] Неподдерживаемая ОС: {OS.GetName()}");
+			return;
+		}
+
 		string path = Path.Combine(userDir, fileName);
 
 		if (!File.Exists(path))
 		{
-			GD.PrintErr($"[BASS] plugin not found: {fileName} in {userDir}");
+			GD.PrintErr($"[BASS] plugin not found: {path}");
 			return;
 		}
 
 		int pluginHandle = Bass.PluginLoad(path);
+
 		if (pluginHandle != 0)
 		{
 			GD.Print($"[BASS] plugin loaded: {path}");
-			return;
 		}
-
-		GD.PrintErr($"[BASS] plugin failed ({baseName}): {path} ({Bass.LastError})");
+		else
+		{
+			GD.PrintErr(
+				$"[BASS] plugin failed: {path} ({Bass.LastError})"
+			);
+		}
 	}
 
+
+	private void ConfigureBass()
+	{
+		Bass.Configure(Configuration.NetTimeOut, 10000);
+		Bass.Configure(Configuration.NetPreBuffer, 25);
+
+		GD.Print($"[BASS] OS: {OS.GetName()}");
+
+		if (OperatingSystem.IsLinux())
+		{
+			GD.Print("[BASS] Используется Linux backend");
+			GD.Print("[BASS] Ожидаемая библиотека: libbass.so");
+		}
+		else if (OperatingSystem.IsWindows())
+		{
+			GD.Print("[BASS] Используется Windows backend");
+			GD.Print("[BASS] Ожидаемая библиотека: bass.dll");
+		}
+	}
+
+	private bool InitializeBass()
+	{
+		try
+		{
+			_isInitialized = Bass.Init(
+				-1,
+				(int)DefaultFrequency,
+				DeviceInitFlags.Default
+			);
+
+			return _isInitialized;
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr($"[BASS] Исключение при инициализации: {ex}");
+			return false;
+		}
+	}
 	// ================= radio API =================
 
 	public bool IsActive() => _isActive;
@@ -210,6 +280,86 @@ public partial class AudioManager : Node
 		AttachLocalEndSync(channel);
 		ApplyLocalAttributes();
 		return true;
+	}
+
+	public bool LoadSFX(string path)
+	{
+		string resolved = ResolveFilePath(path);
+
+		if (string.IsNullOrEmpty(resolved) || !File.Exists(resolved))
+		{
+			GD.PrintErr($"SFX: файл не найден: {path}");
+			return false;
+		}
+
+		if (_sfxSamples.ContainsKey(resolved))
+			return true;
+
+		int sample = Bass.SampleLoad(
+			resolved,
+			0,
+			0,
+			16,
+			BassFlags.Default
+		);
+
+		if (sample == 0)
+		{
+			GD.PrintErr(
+				$"SFX: не удалось загрузить {resolved}: {Bass.LastError}"
+			);
+			return false;
+		}
+
+		_sfxSamples[resolved] = sample;
+
+		GD.Print($"[SFX] Загружен: {resolved}");
+
+		return true;
+	}
+
+
+	public void PlaySFX(string path)
+	{
+		string resolved = ResolveFilePath(path);
+
+		if (string.IsNullOrEmpty(resolved) || !File.Exists(resolved))
+		{
+			GD.PrintErr($"SFX: файл не найден: {path}");
+			return;
+		}
+
+		if (!_sfxSamples.TryGetValue(resolved, out int sample))
+		{
+			if (!LoadSFX(path))
+				return;
+
+			sample = _sfxSamples[resolved];
+		}
+
+		int channel = Bass.SampleGetChannel(
+			sample,
+			false
+		);
+
+		if (channel == 0)
+		{
+			GD.PrintErr(
+				$"SFX: не удалось получить канал: {Bass.LastError}"
+			);
+			return;
+		}
+
+		Bass.ChannelSetAttribute(
+			channel,
+			ChannelAttribute.Volume,
+			_sfxVolume
+		);
+
+		Bass.ChannelPlay(
+			channel,
+			false
+		);
 	}
 	public bool CrossfadeToLocal(string path, float durationSeconds)
 	{
