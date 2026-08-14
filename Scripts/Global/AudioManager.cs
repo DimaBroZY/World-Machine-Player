@@ -81,9 +81,6 @@ public partial class AudioManager : Node
 		LoadBassPlugin("bassflac");
 		LoadBassPlugin("bassopus");
 		LoadBassPlugin("bass_aac");
-		LoadBassPlugin("libbassflac");
-		LoadBassPlugin("libbassopus");
-		LoadBassPlugin("libbass_aac");
 	}
 
 	private void LoadBassPlugin(string baseName)
