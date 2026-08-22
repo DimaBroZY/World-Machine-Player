@@ -8,9 +8,9 @@
 
 *Jukebox from OneShot World Machine Edition recreated in Godot*
 
-[![Godot](https://img.shields.io/badge/Godot-4.6-blue.svg)](https://godotengine.org/)
+[![Godot](https://img.shields.io/badge/Godot-4.7-blue.svg)](https://godotengine.org/)
 [![License](https://img.shields.io/badge/License-Fan%20Project-orange.svg)](https://github.com/DimaBroZY/World-Machine-Player/edit/main/LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/DimaBroZY/World-Machine-Player/releases/tag/1.1.0)
+[![Version](https://img.shields.io/badge/Version-2.0.0-green.svg)](https://github.com/DimaBroZY/World-Machine-Player/releases/tag/2.0.0)
 
 
 </div>
@@ -24,16 +24,24 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 
 ### 🎶 **Music Playback**
 - **Multi-format Support**: Plays `.ogg`, `.mp3`, `.flac`, and `.opus` audio files
-- **Track Navigation**: Next/Previous track controls
+- **Audio Engine**: Powered by a custom BASS engine wrapper, providing a significant performance boost
+- **Track Navigation**: Next/Previous track controls and convenient track selection
 - **Playback Controls**: Play, Pause, Stop, and Restart functionality
 
-### 🎚️ **Audio Controls**
+### 🎛️ **Audio Controls**
 - **Volume Control**: Precise volume adjustment
 - **Speed Control**: Playback speed adjustment from 50-150% 
-- **Loop Playback**: Automatic track looping
+- **Crossfade**: Smooth transitions between tracks with customizable settings
 
-### 🎨 **Customization**
+### 📂 **Organization & Modes**
+- **Playlists**: Full playlist system to create, manage, and color-customize your lists
+- **Radio Mode**: Built-in radio with metadata parsing and support for adding custom stations
+- **Built-in File Explorer**: Custom file explorer for convenient music folder selection
+
+### 🎨 **Customization & Integration**
 - **Themes**: Multiple visual themes to customize the player's appearance and match your mood  
+- **Discord RPC**: Discord integration to show your friends what you are currently listening to
+- **Windows SMTC**: Support for Windows System Media Transport Controls
 
 ### ⚙️ **Settings**
 - **Custom Music Folder**: Set your own music directory
@@ -43,8 +51,8 @@ World Machine Player is a fan-made recreation of the Jukebox application from On
 ## 📥 Installation
 
 ### Prerequisites
-- **Godot 4.6** or later (for development)
-- **Windows**
+- **Godot 4.7** or later (for development)
+- **Windows** or **Linux**
 
 ### Quick Start
 1. **Download** the latest release from the releases section
