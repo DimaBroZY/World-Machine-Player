@@ -54,7 +54,7 @@ public partial class AudioManager : Node
 	private SyncProcedure _endSync;
 	private SyncProcedure _localEndSync;
 
-		// BASS_SetConfigPtr is not exposed by ManagedBass 4.0.2 for BASS_CONFIG_LIBSSL,
+	// BASS_SetConfigPtr is not exposed by ManagedBass 4.0.2 for BASS_CONFIG_LIBSSL,
 	// so we call the native function directly. 64 is the documented value of
 	// BASS_CONFIG_LIBSSL in the BASS API.
 	[DllImport("bass", EntryPoint = "BASS_SetConfigPtr", CallingConvention = CallingConvention.Cdecl)]

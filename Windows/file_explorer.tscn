@@ -10,8 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://b07rwixdqrr3l" path="res://Assets/Buttons/close.png" id="7_sjnv6"]
 [ext_resource type="Texture2D" uid="uid://cos8qdhnewekx" path="res://Assets/Buttons/close_Hover.png" id="8_6pfqr"]
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="11_v1hi3"]
-[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="12_630s8"]
-[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="13_tr43r"]
 [ext_resource type="Script" uid="uid://gac3or0cc0wb" path="res://Windows/Scripts/handles_settings.gd" id="14_1rebu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5na3o"]

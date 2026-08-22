@@ -101,10 +101,16 @@ func _on_open_pressed() -> void:
 	if folder_only and file:
 		result_path = path.get_base_dir()
 	emit_signal("done", result_path)
-	close_animation()
+	if OS.get_name() == "Linux":
+		get_window().queue_free()
+	else:
+		close_animation()
 
 func _on_cancel_pressed() -> void:
-	close_animation()
+	if OS.get_name() == "Linux":
+		get_window().queue_free()
+	else:
+		close_animation()
 
 func _on_pin_pressed() -> void:
 	var npath = path

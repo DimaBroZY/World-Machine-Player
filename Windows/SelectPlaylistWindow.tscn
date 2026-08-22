@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://b8ogex8n70bnd"]
 
 [ext_resource type="Script" uid="uid://qu0dvpcr1gyg" path="res://Windows/Scripts/click_sound.gd" id="1_0mrs4"]
-[ext_resource type="AudioStream" uid="uid://cwxiwr0u40nwm" path="res://sfx/twm_mouse_click.wav" id="2_p0x8i"]
-[ext_resource type="AudioStream" uid="uid://dixxgewchspub" path="res://sfx/twm_mouse_unclick.wav" id="3_cp482"]
 [ext_resource type="Script" uid="uid://br4v6jjeiegho" path="res://Windows/Scripts/top_bar_settings.gd" id="4_ctxh1"]
 [ext_resource type="Texture2D" uid="uid://dbuan0n1gm2dd" path="res://Assets/Icons/Star.png" id="5_hhrpk"]
 [ext_resource type="FontFile" uid="uid://k4rk7mduy1an" path="res://Assets/Fonts/Minecraftia-Regular.ttf" id="6_2ypa1"]
