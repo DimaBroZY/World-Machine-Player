@@ -150,7 +150,7 @@ const translations = {
     faq_q_win7: "Работает ли на Windows 7 и ниже?",
     faq_a_win7: "Нет, для работы версия Windows должна быть не ниже Windows 10.",
     faq_q_linux: "Будет ли Linux версия?",
-    faq_a_linux: "Возможно, если сильно надо.",
+    faq_a_linux: "Уже есть.",
     faq_q_android: "Будет ли андроид версия?",
     faq_a_android: "Не планируется.",
     faq_cat_media: "Функции и медиа",
@@ -316,7 +316,7 @@ const translations = {
     faq_q_win7: "Does it work on Windows 7 and below?",
     faq_a_win7: "No, Windows 10 or higher is required.",
     faq_q_linux: "Will there be a Linux version?",
-    faq_a_linux: "Maybe, if there's enough demand.",
+    faq_a_linux: "There is already.",
     faq_q_android: "Will there be an Android version?",
     faq_a_android: "Not planned.",
     faq_cat_media: "Features & Media",
@@ -406,6 +406,23 @@ async function fetchRepoStars() {
   const starLink = document.getElementById('repo-stars');
   if (!starLink) return;
 
+  const cacheKey = 'repo_stars_count';
+  const cacheTimeKey = 'repo_stars_time';
+  const cacheDuration = 1000 * 60 * 60; // 1 hour
+
+  const cachedCount = localStorage.getItem(cacheKey);
+  const cachedTime = localStorage.getItem(cacheTimeKey);
+
+  // Show cached value immediately if available
+  if (cachedCount !== null) {
+    starLink.textContent = `★ ${parseInt(cachedCount).toLocaleString()}`;
+  }
+
+  // Check if cache is still valid
+  if (cachedTime && (Date.now() - parseInt(cachedTime) < cacheDuration)) {
+    return;
+  }
+
   try {
     const response = await fetch('https://api.github.com/repos/DimaBroZY/World-Machine-Player');
     if (!response.ok) throw new Error('GitHub API request failed');
@@ -414,9 +431,14 @@ async function fetchRepoStars() {
     const count = typeof repoData.stargazers_count === 'number' ? repoData.stargazers_count : null;
     if (count !== null) {
       starLink.textContent = `★ ${count.toLocaleString()}`;
+      localStorage.setItem(cacheKey, count.toString());
+      localStorage.setItem(cacheTimeKey, Date.now().toString());
     }
-  } catch {
-    starLink.textContent = '★ —';
+  } catch (error) {
+    console.warn('Failed to fetch GitHub stars:', error);
+    if (cachedCount === null) {
+      starLink.textContent = '★ —';
+    }
   }
 }
 
