@@ -29,11 +29,17 @@ func _check_window_mode():
 
 
 func _on_minimize_button_pressed() -> void:
-	minimize_animation()
+	if OS.get_name() == "Linux":
+		get_window().mode = Window.MODE_MINIMIZED
+	else:
+		minimize_animation()
 
 
 func _on_close_button_pressed() -> void:
-	close_animation()
+	if OS.get_name() == "Linux":
+		get_tree().quit()
+	else:
+		close_animation()
 
 
 func _on_one_shot_menu_button_pressed() -> void:

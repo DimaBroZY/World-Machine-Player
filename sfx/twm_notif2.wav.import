@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://batxhypiqwwla"
+uid="uid://b3autq23war1r"
 path="res://.godot/imported/twm_notif2.wav-d804a0c00ce8a852030af0dee580b91d.sample"
 
 [deps]
@@ -12,13 +12,13 @@ dest_files=["res://.godot/imported/twm_notif2.wav-d804a0c00ce8a852030af0dee580b9
 
 [params]
 
-force/8_bit=false
-force/mono=false
-force/max_rate=false
+force/8_bit=true
+force/mono=true
+force/max_rate=true
 force/max_rate_hz=44100
-edit/trim=false
-edit/normalize=false
+edit/trim=true
+edit/normalize=true
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=2
+compress/mode=0

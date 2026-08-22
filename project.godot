@@ -84,6 +84,21 @@ enabled=PackedStringArray("res://addons/AS2P/plugin.cfg")
 
 theme/default_font_antialiasing=0
 
+[importer_defaults]
+
+wav={
+"compress/mode": 2,
+"edit/loop_begin": 0,
+"edit/loop_end": -1,
+"edit/loop_mode": 0,
+"edit/normalize": false,
+"edit/trim": false,
+"force/8_bit": false,
+"force/max_rate": false,
+"force/max_rate_hz": 44100,
+"force/mono": false
+}
+
 [input]
 
 dance={

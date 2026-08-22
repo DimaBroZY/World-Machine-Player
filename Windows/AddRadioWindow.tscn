@@ -156,6 +156,7 @@ drag_and_drop_selection_enabled = false
 middle_mouse_paste_enabled = false
 empty_selection_clipboard_enabled = false
 tab_input_mode = false
+virtual_keyboard_enabled = false
 
 [node name="ButtonsContainer" type="PanelContainer" parent="AddRadioWindow/Main" unique_id=475251911]
 texture_filter = 1

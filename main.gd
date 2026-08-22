@@ -96,15 +96,12 @@ var _radio_unavailable: bool = false
 var _station_search_query: String = ""
 var _smtc_placeholder_path: String = ""
 
-var text_sound := preload("res://sfx/text.wav")
 var open_sound: Array = [
 	preload("res://sfx/twm_notif.wav"),
 	preload("res://sfx/twm_notif2.wav"),
 	preload("res://sfx/twm_notif3.wav"),
 	preload("res://sfx/twm_notif4.wav")
 ]
-var audio_player: AudioStreamPlayer
-var playback: AudioStreamPlaybackPolyphonic
 
 
 func _ready() -> void:
@@ -203,21 +200,9 @@ func _ready() -> void:
 
 	add_radio_button.pressed.connect(_on_add_radio_button_pressed)
 	
-	# Звук при вводе текста в LineEdit
-	audio_player = AudioStreamPlayer.new()
-	add_child(audio_player)
-
-	var polyphonic := AudioStreamPolyphonic.new()
-	polyphonic.polyphony = 32
-	audio_player.volume_db = -10
-	audio_player.stream = polyphonic
-	audio_player.play()
-
-	playback = audio_player.get_stream_playback()
 	
 	# функции
 	_apply_active_playlist_filter()
-	
 	_create_music_folder_watcher()
 	update_state()
 	_set_world_machine()
@@ -1301,7 +1286,7 @@ func play_track_by_index(index: int) -> void:
 	
 func _on_line_edit_text_changed(text: String) -> void:
 	apply_search(text)
-	playback.play_stream(text_sound)
+	AudioManager.PlaySFX("res://sfx/text.wav")
 	
 func apply_search(query: String) -> void:
 	search_query = query.to_lower()
@@ -1361,7 +1346,7 @@ func _select_station(index: int) -> void:
 
 func _on_station_search_text_changed(text: String) -> void:
 	_station_search_query = text.to_lower()
-	playback.play_stream(text_sound)
+	AudioManager.PlaySFX("res://sfx/text.wav")
 	_refresh_station_list()
 
 func _update_playlists_block_state():

@@ -79,7 +79,11 @@ func _on_station_test_result(url: String, is_valid: bool, is_unsupported: bool) 
 	if is_valid:
 		station_confirmed.emit(_pending_name, url)
 		_show_success("Station added successfully")
-		close_animation()
+		_close()
+		if OS.get_name() == "Linux":
+			get_window().queue_free()
+		else:
+			close_animation()
 	elif is_unsupported:
 		_show_error("Stream format not supported")
 	else:
@@ -87,11 +91,18 @@ func _on_station_test_result(url: String, is_valid: bool, is_unsupported: bool) 
 
 
 func _on_cancel_pressed() -> void:
-	close_animation()
+	_close()
+	if OS.get_name() == "Linux":
+		get_window().queue_free()
+	else:
+		close_animation()
 
 
 func _on_cancel() -> void:
-	close_animation()
+	if OS.get_name() == "Linux":
+		get_window().queue_free()
+	else:
+		close_animation()
 
 
 func _close() -> void:

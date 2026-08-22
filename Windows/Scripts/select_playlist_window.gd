@@ -76,15 +76,26 @@ func _on_ok_pressed() -> void:
 			PlaylistManager.add_tracks_to_playlist(playlist_id, pending_track_paths)
 		else:
 			PlaylistManager.remove_tracks_from_playlist(playlist_id, pending_track_paths)
-	close_animation()
+	_close()
+	if OS.get_name() == "Linux":
+		get_window().queue_free()
+	else:
+		close_animation()
 
 
 func _on_cancel_pressed() -> void:
-	close_animation()
+	_close()
+	if OS.get_name() == "Linux":
+		get_window().queue_free()
+	else:
+		close_animation()
 
 
 func _on_cancel() -> void:
-	close_animation()
+	if OS.get_name() == "Linux":
+		get_window().queue_free()
+	else:
+		close_animation()
 
 
 func _close() -> void:

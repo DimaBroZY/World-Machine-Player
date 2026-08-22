@@ -50,6 +50,17 @@ size = Vector2(0, 0)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7cdt1"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqj2l"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0g7y"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.14767182, 0.14767182, 0.1476717, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xpr28"]
 bg_color = Color(1, 1, 1, 1)
 border_color = Color(1, 1, 1, 1)
@@ -72,17 +83,6 @@ expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nqj2l"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nqj2l"]
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0g7y"]
-bg_color = Color(1, 1, 1, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.14767182, 0.14767182, 0.1476717, 1)
-
 [resource]
 default_font = ExtResource("3_ipw7k")
 default_font_size = 16
@@ -102,6 +102,10 @@ ColorPicker/styles/picker_focus_rectangle = SubResource("StyleBoxEmpty_6twqd")
 ColorPicker/styles/sample_focus = SubResource("StyleBoxEmpty_hk0j0")
 ColorPicker/styles/tab_selected = SubResource("StyleBoxEmpty_ohwve")
 ColorPicker/styles/tab_unselected = SubResource("StyleBoxEmpty_7cdt1")
+HScrollBar/styles/grabber = SubResource("StyleBoxFlat_nqj2l")
+HScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_nqj2l")
+HScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_nqj2l")
+HScrollBar/styles/scroll = SubResource("StyleBoxFlat_d0g7y")
 HSlider/icons/grabber = ExtResource("1_5j3x3")
 HSlider/icons/grabber_disabled = ExtResource("1_5j3x3")
 HSlider/icons/grabber_highlight = ExtResource("1_5j3x3")

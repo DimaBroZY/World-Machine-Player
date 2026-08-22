@@ -10,9 +10,6 @@ var path:String = ""
 var file:bool = false
 var limited = []
 
-var text_sound := preload("res://sfx/text.wav")
-var text_audio_player: AudioStreamPlayer
-var playback: AudioStreamPlaybackPolyphonic
 
 signal done(path:String)
 
@@ -22,17 +19,6 @@ func _ready():
 	for i in FileExplorerAutoload.pinned:
 		add_pinned_button(i)
 		
-	# Звук при вводе текста в LineEdit
-	text_audio_player = AudioStreamPlayer.new()
-	add_child(text_audio_player)
-
-	var polyphonic := AudioStreamPolyphonic.new()
-	polyphonic.polyphony = 32
-	text_audio_player.volume_db = -10
-	text_audio_player.stream = polyphonic
-	text_audio_player.play()
-
-	playback = text_audio_player.get_stream_playback()
 	
 func add_pinned_button(arr:Array):
 	var nBut = Button.new()
@@ -108,7 +94,7 @@ func _on_path_text_submitted(new_text: String) -> void:
 		Npath.text = path
 	
 func _on_path_text_changed(_new_text: String) -> void:
-	playback.play_stream(text_sound)
+	AudioManager.PlaySFX("res://sfx/text.wav")
 
 func _on_open_pressed() -> void:
 	var result_path := path
