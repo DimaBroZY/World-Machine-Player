@@ -295,8 +295,8 @@ content_scale_aspect = 1
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1051549805]
 script = ExtResource("1_hc7j7")
-click_sound_press = ExtResource("2_n2ajn")
-click_sound_release = ExtResource("3_7j3af")
+click_sound_press = "res://sfx/twm_mouse_click.wav"
+click_sound_release = "res://sfx/twm_mouse_unclick.wav"
 
 [node name="MenuWindow" type="Control" parent="." unique_id=1118985946]
 texture_filter = 1

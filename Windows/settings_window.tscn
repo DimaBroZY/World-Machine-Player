@@ -395,8 +395,8 @@ borderless = true
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=101463129]
 script = ExtResource("1_0m26i")
-click_sound_press = ExtResource("2_8x2rp")
-click_sound_release = ExtResource("3_qsxsv")
+click_sound_press = "res://sfx/twm_mouse_click.wav"
+click_sound_release = "res://sfx/twm_mouse_unclick.wav"
 
 [node name="SettingsWindow" type="Control" parent="." unique_id=2042153467]
 texture_filter = 1

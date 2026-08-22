@@ -1,24 +1,3 @@
 [remap]
 
-importer="wav"
-type="AudioStreamWAV"
-uid="uid://c1mh51mh4flqf"
-path="res://.godot/imported/twm_notif4.wav-913153c4552fc744530c527edf1a6b4c.sample"
-
-[deps]
-
-source_file="res://sfx/twm_notif4.wav"
-dest_files=["res://.godot/imported/twm_notif4.wav-913153c4552fc744530c527edf1a6b4c.sample"]
-
-[params]
-
-force/8_bit=true
-force/mono=true
-force/max_rate=true
-force/max_rate_hz=44100
-edit/trim=true
-edit/normalize=true
-edit/loop_mode=0
-edit/loop_begin=0
-edit/loop_end=-1
-compress/mode=0
+importer="keep"

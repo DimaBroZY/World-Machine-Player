@@ -73,8 +73,8 @@ script = ExtResource("1_f5bhk")
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1011553714]
 script = ExtResource("2_iur50")
-click_sound_press = ExtResource("3_b8ljk")
-click_sound_release = ExtResource("4_25e5l")
+click_sound_press = "res://sfx/twm_mouse_click.wav"
+click_sound_release = "res://sfx/twm_mouse_unclick.wav"
 
 [node name="AddRadioWindow" parent="." unique_id=747207011 instance=ExtResource("5_yridy")]
 title_text = "Add Radio"

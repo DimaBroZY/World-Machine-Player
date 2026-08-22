@@ -387,8 +387,8 @@ text = "Cancel"
 
 [node name="ClickSoundHandler" type="Node2D" parent="ExplorerWindow/Content/file_explorer" unique_id=1277447876]
 script = ExtResource("11_v1hi3")
-click_sound_press = ExtResource("12_630s8")
-click_sound_release = ExtResource("13_tr43r")
+click_sound_press = "res://sfx/twm_mouse_click.wav"
+click_sound_release = "res://sfx/twm_mouse_unclick.wav"
 
 [node name="Handles" type="Control" parent="ExplorerWindow" unique_id=1070545844]
 texture_filter = 1

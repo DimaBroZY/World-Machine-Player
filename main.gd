@@ -1,7 +1,7 @@
 extends Control
 
-# я DimaBroZY и я долбаеб
-# часть кода писал ИИ и мне было в падлу его проверять хд
+# РЎРЏ DimaBroZY Р С‘ РЎРЏ Р Т‘Р С•Р В»Р В±Р В°Р ВµР В±
+# РЎвЂЎР В°РЎРѓРЎвЂљРЎРЉ Р С”Р С•Р Т‘Р В° Р С—Р С‘РЎРѓР В°Р В» Р ВР В Р С‘ Р СР Р…Р Вµ Р В±РЎвЂ№Р В»Р С• Р Р† Р С—Р В°Р Т‘Р В»РЎС“ Р ВµР С–Р С• Р С—РЎР‚Р С•Р Р†Р ВµРЎР‚РЎРЏРЎвЂљРЎРЉ РЎвЂ¦Р Т‘
 
 @onready var curTrack: ScrollText = $MainWindow/CurrentTrack/PanelContainer/ScrollerControl
 @onready var loadingInfo: Label = $MainWindow/LoadingInfo
@@ -97,10 +97,10 @@ var _station_search_query: String = ""
 var _smtc_placeholder_path: String = ""
 
 var open_sound: Array = [
-	preload("res://sfx/twm_notif.wav"),
-	preload("res://sfx/twm_notif2.wav"),
-	preload("res://sfx/twm_notif3.wav"),
-	preload("res://sfx/twm_notif4.wav")
+	"res://sfx/twm_notif.wav",
+	"res://sfx/twm_notif2.wav",
+	"res://sfx/twm_notif3.wav",
+	"res://sfx/twm_notif4.wav"
 ]
 
 
@@ -201,7 +201,7 @@ func _ready() -> void:
 	add_radio_button.pressed.connect(_on_add_radio_button_pressed)
 	
 	
-	# функции
+	# РЎвЂћРЎС“Р Р…Р С”РЎвЂ Р С‘Р С‘
 	_apply_active_playlist_filter()
 	_create_music_folder_watcher()
 	update_state()
@@ -756,8 +756,8 @@ func _in_library_autoplay() -> bool:
 	return not _autoplay_track.is_empty()
 
 
-# Текущий трек: либо playlist[current_index] (обычная очередь / поиск),
-# либо _autoplay_track, если мы уже провалились в библиотеку.
+# Р СћР ВµР С”РЎС“РЎвЂ°Р С‘Р в„– РЎвЂљРЎР‚Р ВµР С”: Р В»Р С‘Р В±Р С• playlist[current_index] (Р С•Р В±РЎвЂ№РЎвЂЎР Р…Р В°РЎРЏ Р С•РЎвЂЎР ВµРЎР‚Р ВµР Т‘РЎРЉ / Р С—Р С•Р С‘РЎРѓР С”),
+# Р В»Р С‘Р В±Р С• _autoplay_track, Р ВµРЎРѓР В»Р С‘ Р СРЎвЂ№ РЎС“Р В¶Р Вµ Р С—РЎР‚Р С•Р Р†Р В°Р В»Р С‘Р В»Р С‘РЎРѓРЎРЉ Р Р† Р В±Р С‘Р В±Р В»Р С‘Р С•РЎвЂљР ВµР С”РЎС“.
 func _current_track_dict() -> Dictionary:
 	if _in_library_autoplay():
 		return _autoplay_track
@@ -807,8 +807,8 @@ func _advance_into_library() -> void:
 	_autoplay_history_pos = _autoplay_history.size() - 1
 
 
-# Шаг назад внутри автоплея из библиотеки.
-# false = истории больше нет, нужно вернуться к обычной очереди (playlist).
+# Р РЃР В°Р С– Р Р…Р В°Р В·Р В°Р Т‘ Р Р†Р Р…РЎС“РЎвЂљРЎР‚Р С‘ Р В°Р Р†РЎвЂљР С•Р С—Р В»Р ВµРЎРЏ Р С‘Р В· Р В±Р С‘Р В±Р В»Р С‘Р С•РЎвЂљР ВµР С”Р С‘.
+# false = Р С‘РЎРѓРЎвЂљР С•РЎР‚Р С‘Р С‘ Р В±Р С•Р В»РЎРЉРЎв‚¬Р Вµ Р Р…Р ВµРЎвЂљ, Р Р…РЎС“Р В¶Р Р…Р С• Р Р†Р ВµРЎР‚Р Р…РЎС“РЎвЂљРЎРЉРЎРѓРЎРЏ Р С” Р С•Р В±РЎвЂ№РЎвЂЎР Р…Р С•Р в„– Р С•РЎвЂЎР ВµРЎР‚Р ВµР Т‘Р С‘ (playlist).
 func _retreat_into_library() -> bool:
 	if _autoplay_history_pos <= 0:
 		return false
@@ -817,9 +817,9 @@ func _retreat_into_library() -> bool:
 	return true
 
 
-# Двигает current_index (или _autoplay_track) на следующий трек.
-# Учитывает Shuffle; если активен поиск и его результаты закончились -
-# проваливается в full_playlist вместо зацикливания на результатах поиска.
+# Р вЂќР Р†Р С‘Р С–Р В°Р ВµРЎвЂљ current_index (Р С‘Р В»Р С‘ _autoplay_track) Р Р…Р В° РЎРѓР В»Р ВµР Т‘РЎС“РЎР‹РЎвЂ°Р С‘Р в„– РЎвЂљРЎР‚Р ВµР С”.
+# Р Р€РЎвЂЎР С‘РЎвЂљРЎвЂ№Р Р†Р В°Р ВµРЎвЂљ Shuffle; Р ВµРЎРѓР В»Р С‘ Р В°Р С”РЎвЂљР С‘Р Р†Р ВµР Р… Р С—Р С•Р С‘РЎРѓР С” Р С‘ Р ВµР С–Р С• РЎР‚Р ВµР В·РЎС“Р В»РЎРЉРЎвЂљР В°РЎвЂљРЎвЂ№ Р В·Р В°Р С”Р С•Р Р…РЎвЂЎР С‘Р В»Р С‘РЎРѓРЎРЉ -
+# Р С—РЎР‚Р С•Р Р†Р В°Р В»Р С‘Р Р†Р В°Р ВµРЎвЂљРЎРѓРЎРЏ Р Р† full_playlist Р Р†Р СР ВµРЎРѓРЎвЂљР С• Р В·Р В°РЎвЂ Р С‘Р С”Р В»Р С‘Р Р†Р В°Р Р…Р С‘РЎРЏ Р Р…Р В° РЎР‚Р ВµР В·РЎС“Р В»РЎРЉРЎвЂљР В°РЎвЂљР В°РЎвЂ¦ Р С—Р С•Р С‘РЎРѓР С”Р В°.
 func _advance_queue() -> void:
 	if _in_library_autoplay():
 		_advance_into_library()
@@ -967,7 +967,7 @@ func set_volume(percent: float) -> void:
 
 	AudioManager.SetVolume(volume_percent / 100.0)
 	
-	# синхронизация UI
+	# РЎРѓР С‘Р Р…РЎвЂ¦РЎР‚Р С•Р Р…Р С‘Р В·Р В°РЎвЂ Р С‘РЎРЏ UI
 	volumeControl.volumeControlSlide.value = volume_percent
 	$MainWindow/VolumeControl/VolumeValue.text = "Volume: " + str(int(volume_percent)) + "%"
 

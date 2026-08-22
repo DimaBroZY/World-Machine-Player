@@ -12,10 +12,10 @@ var track_index: int = -1
 var _ignore_checkbox_sync: bool = false
 
 var open_sound: Array = [
-	preload("res://sfx/twm_notif.wav"),
-	preload("res://sfx/twm_notif2.wav"),
-	preload("res://sfx/twm_notif3.wav"),
-	preload("res://sfx/twm_notif4.wav")
+	"res://sfx/twm_notif.wav",
+	"res://sfx/twm_notif2.wav",
+	"res://sfx/twm_notif3.wav",
+	"res://sfx/twm_notif4.wav"
 ]
 var audio_player: AudioStreamPlayer
 var playback: AudioStreamPlaybackPolyphonic
@@ -39,7 +39,7 @@ func _ready() -> void:
 	add_to_playlist_button.pressed.connect(_on_add_to_playlist_pressed)
 
 
-	# Инициализация аудиоплеера для воспроизведения звуков уведомлений
+	# Р ВР Р…Р С‘РЎвЂ Р С‘Р В°Р В»Р С‘Р В·Р В°РЎвЂ Р С‘РЎРЏ Р В°РЎС“Р Т‘Р С‘Р С•Р С—Р В»Р ВµР ВµРЎР‚Р В° Р Т‘Р В»РЎРЏ Р Р†Р С•РЎРѓР С—РЎР‚Р С•Р С‘Р В·Р Р†Р ВµР Т‘Р ВµР Р…Р С‘РЎРЏ Р В·Р Р†РЎС“Р С”Р С•Р Р† РЎС“Р Р†Р ВµР Т‘Р С•Р СР В»Р ВµР Р…Р С‘Р в„–
 	audio_player = AudioStreamPlayer.new()
 	add_child(audio_player)
 

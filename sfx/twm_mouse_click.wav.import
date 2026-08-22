@@ -1,24 +1,3 @@
 [remap]
 
-importer="wav"
-type="AudioStreamWAV"
-uid="uid://b2fhp64h4ih60"
-path="res://.godot/imported/twm_mouse_click.wav-c34bc38e494f86fe177ff11ea6a6d6b4.sample"
-
-[deps]
-
-source_file="res://sfx/twm_mouse_click.wav"
-dest_files=["res://.godot/imported/twm_mouse_click.wav-c34bc38e494f86fe177ff11ea6a6d6b4.sample"]
-
-[params]
-
-force/8_bit=true
-force/mono=true
-force/max_rate=true
-force/max_rate_hz=44100
-edit/trim=true
-edit/normalize=true
-edit/loop_mode=0
-edit/loop_begin=0
-edit/loop_end=-1
-compress/mode=0
+importer="keep"

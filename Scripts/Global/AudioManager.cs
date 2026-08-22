@@ -39,7 +39,7 @@ public partial class AudioManager : Node
 	private string _pendingUrl;
 	private int _connectGeneration;
 	private float _volume = 1.0f;
-	private float _sfxVolume = 0.3f;
+	private float _sfxVolume = 0.6f;
 
 	private string _localPath = "";
 	private float _localPitch = 1.0f;

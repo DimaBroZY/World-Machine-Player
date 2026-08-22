@@ -101,8 +101,8 @@ always_on_top = true
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1011553714]
 script = ExtResource("1_4v468")
-click_sound_press = ExtResource("2_6jtpy")
-click_sound_release = ExtResource("3_ncui0")
+click_sound_press = "res://sfx/twm_mouse_click.wav"
+click_sound_release = "res://sfx/twm_mouse_unclick.wav"
 
 [node name="InfoWindow" type="Control" parent="." unique_id=1307466660]
 texture_filter = 1

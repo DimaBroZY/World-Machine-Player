@@ -96,8 +96,8 @@ script = ExtResource("13_select_window")
 
 [node name="ClickSoundHandler" type="Node2D" parent="." unique_id=1011553714]
 script = ExtResource("1_0mrs4")
-click_sound_press = ExtResource("2_p0x8i")
-click_sound_release = ExtResource("3_cp482")
+click_sound_press = "res://sfx/twm_mouse_click.wav"
+click_sound_release = "res://sfx/twm_mouse_unclick.wav"
 
 [node name="SelectPlaylistWindow" type="Control" parent="." unique_id=1307466660]
 texture_filter = 1

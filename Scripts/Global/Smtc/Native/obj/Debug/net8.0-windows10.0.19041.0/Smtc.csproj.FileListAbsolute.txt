@@ -22,3 +22,15 @@ D:/Documents/world-machine-player/Scripts/Global/Smtc/Native/obj/Debug/net8.0-wi
 /run/media/dimabrozy/EC9213E19213AED8/Documents/world-machine-player/Scripts/Global/Smtc/Native/obj/Debug/net8.0-windows10.0.19041.0/refint/Smtc.dll
 /run/media/dimabrozy/EC9213E19213AED8/Documents/world-machine-player/Scripts/Global/Smtc/Native/obj/Debug/net8.0-windows10.0.19041.0/Smtc.pdb
 /run/media/dimabrozy/EC9213E19213AED8/Documents/world-machine-player/Scripts/Global/Smtc/Native/obj/Debug/net8.0-windows10.0.19041.0/ref/Smtc.dll
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\bin\Debug\net8.0-windows10.0.19041.0\Smtc.deps.json
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\bin\Debug\net8.0-windows10.0.19041.0\Smtc.dll
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\bin\Debug\net8.0-windows10.0.19041.0\Smtc.pdb
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\Smtc.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\Smtc.AssemblyInfoInputs.cache
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\Smtc.AssemblyInfo.cs
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\Smtc.csproj.CoreCompileInputs.cache
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\Smtc.sourcelink.json
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\Smtc.dll
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\refint\Smtc.dll
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\Smtc.pdb
+D:\Documents\world-machine-player\Scripts\Global\Smtc\Native\obj\Debug\net8.0-windows10.0.19041.0\ref\Smtc.dll
